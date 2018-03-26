@@ -3,23 +3,27 @@ import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import style from '../style';
 
-class LogIn extends Component {
+class Join extends Component {
   render() {
     return (
       <View style={style.container}>
-        <View style={style.logoWrapper}>
-          <Text style={style.subLogo}>
-            WE R
-          </Text>
-          <Text style={style.mainLogo}>
-            PROMPTECH
-          </Text>
-        </View>
-
+        <View style={style.joinWrapper}>
         <View style={style.inputWrapper}>
           <FontAwesome
             style={style.textIcon}
-            name='envelope'/>
+            name='user'
+            />
+          <TextInput
+            style={style.input}
+            placeholder='Name'
+            // onChangeText={(value) => this.setState({name : value})}
+          />
+        </View>
+        <View style={style.inputWrapper}>
+          <FontAwesome
+            style={style.textIcon}
+            name='envelope'
+            />
           <TextInput
             style={style.input}
             placeholder='E-mail'
@@ -29,7 +33,8 @@ class LogIn extends Component {
         <View style={style.inputWrapper}>
           <FontAwesome
             style={style.textIcon}
-            name='unlock-alt'/>
+            name='unlock-alt'
+            />
           <TextInput
             style={style.input}
             placeholder='Password'
@@ -37,32 +42,28 @@ class LogIn extends Component {
             secureTextEntry={true}
           />
         </View>
-
+        <View style={style.inputWrapper}>
+          <FontAwesome
+            style={style.textIcon}
+            name='unlock-alt'
+            />
+          <TextInput
+            style={style.input}
+            placeholder='Confirm Password'
+            // onChangeText={(value) => this.setState({confirm_password : value})}
+            secureTextEntry={true}
+          />
+        </View>
         <TouchableOpacity
           style={style.primaryBtn}
-          // onPress={() => {this.login();}}>
+          // onPress={() => {this.join();}}>
         >
-          <Text style={style.nestedText}>로그인</Text>
+          <Text style={style.nestedText}>가입하기</Text>
         </TouchableOpacity>
-
-        <View style={style.linkWrapper}>
-          <Text
-            style={style.link}
-            // onPress={() => {Actions.Join();}}>
-          >
-            회원가입
-          </Text>
-          <Text style={style.link}>
-            |
-          </Text>
-          <Text
-            style={style.link}>
-            비밀번호 찾기
-          </Text>
         </View>
       </View>
     );
   }
 }
 
-export default LogIn;
+export default Join;
