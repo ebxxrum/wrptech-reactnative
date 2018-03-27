@@ -49,7 +49,8 @@ export default style = StyleSheet.create({
   primaryBtn: {
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 15,
+    marginTop: 25,
+    marginBottom: 25,
     padding: 20,
     borderRadius: 100,
     backgroundColor: primary,
@@ -76,6 +77,17 @@ export default style = StyleSheet.create({
     flex: 1,
     justifyContent: 'center'
   },
+
+
+
+
+
+
+
+
+
+
+
 
   navWrapper: {
     flexDirection: 'row',

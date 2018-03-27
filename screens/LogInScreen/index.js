@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StatusBar } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import style from '../commonStyle';
 
 class LogIn extends Component {
+  static navigationOptions = {
+    header: null,
+  };
+
   render() {
     return (
       <View style={style.container}>
@@ -48,6 +52,7 @@ class LogIn extends Component {
         <View style={style.linkWrapper}>
           <Text
             style={style.link}
+            onPress={() => this.props.navigation.navigate('Join')}
             // onPress={() => {Actions.Join();}}>
           >
             회원가입
