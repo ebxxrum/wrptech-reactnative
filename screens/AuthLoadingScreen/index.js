@@ -9,7 +9,7 @@ class AuthLoadingScreen extends Component {
 
   _getAccessToken = async() => {
     const accessToken = await AsyncStorage.getItem('accessToken');
-    this.props.navigation.navigate(accessToken ? 'App' : 'Auth');
+    this.props.navigation.navigate(accessToken ? 'Auth' : 'App');
   };
 
   render() {
