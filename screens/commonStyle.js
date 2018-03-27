@@ -31,10 +31,8 @@ export default style = StyleSheet.create({
 
   inputWrapper: {
     flexDirection: 'row',
-    // backgroundColor: '#cfcfcf',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    margin: 15,
     marginTop: 30,
     padding: 15,
     borderBottomWidth: 1,
@@ -53,7 +51,7 @@ export default style = StyleSheet.create({
     alignItems: 'center',
     margin: 15,
     padding: 20,
-    borderRadius: 5,
+    borderRadius: 100,
     backgroundColor: primary,
     borderColor: primary,
   },

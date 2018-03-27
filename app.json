@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "wrptech-reactnative",
-    "description": "This project is really great.",
+    "name": "WRPROMPTECH",
+    "description": "wrpromptech_reactnative app",
     "slug": "wrptech-reactnative",
     "privacy": "public",
     "sdkVersion": "25.0.0",
@@ -11,7 +11,7 @@
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#000"
     },
     "ios": {

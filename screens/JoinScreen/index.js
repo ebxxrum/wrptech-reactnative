@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import style from '../style';
+import style from '../commonStyle';
 
 class Join extends Component {
   render() {
