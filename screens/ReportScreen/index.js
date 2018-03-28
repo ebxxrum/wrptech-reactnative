@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, StatusBar } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import { SimpleLineIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo';
+import ActionButton from 'react-native-action-button';
 import style from '../commonStyle';
 
 const styles = StyleSheet.create({
@@ -47,6 +48,24 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 5,
+  },
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: '#DF2F3C',
+  },
+  mainButtonIcon: {
+    color: '#fff',
+  },
+
+  actionButtonTextContainer: {
+    borderWidth: 0,
+    backgroundColor: 'transparent',
+  },
+  actionButtonText: {
+    fontWeight: 'bold',
+    fontSize: 14,
+    color: '#fff',
   }
 });
 
@@ -71,7 +90,7 @@ class Report extends Component {
           style={styles.header}
         >
             <View style={styles.navCalander}>
-              <FontAwesome
+              <SimpleLineIcons
                 style={styles.navTop}
                 name='calendar'
               />
@@ -88,7 +107,50 @@ class Report extends Component {
         </LinearGradient>
 
         <View style={styles.body}>
+
         </View>
+
+        <ActionButton
+          buttonColor="rgba(223,47,60,100)"
+          btnOutRange="rgba(176,176,176,100)"
+          bgColor="rgba(0,0,0,0.85)"
+        >
+          <ActionButton.Item
+            textContainerStyle={styles.actionButtonTextContainer}
+            textStyle={styles.actionButtonText}
+            buttonColor='#fff'
+            title="마이페이지"
+            onPress={() => console.log("notes tapped!")}
+          >
+            <SimpleLineIcons name="user" style={styles.actionButtonIcon} />
+          </ActionButton.Item>
+          <ActionButton.Item
+            textContainerStyle={styles.actionButtonTextContainer}
+            textStyle={styles.actionButtonText}
+            buttonColor='#fff'
+            title="주별목록"
+            onPress={() => {}}
+          >
+            <SimpleLineIcons name="calendar" style={styles.actionButtonIcon} />
+          </ActionButton.Item>
+          <ActionButton.Item
+            textContainerStyle={styles.actionButtonTextContainer}
+            textStyle={styles.actionButtonText}
+            buttonColor='#fff'
+            title="이번주 보고서"
+            onPress={() => {}}
+          >
+            <SimpleLineIcons name="book-open" style={styles.actionButtonIcon} />
+          </ActionButton.Item>
+          <ActionButton.Item
+            textContainerStyle={styles.actionButtonTextContainer}
+            textStyle={styles.actionButtonText}
+            title="보고서 작성"
+            onPress={() => {}}
+          >
+            <SimpleLineIcons name="pencil" style={[styles.actionButtonIcon, styles.mainButtonIcon]} />
+          </ActionButton.Item>
+        </ActionButton>
       </View>
     );
   }
