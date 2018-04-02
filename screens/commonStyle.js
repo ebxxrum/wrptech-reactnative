@@ -30,9 +30,9 @@ export default style = StyleSheet.create({
   },
 
   inputWrapper: {
-    flexDirection: 'row',
+    // flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    // alignItems: 'center',
     marginTop: 30,
     padding: 15,
     borderBottomWidth: 1,

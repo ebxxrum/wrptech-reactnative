@@ -2,17 +2,19 @@ import { applyMiddleware, createStore } from 'redux';
 import { persistStore, persistCombineReducers } from 'redux-persist'; // to persist and rehydrate a redux store.
 import storage from 'redux-persist/lib/storage';
 import thunk from 'redux-thunk';
-import users from './modules/user';
+import user from './modules/user';
+import weeks from './modules/weeks';
 
 const middlewares = [thunk];
 
 const persistConfig = {
-  key: 'root',
+  key: 'primary', // ERROR: Unexpected keys found in previous state by reducer => change key name
   storage
 };
 
 const reducer = persistCombineReducers(persistConfig, {
-  users
+  user,
+  weeks
 });
 
 const configureStore = () => {

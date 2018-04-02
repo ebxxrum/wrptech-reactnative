@@ -1,73 +1,13 @@
-import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StatusBar } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
-import style from '../commonStyle';
+import { connect } from 'react-redux';
+import Container from './container';
+import { actionCreators as userActions } from '../../redux/modules/user';
 
-class LogIn extends Component {
-  static navigationOptions = {
-    header: null,
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    login: (email, password) => {
+      return dispatch(userActions.login(email, password));
+    }
   };
+};
 
-  render() {
-    return (
-      <View style={style.container}>
-        <View style={style.logoWrapper}>
-          <Text style={style.subLogo}>
-            WE R
-          </Text>
-          <Text style={style.mainLogo}>
-            PROMPTECH
-          </Text>
-        </View>
-
-        <View style={style.inputWrapper}>
-          <FontAwesome
-            style={style.textIcon}
-            name='envelope'/>
-          <TextInput
-            style={style.input}
-            placeholder='E-mail'
-            // onChangeText={(value) => this.setState({email : value})}
-          />
-        </View>
-        <View style={style.inputWrapper}>
-          <FontAwesome
-            style={style.textIcon}
-            name='unlock-alt'/>
-          <TextInput
-            style={style.input}
-            placeholder='Password'
-            // onChangeText={(value) => this.setState({password : value})}
-            secureTextEntry={true}
-          />
-        </View>
-
-        <TouchableOpacity
-          style={style.primaryBtn}
-          // onPress={() => {this.login();}}>
-        >
-          <Text style={style.nestedText}>로그인</Text>
-        </TouchableOpacity>
-
-        <View style={style.linkWrapper}>
-          <Text
-            style={style.link}
-            onPress={() => this.props.navigation.navigate('Join')}
-            // onPress={() => {Actions.Join();}}>
-          >
-            회원가입
-          </Text>
-          <Text style={style.link}>
-            |
-          </Text>
-          <Text
-            style={style.link}>
-            비밀번호 찾기
-          </Text>
-        </View>
-      </View>
-    );
-  }
-}
-
-export default LogIn;
+export default connect(null, mapDispatchToProps)(Container);

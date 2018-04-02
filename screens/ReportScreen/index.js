@@ -73,10 +73,13 @@ const active = ({ focused }) => {
   return ( focused ? '#B22645' : 'transparent' )
 };
 
+console.log("accessToken");
+
+
 class Report extends Component {
-  static navigationOptions = {
-    header: null,
-  };
+  // static navigationOptions = {
+  //   header: null,
+  // }
 
   render() {
     return (

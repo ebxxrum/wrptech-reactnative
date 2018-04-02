@@ -10,6 +10,7 @@ const REGISTER = 'REGISTER';
 
 // Action Creators
 function setLogIn(accessToken) {
+  console.log("setLogin");
   return {
     type: LOGIN,
     accessToken
@@ -32,23 +33,28 @@ function logout() {
 // API Action (Reducer)
 // dispatch() to allow state to be updated
 function login(email, password) {
+  console.log("function login");
   return dispatch => {
     return fetch(`${API_URL}/users/authenticate/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringfy({
+      body: JSON.stringify({
         email,
         password
       })
     })
     .then(response => response.json())
     .then(json => {
-      if(json.accessToken) {
-        dispatch(setLogIn(json.accessToken));
+      if(json.token) {
+        console.log("working");
+        console.log(json);
+        dispatch(setLogIn(json.token));
         return true;
       } else {
+        console.log("error");
+        console.log(json);
         return false;
       }
     });
@@ -56,13 +62,13 @@ function login(email, password) {
 }
 
 function getProfile(accessToken) {
-  return (dispatch, getState) {
+  return (dispatch, getState) => {
     const { user: { accessToken }} = getState();
-    fetch(`${API_URL}/users/me`, {
+    return fetch(`${API_URL}/users/me`, {
       headers: {
         Authorization: `JWT ${ accessToken }`
       },
-      body: JSON.stringfy({
+      body: JSON.stringify({
         accessToken
       })
     })
@@ -86,6 +92,8 @@ const initialState = {
 function reducer(state = initialState, action) {
   switch (action.type) {
     case LOGIN:
+      console.log("reducer login");
+      console.log(state, action);
       return applyLogin(state, action);
     case SETUSER:
       return applySetUser(state, action);
@@ -98,7 +106,9 @@ function reducer(state = initialState, action) {
 
 // Reducer Functions
 function applyLogin(state, action) {
-  const { user } = action;
+  const { accessToken } = action;
+  console.log("applyLogin");
+  console.log(state);
   return {
     ...state,
     isLoggedIn: true,

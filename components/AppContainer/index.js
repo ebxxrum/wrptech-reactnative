@@ -5,8 +5,16 @@ import { actionCreators as userActions } from '../../redux/modules/user';
 const mapStateToProps = (state, ownProps) => {
   const { user } = state;
   return {
-    isLoggedIn: user.isLoggedIn,
+    isLoggedIn: user.isLoggedIn
   };
 };
 
-export default connect(mapStateToProps)(AppContainer);
+mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    initApp: () => {
+      dispatch(userActions.getProfile());
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);

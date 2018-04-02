@@ -7,7 +7,7 @@ import configureStore from './redux/configureStore';
 import AppContainer from './components/AppContainer';
 
 const { persistor, store } = configureStore();
-
+console.log(store.getState());
 class App extends Component {
   state = {
     isLoadingComplete: false
@@ -15,7 +15,7 @@ class App extends Component {
 
   render() {
     const { isLoadingComplete } = this.state;
-    if(!isLoadingComplete) {
+    if (!isLoadingComplete) {
       return (
         <AppLoading
           startAsync = { this._loadAssetsAsync }
@@ -33,9 +33,12 @@ class App extends Component {
     );
   }
 
-  _loadAssetsAsync = () => {
+  _loadAssetsAsync = async () => {
     return Promise.all([
-      Font.loadAsync([...SimpleLineIcons.font, ...Ionicons.font]);
+      Asset.loadAsync([
+          require('./assets/icon.png')
+      ]),
+      Font.loadAsync([...Ionicons.font, ...MaterialIcons.font])
     ]);
   };
 
