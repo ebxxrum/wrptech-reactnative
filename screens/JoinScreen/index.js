@@ -4,10 +4,6 @@ import { FontAwesome } from '@expo/vector-icons';
 import style from '../commonStyle';
 
 class Join extends Component {
-  static navigationOptions = {
-    headerTitle: '회원가입',
-  };
-
   render() {
     return (
       <View style={style.container}>

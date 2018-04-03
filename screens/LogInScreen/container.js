@@ -40,16 +40,20 @@ class Container extends Component {
   _submit = async() => {
     const { email, password, isSubmitting } = this.state;
     const { login } = this.props;
+    console.log("submit");
+    console.log(login);
     if (!isSubmitting) {
       if (email && password) {
         this.setState({
           isSubmitting: true
         });
         const loginResult = await login(email, password);
-        console.log("--------");
+        console.log("---login-----");
+        console.log(login);
+        console.log("---loginResult----")
         console.log(loginResult);
         if (!loginResult) {
-          Alert.alert('Try again');
+          // Alert.alert('Try again');
           this.setState({
             isSubmitting: false
           });

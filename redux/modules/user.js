@@ -5,7 +5,7 @@ import { AsyncStorage } from 'react-native';
 // Actions
 const LOGIN = 'LOGIN';
 const LOGOUT = 'LOGOUT';
-const SETUSER = 'SETUSER';
+const SET_USER = 'SET_USER';
 const REGISTER = 'REGISTER';
 
 // Action Creators
@@ -19,7 +19,7 @@ function setLogIn(accessToken) {
 
 function setUser(user) {
   return {
-    type: SETUSER,
+    type: SET_USER,
     user
   };
 }
@@ -95,7 +95,7 @@ function reducer(state = initialState, action) {
       console.log("reducer login");
       console.log(state, action);
       return applyLogin(state, action);
-    case SETUSER:
+    case SET_USER:
       return applySetUser(state, action);
     case LOGOUT:
       return applyLogout(state, action);
@@ -108,7 +108,7 @@ function reducer(state = initialState, action) {
 function applyLogin(state, action) {
   const { accessToken } = action;
   console.log("applyLogin");
-  console.log(state);
+  console.log(state, action);
   return {
     ...state,
     isLoggedIn: true,

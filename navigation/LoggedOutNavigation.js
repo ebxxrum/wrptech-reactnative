@@ -1,5 +1,6 @@
 import { StackNavigator } from 'react-navigation';
 import LogInScreen from '../screens/LogInScreen';
+import JoinScreen from '../screens/JoinScreen';
 
 const LoggedOutNavigation = StackNavigator({
   LogIn: {

@@ -18,14 +18,16 @@ class AppContainer extends Component {
   };
 
   render() {
-    console.log("AppContainer");
-    console.log(this.props);
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn, accessToken } = this.props;
+    console.log("Appcontainer");
+    console.log(isLoggedIn, accessToken);
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
-        {isLoggedIn ? (
-          <RootNavigation />
+        {isLoggedIn && accessToken ? (
+          <RootNavigation
+            screenProps={{ accessToken: accessToken }}
+          />
         ) : (
           <LoggedOutNavigation />
         )}

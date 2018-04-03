@@ -7,13 +7,14 @@ import configureStore from './redux/configureStore';
 import AppContainer from './components/AppContainer';
 
 const { persistor, store } = configureStore();
-console.log(store.getState());
+
 class App extends Component {
   state = {
     isLoadingComplete: false
   };
 
   render() {
+    console.log(this.state);
     const { isLoadingComplete } = this.state;
     if (!isLoadingComplete) {
       return (

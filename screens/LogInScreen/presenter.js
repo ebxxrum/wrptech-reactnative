@@ -53,7 +53,7 @@ const LogInScreen = props => {
       <View style={style.linkWrapper}>
         <Text
           style={style.link}
-          onPress={() => this.props.navigation.navigate('Join')}
+          onPress={() => props.navigation.navigate('Join')}
         >
           회원가입
         </Text>
