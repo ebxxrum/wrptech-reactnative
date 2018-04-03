@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import AppContainer from './presenter';
 import { actionCreators as userActions } from '../../redux/modules/user';
-import { actionCreators as WeeksActions } from '../../redux/modules/weeks';
+import { actionCreators as weeksActions } from '../../redux/modules/weeks';
 
 const mapStateToProps = (state, ownProps) => {
   const { user } = state;
@@ -9,14 +9,16 @@ const mapStateToProps = (state, ownProps) => {
   console.log(user);
   return {
     isLoggedIn: user.isLoggedIn,
-    accessToken: user.accessToken
+    accessToken: user.accessToken,
+    profile: user.profile
   };
 };
 
 mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    initApp: () => {
-      dispatch(userActions.getProfile());
+    initApp: (accessToken) => {
+      dispatch(userActions.getProfile(accessToken));
+      // dispatch(weeksActions.getWeeks(accessToken, 1));
     }
   };
 };

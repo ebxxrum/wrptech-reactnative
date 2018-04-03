@@ -74,9 +74,6 @@ const active = ({ focused }) => {
 };
 
 const ReportScreen = props => {
-  console.log("ReportScreen");
-  console.log(props);
-
   return (
     <View style={styles.container}>
       <StatusBar
@@ -95,7 +92,7 @@ const ReportScreen = props => {
             <Text style={styles.navTop}>3월 3주</Text>
           </View>
           <View style={styles.navPeople}>
-            <Text style={styles.navBottom}>이보름</Text>
+            <Text style={styles.navBottom}>{props.profile.name}</Text>
             <Text style={styles.navBottom}>최익수</Text>
             <Text style={styles.navBottom}>서예지</Text>
             <Text style={styles.navBottom}>임희진</Text>
@@ -105,13 +102,15 @@ const ReportScreen = props => {
       </LinearGradient>
 
       <View style={styles.body}>
-      <TouchableOpacity
-        style={style.primaryBtn}
-        onPressOut={props.logout}
-      >
-        <Text style={style.nestedText}>로그아웃</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={style.primaryBtn}
+          onPressOut={props.logout}
+        >
+          <Text style={style.nestedText}>로그아웃</Text>
+        </TouchableOpacity>
+        <Text>
 
+        </Text>
       </View>
 
       <ActionButton

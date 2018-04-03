@@ -6,9 +6,9 @@ import { actionCreators as WeeksActions } from '../../redux/modules/weeks';
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     logout: () => {
-      console.log("report index");
+      console.log("report index - logout");
       return dispatch(userActions.logout());
-    }
+    },
   };
 };
 

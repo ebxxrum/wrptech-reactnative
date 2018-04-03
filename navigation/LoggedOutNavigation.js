@@ -8,7 +8,13 @@ const LoggedOutNavigation = StackNavigator({
     navigationOptions: {
       header: null
     }
-  }
+  },
+  Join: {
+    screen: JoinScreen,
+    navigationOptions: {
+      headerTitle: '회원가입'
+    }
+  },
 });
 
-export default LoggedOutNavigation
+export default LoggedOutNavigation;

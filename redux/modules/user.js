@@ -62,24 +62,20 @@ function login(email, password) {
 }
 
 function getProfile(accessToken) {
-  return (dispatch, getState) => {
-    const { user: { accessToken }} = getState();
-    return fetch(`${API_URL}/users/me`, {
-      headers: {
-        Authorization: `JWT ${ accessToken }`
-      },
-      body: JSON.stringify({
-        accessToken
-      })
-    })
-    .then(response => {
-      if (response.status === 401) {
-        dispatch(userActions.LOGOUT());
-      } else {
-        return response.json();
+  console.log("getProfile");
+  return dispatch => {
+    return fetch(`${API_URL}/users/me?access_token=`+ accessToken)
+    .then(response => response.json())
+    .then(json => {
+      if(json) {
+        console.log("working");
+        console.log(json);
+        dispatch(setUser(json));
       }
-    })
-    .then(json => json);
+      return {
+        name: json.name
+      }
+    });
   };
 }
 

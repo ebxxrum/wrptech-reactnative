@@ -11,22 +11,23 @@ class AppContainer extends Component {
   };
 
   componentDidMount() {
-    const { isLoggedIn, initApp } = this.props;
+    const { isLoggedIn, initApp, accessToken } = this.props;
+    console.log("componentDidMount");
     if (isLoggedIn) {
-      initApp();
+      initApp(accessToken);
     }
   };
 
   render() {
-    const { isLoggedIn, accessToken } = this.props;
+    const { isLoggedIn, accessToken, profile } = this.props;
     console.log("Appcontainer");
-    console.log(isLoggedIn, accessToken);
+    console.log(this.props);
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
-        {isLoggedIn && accessToken ? (
+        {isLoggedIn && profile ? (
           <RootNavigation
-            screenProps={{ accessToken: accessToken }}
+            screenProps={{ profile: profile }}
           />
         ) : (
           <LoggedOutNavigation />
