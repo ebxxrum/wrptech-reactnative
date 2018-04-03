@@ -64,16 +64,11 @@ function login(email, password) {
 function getProfile(accessToken) {
   console.log("getProfile");
   return dispatch => {
-    return fetch(`${API_URL}/users/me?access_token=`+ accessToken)
+    return fetch(`${API_URL}/users/me?access_token=${accessToken}`)
     .then(response => response.json())
     .then(json => {
       if(json) {
-        console.log("working");
-        console.log(json);
         dispatch(setUser(json));
-      }
-      return {
-        name: json.name
       }
     });
   };

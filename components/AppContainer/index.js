@@ -10,15 +10,16 @@ const mapStateToProps = (state, ownProps) => {
   return {
     isLoggedIn: user.isLoggedIn,
     accessToken: user.accessToken,
-    profile: user.profile
+    profile: user.profile,
+    page: 1,
   };
 };
 
 mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    initApp: (accessToken) => {
+    initApp: (accessToken, page) => {
       dispatch(userActions.getProfile(accessToken));
-      // dispatch(weeksActions.getWeeks(accessToken, 1));
+      dispatch(weeksActions.getWeeks(accessToken, page));
     }
   };
 };

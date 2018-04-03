@@ -19,7 +19,7 @@ class AppContainer extends Component {
   };
 
   render() {
-    const { isLoggedIn, accessToken, profile } = this.props;
+    const { isLoggedIn, accessToken, profile, weeks } = this.props;
     console.log("Appcontainer");
     console.log(this.props);
     return (
@@ -27,7 +27,7 @@ class AppContainer extends Component {
         <StatusBar hidden={false} />
         {isLoggedIn && profile ? (
           <RootNavigation
-            screenProps={{ profile: profile }}
+            screenProps={{ profile: profile, weeks: weeks }}
           />
         ) : (
           <LoggedOutNavigation />

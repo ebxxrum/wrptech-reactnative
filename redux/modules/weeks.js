@@ -14,24 +14,16 @@ function setWeeks(weeks) {
   };
 }
 
-function getWeeks(access_token, page) {
+function getWeeks(accessToken, page) {
   console.log("getWeeks");
   return dispatch => {
-    return fetch(`${API_URL}/weeks`, {
-      body: JSON.stringify({
-        access_token,
-        page
-      })
-    })
-    .then(response => {
-      if (response) {
-        console.log(response);
-      } else {
-        console.log(response.json());
-        return response.json();
+    return fetch(`${API_URL}/weeks?access_token=${accessToken}&page=${page}`)
+    .then(response => response.json())
+    .then(json => {
+      if (json) {
+        dispatch(setWeeks(json));
       }
-    })
-    .then(json => json);
+    });
   };
 }
 
@@ -53,7 +45,7 @@ function applyWeeks(state, action) {
   console.log("applyWeeks");
   return {
     ...state,
-    weeks
+    weeks: weeks
   };
 }
 
