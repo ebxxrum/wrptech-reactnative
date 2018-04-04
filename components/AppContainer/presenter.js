@@ -11,15 +11,19 @@ class AppContainer extends Component {
   };
 
   componentDidMount() {
-    const { isLoggedIn, initApp, accessToken } = this.props;
+    const { isLoggedIn, initApp, accessToken, weeks, page } = this.props;
     console.log("componentDidMount");
+    if (weeks) {
+      var weekID = weeks[1].id;
+    }
     if (isLoggedIn) {
-      initApp(accessToken);
+      console.log(weekID);
+      initApp(accessToken, page, weekID);
     }
   };
 
   render() {
-    const { isLoggedIn, accessToken, profile, weeks } = this.props;
+    const { isLoggedIn, accessToken, profile, thisWeek } = this.props;
     console.log("Appcontainer");
     console.log(this.props);
     return (
@@ -27,7 +31,7 @@ class AppContainer extends Component {
         <StatusBar hidden={false} />
         {isLoggedIn && profile ? (
           <RootNavigation
-            screenProps={{ profile: profile, weeks: weeks }}
+            screenProps={{ profile: profile, thisWeek: thisWeek }}
           />
         ) : (
           <LoggedOutNavigation />

@@ -74,6 +74,8 @@ const active = ({ focused }) => {
 };
 
 const ReportScreen = props => {
+  console.log("ReportScreen");
+  console.log(props);
   return (
     <View style={styles.container}>
       <StatusBar

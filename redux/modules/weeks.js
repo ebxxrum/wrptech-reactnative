@@ -3,13 +3,20 @@ import { AsyncStorage } from 'react-native';
 
 const WEEKS = 'WEEKS';
 const RECENT = 'RECENT';
-const USERS_REPORTS = 'USER_REPORTS';
+const USERS_WITH_REPORTS = 'USERS_WITH_REPORTS';
 const SPECIFIC_REPORTS = 'SPECIFIC_REPORTS';
 const SET_REPORT = 'SET_REPORT';
 
 function setWeeks(weeks) {
   return {
     type: WEEKS,
+    weeks
+  };
+}
+
+function setUsersWithReports(weeks) {
+  return {
+    type: USERS_WITH_REPORTS,
     weeks
   };
 }
@@ -27,13 +34,27 @@ function getWeeks(accessToken, page) {
   };
 }
 
+function getUsersWithReports(accessToken, id) {
+  console.log("getUsersWithReports");
+  return dispatch => {
+    return fetch(`${API_URL}/weeks/${id}?access_token=${accessToken}`)
+    .then(response => response.json())
+    .then(json => {
+      if (json) {
+        dispatch(setUsersWithReports(json));
+      }
+    });
+  };
+}
+
 const initalState = {};
 
 function reducer(state = initalState, action) {
   switch (action.type) {
     case WEEKS:
-      console.log("reducer weeks");
       return applyWeeks(state, action);
+    case USERS_WITH_REPORTS:
+      return applyUsersWithReports(state, action);
     default:
       return state;
   }
@@ -42,15 +63,24 @@ function reducer(state = initalState, action) {
 
 function applyWeeks(state, action) {
   const { weeks } = action;
-  console.log("applyWeeks");
   return {
     ...state,
     weeks: weeks
   };
 }
 
+function applyUsersWithReports(state, action) {
+  console.log("applyUsersWithReports");
+  const { weeks } = action;
+  return {
+    ...state,
+    thisWeek: weeks
+  }
+}
+
 const actionCreators = {
   getWeeks,
+  getUsersWithReports
 };
 
 export { actionCreators };
