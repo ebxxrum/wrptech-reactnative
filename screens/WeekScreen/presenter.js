@@ -1,23 +1,26 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, StatusBar, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, StatusBar, TouchableOpacity, ScrollView } from 'react-native';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo';
 import ActionButton from 'react-native-action-button';
 import style from '../commonStyle';
+import Report from '../../components/Report';
+import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  header: {
-    flex: 1,
+  // header: {
+    // flex: 1,
     // backgroundColor: '#B22645',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     // alignItems: 'center'
-  },
+  // },
   navCalander: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
+    marginTop: 15,
     paddingLeft: 15,
     paddingTop: 15,
     paddingBottom: 5,
@@ -26,7 +29,6 @@ const styles = StyleSheet.create({
   navPeople: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    marginTop: 15,
     // paddingTop: 15,
   },
   navTop: {
@@ -35,19 +37,19 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   navBottom: {
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 25,
-    paddingRight: 25,
-    marginBottom: -14,
+    // paddingTop: 10,
+    // paddingBottom: 10,
+    // paddingLeft: 25,
+    // paddingRight: 25,
+    // marginBottom: -14,
     //change when addTouchableNav
     // backgroundColor: {active},
-    backgroundColor: 'transparent',
+    // backgroundColor: 'transparent',
     color: '#fff',
     fontSize: 15,
   },
   body: {
-    flex: 5,
+    backgroundColor: '#fff'
   },
   actionButtonIcon: {
     fontSize: 20,
@@ -73,19 +75,16 @@ const active = ({ focused }) => {
   return ( focused ? '#B22645' : 'transparent' )
 };
 
-const ReportScreen = props => {
-  console.log("ReportScreen");
-  console.log(props);
+const WeekScreen = props => {
   return (
     <View style={styles.container}>
       <StatusBar
         translucent={true}
         barStyle="light-content"
         />
-      <LinearGradient
-        colors={['#DF2F3C', '#B22645']}
-        style={styles.header}
-      >
+        <LinearGradient
+          colors={['#DF2F3C', '#B22645']}
+        >
           <View style={styles.navCalander}>
             <SimpleLineIcons
               style={styles.navTop}
@@ -93,27 +92,20 @@ const ReportScreen = props => {
             />
             <Text style={styles.navTop}>3월 3주</Text>
           </View>
+
           <View style={styles.navPeople}>
-            <Text style={styles.navBottom}>{props.profile.name}</Text>
-            <Text style={styles.navBottom}>최익수</Text>
-            <Text style={styles.navBottom}>서예지</Text>
-            <Text style={styles.navBottom}>임희진</Text>
-            <Text style={styles.navBottom}>김예슬</Text>
-            <Text style={styles.navBottom}>김선호</Text>
+            <ScrollableTabView
+                renderTabBar={()=>
+                  <ScrollableTabBar backgroundColor='transparent' />}>
+                  {props.thisWeek.map(thisWeek =>
+                    thisWeek.seq < 999 &&
+                    <Report {...thisWeek} tabLabel={thisWeek.name} key={thisWeek.id}/>
+                  )}
+            </ScrollableTabView>
           </View>
-      </LinearGradient>
 
-      <View style={styles.body}>
-        <TouchableOpacity
-          style={style.primaryBtn}
-          onPressOut={props.logout}
-        >
-          <Text style={style.nestedText}>로그아웃</Text>
-        </TouchableOpacity>
-        <Text>
+        </LinearGradient>
 
-        </Text>
-      </View>
 
       <ActionButton
         buttonColor="rgba(223,47,60,100)"
@@ -160,4 +152,4 @@ const ReportScreen = props => {
   );
 };
 
-export default ReportScreen;
+export default WeekScreen;
