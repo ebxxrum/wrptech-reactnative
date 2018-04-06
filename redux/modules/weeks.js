@@ -47,6 +47,27 @@ function getUsersWithReports(accessToken, id) {
   };
 }
 
+function createReport(accessToken, id, work, plan) {
+  return dispatch => {
+    return fetch(`${API_URL}/weeks/${id}?access_token=${accessToken}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        work,
+        plan
+      })
+    })
+    .then(response => response.json())
+    .then(json => {
+      if(json) {
+        dispatch(setReport(json));
+      }
+    });
+  };
+}
+
 const initalState = {};
 
 function reducer(state = initalState, action) {

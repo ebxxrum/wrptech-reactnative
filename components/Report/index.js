@@ -5,7 +5,6 @@ import style from '../../screens/commonStyle';
 var { height, width} = Dimensions.get('window');
 
 const Report = props => {
-  console.log("report!");
   return (
     <ScrollView style={styles.container}>
       {props.report ?
@@ -40,19 +39,30 @@ const Report = props => {
           </View>
         )
         :
+        props.current_user === props.name ?
+          (
+            <View style={styles.contentWrapper}>
+              <View style={styles.errorWrapper}>
+                <View style={styles.textWrapper}>
+                  <Text>이번주 보고서가 아직 작성되지 않았습니다.</Text>
+                  <Text>보고서를 작성해주세요.</Text>
+                </View>
+                <TouchableOpacity
+                  style={style.primaryBtn}
+                  onPress={() => props.navigation.navigate('Form')}
+                >
+                  <Text style={style.nestedText}>보고서 작성하기</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          )
+        :
         (
           <View style={styles.contentWrapper}>
             <View style={styles.errorWrapper}>
               <View style={styles.textWrapper}>
                 <Text>이번주 보고서가 아직 작성되지 않았습니다.</Text>
-                <Text>보고서를 작성해주세요.</Text>
               </View>
-              <TouchableOpacity
-                style={style.primaryBtn}
-                // onPressOut={props.logout}
-              >
-                <Text style={style.nestedText}>보고서 작성하기</Text>
-              </TouchableOpacity>
             </View>
           </View>
         )

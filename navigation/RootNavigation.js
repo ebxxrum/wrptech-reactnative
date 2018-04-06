@@ -18,6 +18,8 @@ const RootNavigation = StackNavigator(
         headerTitle: 'user name'
       }
     }
+  },{
+    initialRouteName: 'Week'
   }
 );
 

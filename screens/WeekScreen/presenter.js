@@ -6,8 +6,11 @@ import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-v
 import ActionButton from 'react-native-action-button';
 import style from '../commonStyle';
 import Report from '../../components/Report';
+// import { NavigationActions } from 'react-navigation';
 
 const WeekScreen = props => {
+  console.log("WeekScreen");
+  console.log(props);
   return (
     <View style={styles.container}>
       <StatusBar
@@ -35,7 +38,7 @@ const WeekScreen = props => {
                 <ScrollableTabBar backgroundColor='transparent' />}>
                 {props.thisWeek.map(thisWeek =>
                   thisWeek.seq < 999 &&
-                  <Report {...thisWeek} tabLabel={thisWeek.name} key={thisWeek.id} />
+                  <Report {...thisWeek} current_user={props.profile.name} tabLabel={thisWeek.name} key={thisWeek.id} />
                 )}
             </ScrollableTabView>
           </View>
@@ -52,7 +55,7 @@ const WeekScreen = props => {
           textStyle={styles.actionButtonText}
           buttonColor='#fff'
           title="마이페이지"
-          onPress={() => props.navigation.navigate('Profile')}
+          onPress={props.goProfile}
         >
           <SimpleLineIcons name="user" style={styles.actionButtonIcon} />
         </ActionButton.Item>

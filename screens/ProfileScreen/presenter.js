@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, StatusBar } from 'react-native';
 import style from '../commonStyle';
 
 const ProfileScreen = props => {
   return (
-    <View style={styles.container}>
+    <View>
       <StatusBar
         translucent={true}
         barStyle="light-content"
