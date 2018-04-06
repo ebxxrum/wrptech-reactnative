@@ -50,16 +50,21 @@ class Container extends Component {
   _submit = async() => {
     const { work, plan, isSubmitting } = this.state;
     const { createReport } = this.props;
+    const { accessToken, id } = this.props.screenProps;
     if (!isSubmitting) {
       if (work && plan) {
         this.setState({
           isSubmitting: true
         });
-        const createResult = await createReport(work, plan);
+        const createResult = await createReport(accessToken, id, work, plan);
         if (!createResult) {
           Alert.alert('Try again');
           this.setState({
             isSubmitting: false
+          });
+        } else {
+          this.setState({
+            isSubmitting: true
           });
         }
       } else {

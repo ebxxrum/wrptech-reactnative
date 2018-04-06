@@ -24,15 +24,19 @@ class AppContainer extends Component {
   };
 
   render() {
-    const { isLoggedIn, accessToken, profile, thisWeek } = this.props;
+    const { isLoggedIn, accessToken, profile, thisWeek, weeks } = this.props;
     console.log("Appcontainer");
-    console.log(this.props);
+    if (weeks) {
+      // TODO week 기준 (수) 수정 필요!
+      var weekID = weeks[0].id;
+    }
+
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
         {isLoggedIn && profile ? (
           <RootNavigation
-            screenProps={{ profile: profile, thisWeek: thisWeek }}
+            screenProps={{ accessToken: accessToken, profile: profile, thisWeek: thisWeek, weekID: weekID }}
           />
         ) : (
           <LoggedOutNavigation />

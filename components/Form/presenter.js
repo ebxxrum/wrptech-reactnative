@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
+import RootNavigation from '../../navigation/RootNavigation';
 import style from '../../screens/commonStyle';
 
 const Form = props => {
+  // if(props.isSubmitting) {
+  //
+  // }
   return (
     <View style={styles.container}>
       <View style={styles.contentWrapper}>

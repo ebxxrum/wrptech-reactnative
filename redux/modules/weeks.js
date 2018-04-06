@@ -21,6 +21,13 @@ function setUsersWithReports(weeks) {
   };
 }
 
+function setReport(report) {
+  return {
+    type: SET_REPORT,
+    report
+  }
+}
+
 function getWeeks(accessToken, page) {
   console.log("getWeeks");
   return dispatch => {
@@ -76,11 +83,12 @@ function reducer(state = initalState, action) {
       return applyWeeks(state, action);
     case USERS_WITH_REPORTS:
       return applyUsersWithReports(state, action);
+    case SET_REPORT:
+      return applyReport(state, action);
     default:
       return state;
   }
 }
-
 
 function applyWeeks(state, action) {
   const { weeks } = action;
@@ -96,6 +104,14 @@ function applyUsersWithReports(state, action) {
   return {
     ...state,
     thisWeek: weeks
+  }
+}
+
+function applyReport(state, action) {
+  const { report }  = action;
+  return {
+    ...state,
+    report: report
   }
 }
 
