@@ -18,9 +18,6 @@ const RootNavigation = StackNavigator(
     },
     Form: {
       screen: FormScreen,
-      navigationOptions: {
-          headerTitle: "create report"
-      }
     },
   }
 );

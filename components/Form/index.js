@@ -1,31 +1,13 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
+import Container from './container';
+import { actionCreators as weeksActions } from '../../redux/modules/weeks';
 
-const Form = props => {
-  return (
-    <View style={styles.container}>
-      <View style={styles.contentWrapper}>
-        <View style={styles.header}>
-          <Text>작업내용</Text>
-        </View>
-        <View style={styles.form}>
-          <TextInput />
-        </View>
-      </View>
-      <View style={styles.contentWrapper}>
-        <View style={styles.header}>
-          <Text>금주계획</Text>
-        </View>
-        <View style={styles.form}>
-          <TextInput />
-        </View>
-      </View>
-    </View>
-  );
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    createReport: (work, plan) => {
+      return dispatch(weeksActions.createReport(work, plan));
+    }
+  };
 };
 
-const styles = StyleSheet.create({
-
-});
-
-export default Form;
+export default connect(null, mapDispatchToProps)(Container);
