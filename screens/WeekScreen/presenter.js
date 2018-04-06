@@ -2,10 +2,90 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, StatusBar, TouchableOpacity, ScrollView } from 'react-native';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo';
+import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
 import ActionButton from 'react-native-action-button';
 import style from '../commonStyle';
 import Report from '../../components/Report';
-import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
+
+const WeekScreen = props => {
+  return (
+    <View style={styles.container}>
+      <StatusBar
+        translucent={true}
+        barStyle="light-content"
+        />
+        <LinearGradient
+          colors={['#DF2F3C', '#B22645']}
+        >
+          <View style={styles.navCalander}>
+            <SimpleLineIcons
+              style={styles.navTop}
+              name='calendar'
+            />
+            <Text style={styles.navTop}>3월 3주</Text>
+          </View>
+
+          <View style={styles.navPeople}>
+            <ScrollableTabView
+              tabBarInactiveTextColor={'rgba(255,255,255,0.54)'}
+              tabBarActiveTextColor={'#fff'}
+              tabBarUnderlineStyle={{ backgroundColor: 'transparent'}}
+              initialPage={3}
+              renderTabBar={() =>
+                <ScrollableTabBar backgroundColor='transparent' />}>
+                {props.thisWeek.map(thisWeek =>
+                  thisWeek.seq < 999 &&
+                  <Report {...thisWeek} tabLabel={thisWeek.name} key={thisWeek.id} />
+                )}
+            </ScrollableTabView>
+          </View>
+        </LinearGradient>
+
+
+      <ActionButton
+        buttonColor="rgba(223,47,60,100)"
+        btnOutRange="rgba(176,176,176,100)"
+        bgColor="rgba(0,0,0,0.85)"
+      >
+        <ActionButton.Item
+          textContainerStyle={styles.actionButtonTextContainer}
+          textStyle={styles.actionButtonText}
+          buttonColor='#fff'
+          title="마이페이지"
+          onPress={() => props.navigation.navigate('Profile')}
+        >
+          <SimpleLineIcons name="user" style={styles.actionButtonIcon} />
+        </ActionButton.Item>
+        <ActionButton.Item
+          textContainerStyle={styles.actionButtonTextContainer}
+          textStyle={styles.actionButtonText}
+          buttonColor='#fff'
+          title="주별목록"
+          onPress={() => {}}
+        >
+          <SimpleLineIcons name="calendar" style={styles.actionButtonIcon} />
+        </ActionButton.Item>
+        <ActionButton.Item
+          textContainerStyle={styles.actionButtonTextContainer}
+          textStyle={styles.actionButtonText}
+          buttonColor='#fff'
+          title="이번주 보고서"
+          onPress={() => {}}
+        >
+          <SimpleLineIcons name="book-open" style={styles.actionButtonIcon} />
+        </ActionButton.Item>
+        <ActionButton.Item
+          textContainerStyle={styles.actionButtonTextContainer}
+          textStyle={styles.actionButtonText}
+          title="보고서 작성"
+          onPress={() => {}}
+        >
+          <SimpleLineIcons name="pencil" style={[styles.actionButtonIcon, styles.mainButtonIcon]} />
+        </ActionButton.Item>
+      </ActionButton>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -68,88 +148,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 14,
     color: '#fff',
-  }
+  },
 });
-
-const active = ({ focused }) => {
-  return ( focused ? '#B22645' : 'transparent' )
-};
-
-const WeekScreen = props => {
-  return (
-    <View style={styles.container}>
-      <StatusBar
-        translucent={true}
-        barStyle="light-content"
-        />
-        <LinearGradient
-          colors={['#DF2F3C', '#B22645']}
-        >
-          <View style={styles.navCalander}>
-            <SimpleLineIcons
-              style={styles.navTop}
-              name='calendar'
-            />
-            <Text style={styles.navTop}>3월 3주</Text>
-          </View>
-
-          <View style={styles.navPeople}>
-            <ScrollableTabView
-                renderTabBar={()=>
-                  <ScrollableTabBar backgroundColor='transparent' />}>
-                  {props.thisWeek.map(thisWeek =>
-                    thisWeek.seq < 999 &&
-                    <Report {...thisWeek} tabLabel={thisWeek.name} key={thisWeek.id}/>
-                  )}
-            </ScrollableTabView>
-          </View>
-
-        </LinearGradient>
-
-
-      <ActionButton
-        buttonColor="rgba(223,47,60,100)"
-        btnOutRange="rgba(176,176,176,100)"
-        bgColor="rgba(0,0,0,0.85)"
-      >
-        <ActionButton.Item
-          textContainerStyle={styles.actionButtonTextContainer}
-          textStyle={styles.actionButtonText}
-          buttonColor='#fff'
-          title="마이페이지"
-          onPress={() => props.navigation.navigate('Profile')}
-        >
-          <SimpleLineIcons name="user" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
-        <ActionButton.Item
-          textContainerStyle={styles.actionButtonTextContainer}
-          textStyle={styles.actionButtonText}
-          buttonColor='#fff'
-          title="주별목록"
-          onPress={() => {}}
-        >
-          <SimpleLineIcons name="calendar" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
-        <ActionButton.Item
-          textContainerStyle={styles.actionButtonTextContainer}
-          textStyle={styles.actionButtonText}
-          buttonColor='#fff'
-          title="이번주 보고서"
-          onPress={() => {}}
-        >
-          <SimpleLineIcons name="book-open" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
-        <ActionButton.Item
-          textContainerStyle={styles.actionButtonTextContainer}
-          textStyle={styles.actionButtonText}
-          title="보고서 작성"
-          onPress={() => {}}
-        >
-          <SimpleLineIcons name="pencil" style={[styles.actionButtonIcon, styles.mainButtonIcon]} />
-        </ActionButton.Item>
-      </ActionButton>
-    </View>
-  );
-};
 
 export default WeekScreen;

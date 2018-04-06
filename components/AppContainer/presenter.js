@@ -15,7 +15,7 @@ class AppContainer extends Component {
     console.log("componentDidMount");
     if (weeks) {
       // TODO week 기준 (수) 수정 필요!
-      var weekID = weeks[1].id;
+      var weekID = weeks[0].id;
     }
     if (isLoggedIn) {
       console.log(weekID);
