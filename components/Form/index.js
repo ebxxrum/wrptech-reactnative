@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-natvie';
-// import style from '../../screens/commonStyle';
+import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
 
 const Form = props => {
   return (
@@ -10,7 +9,7 @@ const Form = props => {
           <Text>작업내용</Text>
         </View>
         <View style={styles.form}>
-          
+          <TextInput />
         </View>
       </View>
       <View style={styles.contentWrapper}>
@@ -18,10 +17,15 @@ const Form = props => {
           <Text>금주계획</Text>
         </View>
         <View style={styles.form}>
+          <TextInput />
         </View>
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+
+});
 
 export default Form;

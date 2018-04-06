@@ -38,7 +38,7 @@ const WeekScreen = props => {
                 <ScrollableTabBar backgroundColor='transparent' />}>
                 {props.thisWeek.map(thisWeek =>
                   thisWeek.seq < 999 &&
-                  <Report {...thisWeek} current_user={props.profile.name} tabLabel={thisWeek.name} key={thisWeek.id} />
+                  <Report {...thisWeek} goForm={props.goForm} current_user={props.profile.name} tabLabel={thisWeek.name} key={thisWeek.id} />
                 )}
             </ScrollableTabView>
           </View>

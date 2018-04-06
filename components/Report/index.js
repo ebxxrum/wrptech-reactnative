@@ -5,6 +5,8 @@ import style from '../../screens/commonStyle';
 var { height, width} = Dimensions.get('window');
 
 const Report = props => {
+  console.log("report");
+  console.log(props);
   return (
     <ScrollView style={styles.container}>
       {props.report ?
@@ -49,7 +51,7 @@ const Report = props => {
                 </View>
                 <TouchableOpacity
                   style={style.primaryBtn}
-                  onPress={() => props.navigation.navigate('Form')}
+                  onPress={props.goForm}
                 >
                   <Text style={style.nestedText}>보고서 작성하기</Text>
                 </TouchableOpacity>

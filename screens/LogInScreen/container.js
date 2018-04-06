@@ -21,6 +21,7 @@ class Container extends Component {
         changeEmail={this._changeEmail}
         changePassword={this._changePassword}
         submit={this._submit}
+        join={this._join}
       />
     );
   }
@@ -35,6 +36,10 @@ class Container extends Component {
     this.setState({
         password: text
     });
+  };
+
+  _join = () => {
+    this.props.navigation.navigate('Join');
   };
 
   _submit = async() => {

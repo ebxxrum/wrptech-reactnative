@@ -3,6 +3,7 @@ import { Button } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import WeekScreen from '../screens/WeekScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import FormScreen from '../components/Form';
 
 const RootNavigation = StackNavigator(
   {
@@ -14,12 +15,13 @@ const RootNavigation = StackNavigator(
     },
     Profile: {
       screen: ProfileScreen,
+    },
+    Form: {
+      screen: FormScreen,
       navigationOptions: {
-        headerTitle: 'user name'
+          headerTitle: "create report"
       }
-    }
-  },{
-    initialRouteName: 'Week'
+    },
   }
 );
 

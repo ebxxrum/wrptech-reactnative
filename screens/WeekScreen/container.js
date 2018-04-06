@@ -11,6 +11,7 @@ class Container extends Component {
         {...this.props.screenProps}
         logout={this._logout}
         goProfile={this._goProfile}
+        goForm={this._goForm}
       />
     );
   }
@@ -23,8 +24,14 @@ class Container extends Component {
   };
 
   _goProfile = () => {
-    this.props.navigation.navigate('Profile')
-  }
+    this.props.navigation.navigate('Profile');
+  };
+
+  _goForm = () => {
+    this.props.navigation.navigate('Form');
+  };
+
+
 }
 
 export default Container;
