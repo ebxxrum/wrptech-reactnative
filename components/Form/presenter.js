@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity, TextInput, StatusBar, StyleSheet } from 'react-native';
 import style from '../../screens/commonStyle';
+import WeekScreen from '../../screens/WeekScreen';
 
 const Form = props => {
-  console.log("form");
-  console.log(props);
   return (
     <View style={styles.container}>
+      <StatusBar
+        translucent={true}
+        barStyle="dark-content"
+        />
       <View style={styles.contentWrapper}>
         <View style={styles.header}>
           <Text style={styles.title}>작업내용</Text>

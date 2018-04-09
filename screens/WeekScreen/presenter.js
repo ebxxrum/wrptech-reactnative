@@ -9,10 +9,10 @@ import Report from '../../components/Report';
 // import { NavigationActions } from 'react-navigation';
 
 const WeekScreen = props => {
-  console.log("WeekScreen");
-  console.log(props);
   return (
-    <View style={styles.container}>
+    <View
+      style={styles.container}
+    >
       <StatusBar
         translucent={true}
         barStyle="light-content"
@@ -36,9 +36,9 @@ const WeekScreen = props => {
               initialPage={3}
               renderTabBar={() =>
                 <ScrollableTabBar backgroundColor='transparent' />}>
-                {props.thisWeek.map(thisWeek =>
+                {props.screenProps.thisWeek.map(thisWeek =>
                   thisWeek.seq < 999 &&
-                  <Report {...thisWeek} goForm={props.goForm} current_user={props.profile.name} tabLabel={thisWeek.name} key={thisWeek.id} />
+                  <Report {...thisWeek} {...props} current_user={props.screenProps.profile.name} tabLabel={thisWeek.name} key={thisWeek.id} />
                 )}
             </ScrollableTabView>
           </View>
@@ -55,7 +55,7 @@ const WeekScreen = props => {
           textStyle={styles.actionButtonText}
           buttonColor='#fff'
           title="마이페이지"
-          onPress={props.goProfile}
+          onPress={() => props.navigation.navigate('Profile')}
         >
           <SimpleLineIcons name="user" style={styles.actionButtonIcon} />
         </ActionButton.Item>

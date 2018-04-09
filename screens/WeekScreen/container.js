@@ -23,7 +23,7 @@ class Container extends Component {
     return (
       <WeekScreen
         {...this.state}
-        {...this.props.screenProps}
+        {...this.props}
         logout={this._logout}
         goProfile={this._goProfile}
         goForm={this._goForm}

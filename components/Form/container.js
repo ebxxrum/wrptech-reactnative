@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { actionCreators as weeksActions } from '../../redux/modules/weeks';
 import Form from './presenter';
 
 class Container extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    headerTitle: "createReport",
-    headerRight: (
-      <TouchableOpacity
-        onPress={this._submit}
-      >
-        <Text style={styles.text}>저장</Text>
-      </TouchableOpacity>
-    )
-  });
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: "createReport",
+      headerRight: (
+        <TouchableOpacity
+          onPress={navigation.state.params.submit}
+        >
+          <Text style={styles.text}>저장</Text>
+        </TouchableOpacity>
+      )
+    };
+  };
 
   static propTypes = {
     createReport: PropTypes.func.isRequired,
@@ -44,6 +47,13 @@ class Container extends Component {
     }
   };
 
+  componentDidMount() {
+    const { navigation } = this.props;
+    navigation.setParams({
+      submit: this.submit
+    });
+  }
+
   render() {
     return (
       <Form
@@ -69,27 +79,22 @@ class Container extends Component {
 
   _submit = async() => {
     const { work, plan, isSubmitting } = this.state;
-    const { createReport } = this.props;
+    const { createReport, navigation } = this.props;
     const { accessToken, weekID } = this.props.screenProps;
-    if (!isSubmitting) {
-      if (work && plan) {
-        this.setState({
-          isSubmitting: true
-        });
-        console.log("submit!");
-        const createResult = await createReport(accessToken, weekID, work, plan);
-        if (!createResult) {
-          Alert.alert('Try again');
-          console.log(createResult);
-          this.setState({
-            isSubmitting: false
-          });
-        } else {
-          this.props.navigation.navigate('Week');
-        }
-      } else {
-        Alert.alert('All fields are required!');
-      }
+    if (work && plan) {
+      this.setState({
+        isSubmitting: true
+      });
+      const createResult = await createReport(accessToken, weekID, work, plan);
+      navigation.goBack(null);
+      // if (createResult) {
+      //   console.log("suceess!");
+      //   console.log(createResult);
+      //   // navigation.goBack(null);
+      //   navigation.navigate('Week');
+      // }
+    } else {
+      Alert.alert('All fields are required!');
     }
   };
 }

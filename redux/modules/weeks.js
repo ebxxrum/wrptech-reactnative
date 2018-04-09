@@ -113,7 +113,9 @@ function applyUsersWithReports(state, action) {
 
 function applyReport(state, action) {
   console.log("applyReport");
-  console.log(state, action);
+  console.log(state);
+  console.log(action);
+  // console.log(state, action);
   const { report }  = action;
   return {
     ...state,

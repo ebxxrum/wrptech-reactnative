@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, WebView, View, Text, Dimensions, TouchableOpacity, StyleSheet } from 'react-native';
+import { ScrollView, WebView, View, Text, Dimensions, TouchableOpacity, StyleSheet, RefreshControl } from 'react-native';
 import style from '../../screens/commonStyle';
 
 var { height, width} = Dimensions.get('window');
@@ -8,7 +8,16 @@ const Report = props => {
   console.log("report");
   console.log(props);
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      refreshControl={
+        <RefreshControl
+          refreshing={props.isFetching}
+          onRefresh={props.refresh}
+          tintColor={'black'}
+        />
+      }
+    >
       {props.report ?
         (
           <View>
@@ -51,7 +60,7 @@ const Report = props => {
                 </View>
                 <TouchableOpacity
                   style={style.primaryBtn}
-                  onPress={props.goForm}
+                  onPress={props.navigation.navigate('Form')}
                 >
                   <Text style={style.nestedText}>보고서 작성하기</Text>
                 </TouchableOpacity>
