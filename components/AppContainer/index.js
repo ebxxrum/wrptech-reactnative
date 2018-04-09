@@ -5,7 +5,7 @@ import { actionCreators as weeksActions } from '../../redux/modules/weeks';
 
 const mapStateToProps = (state, ownProps) => {
   const { user, weeks } = state;
-  console.log(state);
+  // console.log(state);
   return {
     isLoggedIn: user.isLoggedIn,
     accessToken: user.accessToken,

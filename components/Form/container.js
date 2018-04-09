@@ -8,7 +8,7 @@ class Container extends Component {
     headerTitle: "createReport",
     headerRight: (
       <TouchableOpacity
-        onPressOut={this._submit}
+        onPress={this._submit}
       >
         <Text style={styles.text}>저장</Text>
       </TouchableOpacity>
@@ -31,6 +31,7 @@ class Container extends Component {
         {...this.state}
         changeWork={this._changeWork}
         changePlan={this._changePlan}
+        submit={this._submit}
       />
     );
   }
@@ -50,22 +51,22 @@ class Container extends Component {
   _submit = async() => {
     const { work, plan, isSubmitting } = this.state;
     const { createReport } = this.props;
-    const { accessToken, id } = this.props.screenProps;
+    const { accessToken, weekID } = this.props.screenProps;
     if (!isSubmitting) {
       if (work && plan) {
         this.setState({
           isSubmitting: true
         });
-        const createResult = await createReport(accessToken, id, work, plan);
+        console.log("submit!");
+        const createResult = await createReport(accessToken, weekID, work, plan);
         if (!createResult) {
           Alert.alert('Try again');
+          console.log(createResult);
           this.setState({
             isSubmitting: false
           });
         } else {
-          this.setState({
-            isSubmitting: true
-          });
+          this.props.navigation.navigate('Week');
         }
       } else {
         Alert.alert('All fields are required!');
