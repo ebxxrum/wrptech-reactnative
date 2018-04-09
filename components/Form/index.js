@@ -4,7 +4,7 @@ import { actionCreators as weeksActions } from '../../redux/modules/weeks';
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    submit: (accessToken, weekID, work, plan) => {
+    createReport: (accessToken, weekID, work, plan) => {
       return dispatch(weeksActions.createReport(accessToken, weekID, work, plan));
     }
   };

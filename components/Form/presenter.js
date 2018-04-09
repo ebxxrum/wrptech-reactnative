@@ -3,6 +3,8 @@ import { View, ScrollView, Text, TouchableOpacity, TextInput, StyleSheet } from 
 import style from '../../screens/commonStyle';
 
 const Form = props => {
+  console.log("form");
+  console.log(props);
   return (
     <View style={styles.container}>
       <View style={styles.contentWrapper}>

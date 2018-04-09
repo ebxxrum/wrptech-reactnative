@@ -15,14 +15,33 @@ class Container extends Component {
     )
   });
 
+  static propTypes = {
+    createReport: PropTypes.func.isRequired,
+  };
+
   state = {
     work: '',
     plan: '',
-    isSubmitting: false
+    isSubmitting: false,
   };
 
-  static propTypes = {
-    createReport: PropTypes.func.isRequired,
+  constructor(props) {
+    super(props);
+    const { navigation: { state: { params: { reportStatus, report } } } } = props;
+    this.state = {
+        myReportIsNull: reportStatus,
+        myReport: report
+    };
+  };
+
+  componentWillMount = () => {
+    const { myReportIsNull, myReport } = this.state;
+    if (!myReportIsNull) {
+      this.setState({
+        work: myReport.work,
+        plan: myReport.plan
+      });
+    }
   };
 
   render() {
@@ -58,7 +77,7 @@ class Container extends Component {
           isSubmitting: true
         });
         console.log("submit!");
-        const createResult = await submit(accessToken, weekID, work, plan);
+        const createResult = await createReport(accessToken, weekID, work, plan);
         if (!createResult) {
           Alert.alert('Try again');
           console.log(createResult);

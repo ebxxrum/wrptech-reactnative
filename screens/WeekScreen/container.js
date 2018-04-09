@@ -13,7 +13,8 @@ class Container extends Component {
     thisWeek.map(thisWeek =>
     profile.name === thisWeek.name && thisWeek.report &&
       this.setState({
-        myReportIsNull: false
+        myReportIsNull: false,
+        myReport: thisWeek.report
       })
     )
   };
@@ -43,7 +44,7 @@ class Container extends Component {
   };
 
   _goForm = () => {
-    this.props.navigation.navigate('Form');
+    this.props.navigation.navigate('Form', {reportStatus: this.state.myReportIsNull, report: this.state.myReport});
   };
 
   _refresh = () => {
