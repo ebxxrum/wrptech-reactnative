@@ -5,6 +5,8 @@ import style from '../../screens/commonStyle';
 var { height, width} = Dimensions.get('window');
 
 const Report = props => {
+  console.log("report");
+  console.log(props);
   return (
     <ScrollView style={styles.container}>
       {props.report ?

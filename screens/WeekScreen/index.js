@@ -6,10 +6,9 @@ import { NavigationActions } from 'react-navigation'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    logout: () => {
-      console.log("report index - logout");
-      return dispatch(userActions.logout());
-    }
+    getThisWeek: (accessToken, id) => {
+      dispatch(weeksActions.getUsersWithReports(accessToken, id));
+    },
   };
 };
 

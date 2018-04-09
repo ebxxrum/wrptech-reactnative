@@ -58,7 +58,7 @@ class Container extends Component {
           isSubmitting: true
         });
         console.log("submit!");
-        const createResult = await createReport(accessToken, weekID, work, plan);
+        const createResult = await submit(accessToken, weekID, work, plan);
         if (!createResult) {
           Alert.alert('Try again');
           console.log(createResult);
