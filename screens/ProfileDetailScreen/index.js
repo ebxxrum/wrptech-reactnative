@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StatusBar, StyleSheet } from 'react-native';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import style from '../commonStyle';
 
-class Join extends Component {
-  render() {
-    return (
-      <View style={style.container}>
-        <View style={style.joinWrapper}>
+const ProfileDetailScreen = props => {
+  return (
+    <View style={style.container}>
+      <View style={style.joinWrapper}>
         <View style={style.inputWrapper}>
           <SimpleLineIcons
             style={style.textIcon}
@@ -15,7 +14,9 @@ class Join extends Component {
             />
           <TextInput
             style={style.input}
-            placeholder='Name'
+            placeholder={props.screenProps.profile.name}
+            placeholderTextColor="#000" 
+            autoCapitalize={'none'}
             // onChangeText={(value) => this.setState({name : value})}
           />
         </View>
@@ -26,14 +27,27 @@ class Join extends Component {
             />
           <TextInput
             style={style.input}
-            placeholder='E-mail'
+            placeholder={props.screenProps.profile.email}
+            placeholderTextColor="#000" 
             // onChangeText={(value) => this.setState({email : value})}
           />
         </View>
         <View style={style.inputWrapper}>
           <SimpleLineIcons
             style={style.textIcon}
-            name='unlock-alt'
+            name='lock'
+            />
+          <TextInput
+            style={style.input}
+            placeholder='New Password'
+            // onChangeText={(value) => this.setState({password : value})}
+            secureTextEntry={true}
+          />
+        </View>
+        <View style={style.inputWrapper}>
+          <SimpleLineIcons
+            style={style.textIcon}
+            name='lock'
             />
           <TextInput
             style={style.input}
@@ -45,7 +59,7 @@ class Join extends Component {
         <View style={style.inputWrapper}>
           <SimpleLineIcons
             style={style.textIcon}
-            name='unlock-alt'
+            name='lock'
             />
           <TextInput
             style={style.input}
@@ -58,12 +72,14 @@ class Join extends Component {
           style={style.primaryBtn}
           // onPress={() => {this.join();}}>
         >
-          <Text style={style.nestedText}>가입하기</Text>
+          <Text style={style.nestedText}>수정하기</Text>
         </TouchableOpacity>
+        <View style={style.linkWrapper}>
+          <Text style={[style.link, style.linkText]}>회원 탈퇴하기</Text>
         </View>
       </View>
-    );
-  }
-}
+    </View>
+  );
+};
 
-export default Join;
+export default ProfileDetailScreen;

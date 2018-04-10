@@ -64,6 +64,7 @@ const WeekScreen = props => {
           textStyle={styles.actionButtonText}
           buttonColor='#fff'
           title="주별목록"
+          //TODO view: modal
           onPress={() => {}}
         >
           <SimpleLineIcons name="calendar" style={styles.actionButtonIcon} />
@@ -73,7 +74,7 @@ const WeekScreen = props => {
           textStyle={styles.actionButtonText}
           buttonColor='#fff'
           title="이번주 보고서"
-          onPress={() => {}}
+          onPress={() => props.navigation.navigate('Week')}
         >
           <SimpleLineIcons name="book-open" style={styles.actionButtonIcon} />
         </ActionButton.Item>

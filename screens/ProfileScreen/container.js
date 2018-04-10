@@ -3,6 +3,12 @@ import PropTypes from 'prop-types';
 import ProfileScreen from './presenter';
 
 class Container extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: "마이페이지"
+    };
+  };
+
   static propTypes = {
     logout: PropTypes.func.isRequired
   };
@@ -10,8 +16,6 @@ class Container extends Component {
   componentDidMount = () => {
     const { accessToken } = this.props.screenProps;
     if (accessToken) {
-      console.log("accessToken");
-      console.log(accessToken);
       this.setState({
         isFetching: false
       });
@@ -21,6 +25,7 @@ class Container extends Component {
   render() {
     return (
       <ProfileScreen
+        {...this.props}
         logout={this._logout}
       />
     );

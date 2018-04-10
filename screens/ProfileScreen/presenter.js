@@ -1,23 +1,62 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, StatusBar } from 'react-native';
+import { View, Text, TouchableOpacity, StatusBar, StyleSheet } from 'react-native';
+import { SimpleLineIcons } from '@expo/vector-icons';
 import style from '../commonStyle';
 
 const ProfileScreen = props => {
   return (
-    <View>
+    <View style={styles.container}>
       <StatusBar
         translucent={true}
-        barStyle="light-content"
+        barStyle="dark-content"
         />
+      <View style={styles.profileWrapper}>
+        <Text style={[style.nestedText, styles.profileText]}>{props.screenProps.profile.name}</Text>
+        <TouchableOpacity onPressOut={() => props.navigation.navigate('ProfileDetail')}>
+          <SimpleLineIcons
+            style={style.nestedText}
+            name='settings'
+          />
+        </TouchableOpacity>
+        <View style={styles.logoutBtn}>
+          <TouchableOpacity onPressOut={props.logout}>
+            <SimpleLineIcons
+              style={[style.nestedText]}
+              name='logout'
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
 
-      <TouchableOpacity
-        style={style.primaryBtn}
-        onPressOut={props.logout}
-      >
-        <Text style={style.nestedText}>로그아웃</Text>
-      </TouchableOpacity>
+      <View style={styles.list}>
+      </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  profileWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 15,
+    backgroundColor: '#DF2F3C'
+  },
+  logoutBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
+  },
+  profileText: {
+    paddingRight: 10,
+  },
+  list: {
+    backgroundColor: '#fff'
+  }
+
+});
 
 export default ProfileScreen;
