@@ -10,7 +10,6 @@ class Container extends Component {
       headerTitle: "createReport",
       headerRight: (
         <TouchableOpacity
-          onPress={navigation.state.params.submit}
         >
           <Text style={styles.text}>저장</Text>
         </TouchableOpacity>

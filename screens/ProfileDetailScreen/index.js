@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import { View, Text, TextInput, TouchableOpacity, StatusBar, StyleSheet } from 'react-native';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import style from '../commonStyle';
@@ -15,7 +15,7 @@ const ProfileDetailScreen = props => {
           <TextInput
             style={style.input}
             placeholder={props.screenProps.profile.name}
-            placeholderTextColor="#000" 
+            placeholderTextColor="#000"
             autoCapitalize={'none'}
             // onChangeText={(value) => this.setState({name : value})}
           />
@@ -28,7 +28,7 @@ const ProfileDetailScreen = props => {
           <TextInput
             style={style.input}
             placeholder={props.screenProps.profile.email}
-            placeholderTextColor="#000" 
+            placeholderTextColor="#000"
             // onChangeText={(value) => this.setState({email : value})}
           />
         </View>

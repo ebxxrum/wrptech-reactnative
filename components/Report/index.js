@@ -60,7 +60,7 @@ const Report = props => {
                 </View>
                 <TouchableOpacity
                   style={style.primaryBtn}
-                  onPress={props.navigation.navigate('Form')}
+                  onPress={props.goForm}
                 >
                   <Text style={style.nestedText}>보고서 작성하기</Text>
                 </TouchableOpacity>
@@ -78,7 +78,6 @@ const Report = props => {
           </View>
         )
       }
-
     </ScrollView>
   );
 };

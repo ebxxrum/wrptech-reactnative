@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, StatusBar, StyleSheet } from 'react-native';
 import { SimpleLineIcons } from '@expo/vector-icons';
+import Action from '../../components/Action';
 import style from '../commonStyle';
 
 const ProfileScreen = props => {
@@ -30,6 +31,7 @@ const ProfileScreen = props => {
 
       <View style={styles.list}>
       </View>
+      <Action {...props}/>
     </View>
   );
 };

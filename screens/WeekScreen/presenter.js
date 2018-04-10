@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, StatusBar, TouchableOpacity, ScrollView } from 'react-native';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo';
@@ -6,44 +6,42 @@ import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-v
 import ActionButton from 'react-native-action-button';
 import style from '../commonStyle';
 import Report from '../../components/Report';
+import Action from '../../components/Action';
 // import { NavigationActions } from 'react-navigation';
 
 const WeekScreen = props => {
   return (
-    <View
-      style={styles.container}
-    >
+    <View style={styles.container}>
       <StatusBar
         translucent={true}
         barStyle="light-content"
-        />
-        <LinearGradient
-          colors={['#DF2F3C', '#B22645']}
-        >
-          <View style={styles.navCalander}>
-            <SimpleLineIcons
-              style={styles.navTop}
-              name='calendar'
-            />
-            <Text style={styles.navTop}>3월 3주</Text>
-          </View>
+      />
+      <LinearGradient
+        colors={['#DF2F3C', '#B22645']}
+      >
+        <View style={styles.navCalander}>
+          <SimpleLineIcons
+            style={styles.navTop}
+            name='calendar'
+          />
+          <Text style={styles.navTop}>3월 3주</Text>
+        </View>
 
-          <View style={styles.navPeople}>
-            <ScrollableTabView
-              tabBarInactiveTextColor={'rgba(255,255,255,0.54)'}
-              tabBarActiveTextColor={'#fff'}
-              tabBarUnderlineStyle={{ backgroundColor: 'transparent'}}
-              initialPage={3}
-              renderTabBar={() =>
-                <ScrollableTabBar backgroundColor='transparent' />}>
-                {props.screenProps.thisWeek.map(thisWeek =>
-                  thisWeek.seq < 999 &&
-                  <Report {...thisWeek} {...props} current_user={props.screenProps.profile.name} tabLabel={thisWeek.name} key={thisWeek.id} />
-                )}
-            </ScrollableTabView>
-          </View>
-        </LinearGradient>
-
+        <View style={styles.navPeople}>
+          <ScrollableTabView
+            tabBarInactiveTextColor={'rgba(255,255,255,0.54)'}
+            tabBarActiveTextColor={'#fff'}
+            tabBarUnderlineStyle={{ backgroundColor: 'transparent'}}
+            initialPage={3}
+            renderTabBar={() =>
+              <ScrollableTabBar backgroundColor='transparent' />}>
+              {props.screenProps.thisWeek.map(thisWeek =>
+                thisWeek.seq < 999 &&
+                <Report {...thisWeek} {...props} current_user={props.screenProps.profile.name} tabLabel={thisWeek.name} key={thisWeek.id} />
+              )}
+          </ScrollableTabView>
+        </View>
+      </LinearGradient>
 
       <ActionButton
         buttonColor="rgba(223,47,60,100)"

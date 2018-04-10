@@ -20,28 +20,18 @@ class Container extends Component {
   };
 
   render() {
+    console.log("week");
+    console.log(this.state);
+    console.log(this.state.myReportIsNull);
     return (
       <WeekScreen
         {...this.state}
         {...this.props}
-        logout={this._logout}
-        goProfile={this._goProfile}
         goForm={this._goForm}
         refresh={this._refresh}
       />
     );
   }
-
-  _logout = () => {
-    const { logout } = this.props;
-    console.log("_logout");
-    console.log(logout);
-    logout();
-  };
-
-  _goProfile = () => {
-    this.props.navigation.navigate('Profile');
-  };
 
   _goForm = () => {
     this.props.navigation.navigate('Form', {reportStatus: this.state.myReportIsNull, report: this.state.myReport});
