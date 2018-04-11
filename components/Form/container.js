@@ -7,7 +7,7 @@ import Form from './presenter';
 class Container extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: "createReport",
+      headerTitle: " ",
       headerRight: (
         <TouchableOpacity
         >
@@ -29,7 +29,7 @@ class Container extends Component {
 
   constructor(props) {
     super(props);
-    const { navigation: { state: { params: { reportStatus, report } } } } = props;
+    const { navigation: { state: { params: { weekName, reportStatus, report } } } } = props;
     this.state = {
         myReportIsNull: reportStatus,
         myReport: report

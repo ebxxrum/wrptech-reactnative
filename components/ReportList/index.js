@@ -31,32 +31,29 @@ const styles = StyleSheet.create({
   list: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
     marginTop: 5,
     marginBottom: 15,
     marginLeft: 15,
     marginRight: 15,
     padding: 10,
-    borderWidth: 1,
-    borderColor: '#fff',
     borderRadius: 100,
     backgroundColor: 'rgba(255,255,255,0.8)',
   },
   textWrapper: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
-    padding: 8
+    justifyContent: 'flex-start',
+    marginTop: 18
   },
   title: {
     paddingLeft: 10,
     paddingRight: 10,
     fontWeight: 'bold',
-    fontSize: 15,
+    fontSize: 18,
     color: '#DF2F3C'
   },
   desc: {
-    fontSize: 12,
+    fontSize: 15,
     color: 'rgba(223,47,60,50)'
   },
   iconWrapper: {
@@ -65,11 +62,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   circle: {
-    padding: 10,
-    borderRadius: 100,
+    padding: 20,
+    borderRadius: 50,
     backgroundColor: '#DF2F3C'
   },
   nestedIcon: {
+    fontSize: 18,
     color: '#fff',
   }
 });

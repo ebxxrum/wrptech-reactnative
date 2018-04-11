@@ -67,11 +67,9 @@ const Report = props => {
           )
         :
         (
-          <View style={styles.contentWrapper}>
-            <View style={styles.errorWrapper}>
-              <View style={styles.textWrapper}>
-                <Text>이번주 보고서가 아직 작성되지 않았습니다.</Text>
-              </View>
+          <View style={styles.errorWrapper}>
+            <View style={styles.textWrapper}>
+              <Text>이번주 보고서가 아직 작성되지 않았습니다.</Text>
             </View>
           </View>
         )

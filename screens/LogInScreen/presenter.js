@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StatusBar, ActivityIndicator } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import { SimpleLineIcons } from '@expo/vector-icons';
 import PropTypes from 'prop-types';
 import style from '../commonStyle';
 
@@ -17,6 +17,10 @@ const LogInScreen = props => {
       </View>
 
       <View style={style.inputWrapper}>
+        <SimpleLineIcons
+          style={style.textIcon}
+          name='user'
+          />
         <TextInput
           style={style.input}
           placeholder='E-mail'
@@ -28,6 +32,10 @@ const LogInScreen = props => {
         />
       </View>
       <View style={style.inputWrapper}>
+        <SimpleLineIcons
+          style={style.textIcon}
+          name='lock'
+          />
         <TextInput
           style={style.input}
           placeholder='Password'

@@ -24,7 +24,7 @@ const WeekScreen = props => {
             style={style.navTop}
             name='calendar'
           />
-          <Text style={style.navTop}>3월 3주</Text>
+          <Text style={style.navTop}>{props.weekName}</Text>
           <TouchableOpacity>
             <SimpleLineIcons
               style={style.navTop}
@@ -36,7 +36,6 @@ const WeekScreen = props => {
 
         <View style={styles.navPeople}>
           <ScrollableTabView
-            style={style.tabbar}
             tabBarInactiveTextColor={'rgba(255,255,255,0.54)'}
             tabBarActiveTextColor={'#fff'}
             tabBarUnderlineStyle={{ backgroundColor: 'transparent'}}

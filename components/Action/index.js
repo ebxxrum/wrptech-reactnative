@@ -12,9 +12,9 @@ class Action extends Component {
         myReportIsNull: false,
         myReport: thisWeek.report
       })
-    )
+    );
   };
-  
+
   render() {
     return (
       <View>
@@ -55,7 +55,7 @@ class Action extends Component {
             textContainerStyle={styles.actionButtonTextContainer}
             textStyle={styles.actionButtonText}
             title={this.props.myReportIsNull ? "보고서 작성" : "보고서 수정"}
-            onPress={() => this.props.navigation.navigate('Form', {reportStatus: this.state.myReportIsNull, report: this.state.myReport})}
+            onPress={() => this.props.navigation.navigate('Form', {reportStatus: this.state.myReportIsNull, report: this.state.myReport, weekName: this.state.weekName})}
           >
             <SimpleLineIcons name="pencil" style={[styles.actionButtonIcon, styles.mainButtonIcon]} />
           </ActionButton.Item>

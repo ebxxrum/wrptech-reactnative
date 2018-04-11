@@ -22,8 +22,6 @@ function setUsersWithReports(weeks) {
 }
 
 function setReport(report) {
-  console.log("setReport");
-  console.log(report);
   return {
     type: SET_REPORT,
     report
@@ -31,7 +29,6 @@ function setReport(report) {
 }
 
 function getWeeks(accessToken, page) {
-  console.log("getWeeks");
   return dispatch => {
     return fetch(`${API_URL}/weeks?access_token=${accessToken}&page=${page}`)
     .then(response => response.json())
@@ -44,7 +41,6 @@ function getWeeks(accessToken, page) {
 }
 
 function getUsersWithReports(accessToken, id) {
-  console.log("getUsersWithReports");
   return dispatch => {
     return fetch(`${API_URL}/weeks/${id}?access_token=${accessToken}`)
     .then(response => response.json())
@@ -57,7 +53,6 @@ function getUsersWithReports(accessToken, id) {
 }
 
 function createReport(access_token, id, work, plan) {
-  console.log("createReport");
   return dispatch => {
     return fetch(`${API_URL}/weeks/${id}/reports`, {
       method: 'POST',
@@ -103,7 +98,6 @@ function applyWeeks(state, action) {
 }
 
 function applyUsersWithReports(state, action) {
-  console.log("applyUsersWithReports");
   const { weeks } = action;
   return {
     ...state,
@@ -112,10 +106,6 @@ function applyUsersWithReports(state, action) {
 }
 
 function applyReport(state, action) {
-  console.log("applyReport");
-  console.log(state);
-  console.log(action);
-  // console.log(state, action);
   const { report }  = action;
   return {
     ...state,
