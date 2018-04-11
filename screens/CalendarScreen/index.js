@@ -6,12 +6,12 @@ import { SimpleLineIcons } from '@expo/vector-icons';
 import ReportList from '../../components/ReportList';
 import Action from '../../components/Action';
 import ActionButton from 'react-native-action-button';
-
 import style from '../commonStyle';
 
 class CalendarScreen extends Component {
   state = {
-    today: null
+    today: null,
+    weekName: null
   };
 
   componentWillMount = () => {
@@ -37,7 +37,6 @@ class CalendarScreen extends Component {
           <Text style={style.navTop}>주별목록</Text>
         </View>
         <View style={styles.dateWrapper}>
-          <Text style={styles.dateText}>3월 3주</Text>
           <Text style={styles.dateText}>TODAY {this.state.today}</Text>
         </View>
 
@@ -57,40 +56,40 @@ class CalendarScreen extends Component {
           bgColor="rgba(0,0,0,0.85)"
         >
           <ActionButton.Item
-            textContainerStyle={styles.actionButtonTextContainer}
-            textStyle={styles.actionButtonText}
+            textContainerStyle={style.actionButtonTextContainer}
+            textStyle={style.actionButtonText}
             buttonColor='#fff'
             title="마이페이지"
             onPress={() => this.props.navigation.navigate('Profile')}
           >
-            <SimpleLineIcons name="user" style={styles.actionButtonIcon} />
+            <SimpleLineIcons name="user" style={style.actionButtonIcon} />
           </ActionButton.Item>
           <ActionButton.Item
-            textContainerStyle={styles.actionButtonTextContainer}
-            textStyle={styles.actionButtonText}
+            textContainerStyle={style.actionButtonTextContainer}
+            textStyle={style.actionButtonText}
             buttonColor='#fff'
             title="주별목록"
             //TODO view: modal
             onPress={() => this.props.navigation.navigate('Calendar')}
           >
-            <SimpleLineIcons name="calendar" style={styles.actionButtonIcon} />
+            <SimpleLineIcons name="calendar" style={style.actionButtonIcon} />
           </ActionButton.Item>
           <ActionButton.Item
-            textContainerStyle={styles.actionButtonTextContainer}
-            textStyle={styles.actionButtonText}
+            textContainerStyle={style.actionButtonTextContainer}
+            textStyle={style.actionButtonText}
             buttonColor='#fff'
             title="이번주 보고서"
             onPress={() => this.props.navigation.navigate('Week')}
           >
-            <SimpleLineIcons name="book-open" style={styles.actionButtonIcon} />
+            <SimpleLineIcons name="book-open" style={style.actionButtonIcon} />
           </ActionButton.Item>
           <ActionButton.Item
-            textContainerStyle={styles.actionButtonTextContainer}
-            textStyle={styles.actionButtonText}
+            textContainerStyle={style.actionButtonTextContainer}
+            textStyle={style.actionButtonText}
             title={this.props.myReportIsNull ? "보고서 작성" : "보고서 수정"}
             onPress={this.props.goForm}
           >
-            <SimpleLineIcons name="pencil" style={[styles.actionButtonIcon, styles.mainButtonIcon]} />
+            <SimpleLineIcons name="pencil" style={[style.actionButtonIcon, style.mainButtonIcon]} />
           </ActionButton.Item>
         </ActionButton>
       </LinearGradient>
@@ -105,7 +104,7 @@ const styles = StyleSheet.create({
   },
   dateWrapper: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     padding: 15
   },
   dateText: {

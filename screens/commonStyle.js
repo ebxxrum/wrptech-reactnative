@@ -98,4 +98,24 @@ export default style = StyleSheet.create({
     fontSize: 18,
   },
 
+  //ActionButton
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: '#DF2F3C',
+  },
+  mainButtonIcon: {
+    color: '#fff',
+  },
+
+  actionButtonTextContainer: {
+    borderWidth: 0,
+    backgroundColor: 'transparent',
+  },
+  actionButtonText: {
+    fontWeight: 'bold',
+    fontSize: 14,
+    color: '#fff',
+  }
+
 });

@@ -12,7 +12,6 @@ const Report = props => {
         <RefreshControl
           refreshing={props.isFetching}
           onRefresh={props.refresh}
-          tintColor={'black'}
         />
       }
     >
@@ -50,19 +49,17 @@ const Report = props => {
         :
         props.current_user === props.name ?
           (
-            <View style={styles.contentWrapper}>
-              <View style={styles.errorWrapper}>
-                <View style={styles.textWrapper}>
-                  <Text>이번주 보고서가 아직 작성되지 않았습니다.</Text>
-                  <Text>보고서를 작성해주세요.</Text>
-                </View>
-                <TouchableOpacity
-                  style={style.primaryBtn}
-                  onPress={props.goForm}
-                >
-                  <Text style={style.nestedText}>보고서 작성하기</Text>
-                </TouchableOpacity>
+            <View style={styles.errorWrapper}>
+              <View style={styles.textWrapper}>
+                <Text>이번주 보고서가 아직 작성되지 않았습니다.</Text>
+                <Text>보고서를 작성해주세요.</Text>
               </View>
+              <TouchableOpacity
+                style={style.primaryBtn}
+                onPress={props.goForm}
+              >
+                <Text style={style.nestedText}>보고서 작성하기</Text>
+              </TouchableOpacity>
             </View>
           )
         :
@@ -84,7 +81,6 @@ const styles = StyleSheet.create({
   },
   contentWrapper: {
     flex: 1,
-    // flexDirection: 'column',
     padding: 15,
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(0,0,0,0.05)',
@@ -101,8 +97,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   errorWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 15,
     paddingTop: 150,
-    paddingBottom: 200
   },
   textWrapper: {
     alignItems: 'center',
