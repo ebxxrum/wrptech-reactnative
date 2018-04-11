@@ -20,9 +20,6 @@ class Container extends Component {
   };
 
   render() {
-    console.log("week");
-    console.log(this.state);
-    console.log(this.state.myReportIsNull);
     return (
       <WeekScreen
         {...this.state}

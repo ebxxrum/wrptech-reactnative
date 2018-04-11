@@ -82,4 +82,20 @@ export default style = StyleSheet.create({
   linkText: {
     color: "#B0B0B0"
   },
+
+  navCalander: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginTop: 15,
+    paddingLeft: 15,
+    paddingTop: 15,
+    paddingBottom: 5,
+    // paddingBottom: 15,
+  },
+  navTop: {
+    paddingRight: 15,
+    color: '#fff',
+    fontSize: 18,
+  },
+
 });

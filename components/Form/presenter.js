@@ -20,6 +20,7 @@ const Form = props => {
             placeholder='탭하여 내용 입력하기'
             autoCapitalize={'none'}
             underlineColorAndroid="transparent"
+            multiline={true}
             autoCorrect={false}
             value={props.work}
             onChangeText={props.changeWork}
@@ -36,6 +37,7 @@ const Form = props => {
             placeholder='탭하여 내용 입력하기'
             autoCapitalize={'none'}
             underlineColorAndroid="transparent"
+            multiline={true}
             autoCorrect={false}
             value={props.plan}
             onChangeText={props.changePlan}

@@ -19,29 +19,36 @@ const WeekScreen = props => {
       <LinearGradient
         colors={['#DF2F3C', '#B22645']}
       >
-        <View style={styles.navCalander}>
+        <View style={style.navCalander}>
           <SimpleLineIcons
-            style={styles.navTop}
+            style={style.navTop}
             name='calendar'
           />
-          <Text style={styles.navTop}>3월 3주</Text>
+          <Text style={style.navTop}>3월 3주</Text>
+          <TouchableOpacity>
+            <SimpleLineIcons
+              style={style.navTop}
+              name='arrow-down'
+            />
+          </TouchableOpacity>
         </View>
+      </LinearGradient>
 
         <View style={styles.navPeople}>
           <ScrollableTabView
+            style={style.tabbar}
             tabBarInactiveTextColor={'rgba(255,255,255,0.54)'}
             tabBarActiveTextColor={'#fff'}
             tabBarUnderlineStyle={{ backgroundColor: 'transparent'}}
             initialPage={3}
             renderTabBar={() =>
-              <ScrollableTabBar backgroundColor='transparent' />}>
+              <ScrollableTabBar backgroundColor='#B22645' />}>
               {props.screenProps.thisWeek.map(thisWeek =>
                 thisWeek.seq < 999 &&
                 <Report {...thisWeek} {...props} current_user={props.screenProps.profile.name} tabLabel={thisWeek.name} key={thisWeek.id} />
               )}
           </ScrollableTabView>
         </View>
-      </LinearGradient>
 
       <ActionButton
         buttonColor="rgba(223,47,60,100)"
@@ -63,7 +70,7 @@ const WeekScreen = props => {
           buttonColor='#fff'
           title="주별목록"
           //TODO view: modal
-          onPress={() => {}}
+          onPress={() => props.navigation.navigate('Calendar')}
         >
           <SimpleLineIcons name="calendar" style={styles.actionButtonIcon} />
         </ActionButton.Item>
@@ -99,24 +106,15 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     // alignItems: 'center'
   // },
-  navCalander: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    marginTop: 15,
-    paddingLeft: 15,
-    paddingTop: 15,
-    paddingBottom: 5,
-    // paddingBottom: 15,
+  tabbar: {
+    flex: 1,
   },
   navPeople: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
+    backgroundColor: '#fff'
     // paddingTop: 15,
-  },
-  navTop: {
-    paddingRight: 10,
-    color: '#fff',
-    fontSize: 18,
   },
   navBottom: {
     // paddingTop: 10,

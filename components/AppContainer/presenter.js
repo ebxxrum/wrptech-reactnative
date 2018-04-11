@@ -36,7 +36,8 @@ class AppContainer extends Component {
         <StatusBar hidden={false} />
         {isLoggedIn && profile ? (
           <RootNavigation
-            screenProps={{ accessToken: accessToken, profile: profile, thisWeek: thisWeek, weekID: weekID }}
+            screenProps={{ accessToken: accessToken, profile: profile,
+              weeks: weeks, thisWeek: thisWeek, weekID: weekID }}
           />
         ) : (
           <LoggedOutNavigation />

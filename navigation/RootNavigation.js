@@ -4,6 +4,7 @@ import { StackNavigator } from 'react-navigation';
 import WeekScreen from '../screens/WeekScreen';
 import FormScreen from '../components/Form';
 import ProfileScreen from '../routes/ProfileRoute';
+import CalendarScreen from '../screens/CalendarScreen';
 
 const RootNavigation = StackNavigator(
   {
@@ -18,6 +19,12 @@ const RootNavigation = StackNavigator(
     },
     Profile: {
       screen: ProfileScreen,
+      navigationOptions: {
+        header: null
+      }
+    },
+    Calendar: {
+      screen: CalendarScreen,
       navigationOptions: {
         header: null
       }

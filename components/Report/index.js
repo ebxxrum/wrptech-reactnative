@@ -5,8 +5,6 @@ import style from '../../screens/commonStyle';
 var { height, width} = Dimensions.get('window');
 
 const Report = props => {
-  console.log("report");
-  console.log(props);
   return (
     <ScrollView
       style={styles.container}
@@ -83,6 +81,9 @@ const Report = props => {
 };
 
 const styles = StyleSheet.create({
+  constainer: {
+    flex: 1,
+  },
   contentWrapper: {
     flex: 1,
     // flexDirection: 'column',
