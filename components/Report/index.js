@@ -1,6 +1,7 @@
 import React from 'react';
 import { ScrollView, WebView, View, Text, Dimensions, TouchableOpacity, StyleSheet, RefreshControl } from 'react-native';
 import style from '../../screens/commonStyle';
+import Action from '../../components/Action';
 
 var { height, width} = Dimensions.get('window');
 
@@ -8,12 +9,6 @@ const Report = props => {
   return (
     <ScrollView
       style={styles.container}
-      refreshControl={
-        <RefreshControl
-          refreshing={props.isFetching}
-          onRefresh={props.refresh}
-        />
-      }
     >
       {props.report ?
         (
@@ -76,8 +71,9 @@ const Report = props => {
 };
 
 const styles = StyleSheet.create({
-  constainer: {
+  container: {
     flex: 1,
+    backgroundColor: '#fff'
   },
   contentWrapper: {
     flex: 1,
@@ -98,9 +94,9 @@ const styles = StyleSheet.create({
   },
   errorWrapper: {
     flex: 1,
-    justifyContent: 'center',
     padding: 15,
     paddingTop: 150,
+    // backgroundColor: '#000'
   },
   textWrapper: {
     alignItems: 'center',

@@ -27,10 +27,24 @@ class Container extends Component {
       <ReportListScreen
         {...this.state}
         {...this.props}
+        goWeek={this._goWeek}
       />
     );
   }
 
+  _goWeek = async() => {
+    // this.props.navigation.navigate('Week', {...this.props, ...this.state});
+    const { getUsersWithReports, id } = this.props;
+    const { accessToken } = this.props.screenProps;
+    const getResult = await getUsersWithReports(accessToken, id);
+    this.props.navigation.navigate('Week');
+
+    if (getResult) {
+      console.log("goWeek");
+      console.log(getResult);
+      // console.log(getResult);
+    }
+  }
 }
 
 export default Container;

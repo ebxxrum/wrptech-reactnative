@@ -15,6 +15,8 @@ function setWeeks(weeks) {
 }
 
 function setUsersWithReports(weeks) {
+  console.log("setUsersWithReports");
+  console.log(weeks);
   return {
     type: USERS_WITH_REPORTS,
     weeks
@@ -41,6 +43,7 @@ function getWeeks(accessToken, page) {
 }
 
 function getUsersWithReports(accessToken, id) {
+  console.log("getUsersWithReports");
   return dispatch => {
     return fetch(`${API_URL}/weeks/${id}?access_token=${accessToken}`)
     .then(response => response.json())

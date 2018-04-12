@@ -34,20 +34,20 @@ const WeekScreen = props => {
         </View>
       </LinearGradient>
 
-        <View style={styles.navPeople}>
-          <ScrollableTabView
-            tabBarInactiveTextColor={'rgba(255,255,255,0.54)'}
-            tabBarActiveTextColor={'#fff'}
-            tabBarUnderlineStyle={{ backgroundColor: 'transparent'}}
-            initialPage={3}
-            renderTabBar={() =>
-              <ScrollableTabBar backgroundColor='#B22645' />}>
-              {props.screenProps.thisWeek.map(thisWeek =>
-                thisWeek.seq < 999 &&
-                <Report {...thisWeek} {...props} current_user={props.screenProps.profile.name} tabLabel={thisWeek.name} key={thisWeek.id} />
-              )}
-          </ScrollableTabView>
-        </View>
+      <View style={styles.navPeople}>
+        <ScrollableTabView
+          tabBarInactiveTextColor={'rgba(255,255,255,0.54)'}
+          tabBarActiveTextColor={'#fff'}
+          tabBarUnderlineStyle={{ backgroundColor: 'transparent'}}
+          initialPage={3}
+          renderTabBar={() =>
+            <ScrollableTabBar backgroundColor='#B22645' />}>
+            {props.screenProps.thisWeek.map(thisWeek =>
+              thisWeek.seq < 999 &&
+              <Report {...thisWeek} {...props} current_user={props.screenProps.profile.name} tabLabel={thisWeek.name} key={thisWeek.id} />
+            )}
+        </ScrollableTabView>
+      </View>
 
       <ActionButton
         buttonColor="rgba(223,47,60,100)"
@@ -99,37 +99,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  // header: {
-    // flex: 1,
-    // backgroundColor: '#B22645',
-    // justifyContent: 'center',
-    // alignItems: 'center'
-  // },
-  tabbar: {
-    flex: 1,
-  },
   navPeople: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    backgroundColor: '#fff'
-    // paddingTop: 15,
+    backgroundColor: '#fff',
   },
-  navBottom: {
-    // paddingTop: 10,
-    // paddingBottom: 10,
-    // paddingLeft: 25,
-    // paddingRight: 25,
-    // marginBottom: -14,
-    //change when addTouchableNav
-    // backgroundColor: {active},
-    // backgroundColor: 'transparent',
-    color: '#fff',
-    fontSize: 15,
-  },
-  body: {
-    backgroundColor: '#fff'
-  },
+
   actionButtonIcon: {
     fontSize: 20,
     height: 22,
@@ -138,7 +112,6 @@ const styles = StyleSheet.create({
   mainButtonIcon: {
     color: '#fff',
   },
-
   actionButtonTextContainer: {
     borderWidth: 0,
     backgroundColor: 'transparent',

@@ -22,8 +22,6 @@ class CalendarScreen extends Component {
   };
 
   render() {
-    console.log("calendar");
-    console.log(this.props);
     return (
       <LinearGradient
         style={styles.container}
@@ -44,7 +42,7 @@ class CalendarScreen extends Component {
           <FlatList
             data={this.props.screenProps.weeks}
             renderItem={({item}) =>
-              <ReportList {...item} profile={this.props.screenProps.profile} />
+              <ReportList {...item} {...this.props} profile={this.props.screenProps.profile} />
             }
             keyExtractor={item => item.id}
           />
