@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, StatusBar, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, StatusBar, TouchableOpacity, TouchableHighlight, Modal} from 'react-native';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo';
 import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
@@ -7,15 +7,27 @@ import ActionButton from 'react-native-action-button';
 import style from '../commonStyle';
 import Report from '../../components/Report';
 import Action from '../../components/Action';
+import Calendar from '../CalendarScreen';
 // import { NavigationActions } from 'react-navigation';
 
 const WeekScreen = props => {
+  console.log("week");
+  console.log(props);
   return (
     <View style={styles.container}>
       <StatusBar
         translucent={true}
         barStyle="light-content"
       />
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={props.modalVisible}
+      >
+        <Calendar {...props} />
+      </Modal>
+
+
       <LinearGradient
         colors={['#DF2F3C', '#B22645']}
       >
@@ -25,7 +37,10 @@ const WeekScreen = props => {
             name='calendar'
           />
           <Text style={style.navTop}>{props.weekName}</Text>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              props.setModalVisible(props.modalVisible);
+            }}>
             <SimpleLineIcons
               style={style.navTop}
               name='arrow-down'

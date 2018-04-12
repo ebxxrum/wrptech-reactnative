@@ -6,6 +6,7 @@ import WeekScreen from './presenter';
 class Container extends Component {
   state = {
     isFetching: false,
+    modalVisible: false,
     myReportIsNull: true,
     weekName: null,
   };
@@ -32,6 +33,7 @@ class Container extends Component {
         {...this.state}
         {...this.props}
         goForm={this._goForm}
+        setModalVisible={this._setModalVisible}
         refresh={this._refresh}
       />
     );
@@ -69,6 +71,18 @@ class Container extends Component {
     });
   };
 
+  _setModalVisible = (visible) => {
+    if (!visible) {
+      this.setState({
+        modalVisible: true
+      });
+    } else {
+      this.setState({
+        modalVisible: false
+      });
+    }
+  };
+
   _refresh = () => {
     const { getThisWeek } = this.props;
     const { accessToken, weekID } = this.props.screenProps;
@@ -77,6 +91,7 @@ class Container extends Component {
     });
     getThisWeek(accessToken, weekID);
   };
+
 }
 
 export default Container;
