@@ -7,11 +7,12 @@ class Container extends Component {
   state = {
     isFetching: false,
     myReportIsNull: true,
-    weekName: null
+    weekName: null,
   };
 
   componentWillMount = () => {
     const { profile, weeks, thisWeek } = this.props.screenProps;
+
     thisWeek.map(thisWeek =>
     profile.name === thisWeek.name && thisWeek.report &&
       this.setState({
@@ -20,7 +21,41 @@ class Container extends Component {
       })
     );
 
-    var date = new Date(weeks[0].end_date)
+    this._getWeekName(null, weeks[0]);
+  };
+
+  render() {
+    console.log("week container");
+    console.log(this.props);
+    return (
+      <WeekScreen
+        {...this.state}
+        {...this.props}
+        goForm={this._goForm}
+        refresh={this._refresh}
+      />
+    );
+  }
+
+  componentDidMount = () => {
+    console.log("props");
+    console.log(this.props);
+    if (this.props.navigation.state.params) {
+      this._getWeekName(this.props.navigation.state.params.updateDate, null);
+    }
+  };
+
+  _goForm = () => {
+    this.props.navigation.navigate('Form', {reportStatus: this.state.myReportIsNull, report: this.state.myReport, weekName: this.state.weekName});
+  };
+
+  _getWeekName = (updateDate, week) => {
+    var date = null;
+    if (updateDate) {
+      date = new Date(updateDate)
+    } else {
+      date = new Date(week.end_date)
+    }
     date.setDate(date.getDate() + 1);
 
     // weekOfMonth 설정
@@ -34,21 +69,6 @@ class Container extends Component {
     });
   };
 
-  render() {
-    return (
-      <WeekScreen
-        {...this.state}
-        {...this.props}
-        goForm={this._goForm}
-        refresh={this._refresh}
-      />
-    );
-  }
-
-  _goForm = () => {
-    this.props.navigation.navigate('Form', {reportStatus: this.state.myReportIsNull, report: this.state.myReport, weekName: this.state.weekName});
-  };
-
   _refresh = () => {
     const { getThisWeek } = this.props;
     const { accessToken, weekID } = this.props.screenProps;
@@ -57,7 +77,6 @@ class Container extends Component {
     });
     getThisWeek(accessToken, weekID);
   };
-
 }
 
 export default Container;

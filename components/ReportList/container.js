@@ -34,16 +34,10 @@ class Container extends Component {
 
   _goWeek = async() => {
     // this.props.navigation.navigate('Week', {...this.props, ...this.state});
-    const { getUsersWithReports, id } = this.props;
+    const { getUsersWithReports, id, end_date } = this.props;
     const { accessToken } = this.props.screenProps;
     const getResult = await getUsersWithReports(accessToken, id);
-    this.props.navigation.navigate('Week');
-
-    if (getResult) {
-      console.log("goWeek");
-      console.log(getResult);
-      // console.log(getResult);
-    }
+    this.props.navigation.navigate('Week', {updateDate: end_date});
   }
 }
 
