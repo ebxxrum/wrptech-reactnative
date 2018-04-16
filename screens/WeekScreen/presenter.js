@@ -10,6 +10,8 @@ import Action from '../../components/Action';
 import Calendar from '../CalendarScreen';
 
 const WeekScreen = props => {
+  console.log("week");
+  console.log(props);
   return (
     <View style={styles.container}>
       <StatusBar
@@ -54,19 +56,10 @@ const WeekScreen = props => {
           initialPage={3}
           renderTabBar={() =>
             <ScrollableTabBar backgroundColor='#B22645' />}>
-            {props.isMoving ?
-              (
-                props.screenProps.searchedWeek.map(searchedWeek =>
-                  searchedWeek.seq < 999 &&
-                  <Report {...searchedWeek} goForm={props.goForm} current_user={props.screenProps.profile.name} tabLabel={searchedWeek.name} key={searchedWeek.id} />
-                )
-              )
-              :
-              (
-                props.screenProps.recent.map(recent =>
-                  recent.seq < 999 &&
-                  <Report {...recent} goForm={props.goForm} current_user={props.screenProps.profile.name} tabLabel={recent.name} key={recent.id} />
-                )
+            {
+              props.report.map(report =>
+                report.seq < 999 &&
+                <Report {...report} goForm={props.goForm} current_user={props.screenProps.profile.name} tabLabel={report.name} key={report.id} />
               )
             }
         </ScrollableTabView>

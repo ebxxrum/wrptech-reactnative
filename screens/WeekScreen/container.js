@@ -10,12 +10,17 @@ class Container extends Component {
     modalVisible: false,
     myReportIsNull: true,
     weekName: null,
+    report: null
   };
 
   componentWillMount = () => {
     const { profile, weeks, recent } = this.props.screenProps;
     console.log("componentWillMount");
     console.log(recent);
+    this.setState({
+      report: recent
+    });
+
     recent.map(recent =>
     profile.name === recent.name && recent.report &&
       this.setState({
@@ -42,11 +47,15 @@ class Container extends Component {
   }
 
   componentDidMount = () => {
+    // if (updateDate) {
     if (this.props.navigation.state.params) {
+      const { navigation: { state: { params: { updateDate } } } } = this.props;
+      const { searchedWeek } = this.props.screenProps;
       console.log("moving from calendar");
-      this._getWeekName(this.props.navigation.state.params.updateDate, null);
+
+      this._getWeekName(updateDate, null);
       this.setState({
-        isMoving: true
+        report: searchedWeek
       });
     }
   };
