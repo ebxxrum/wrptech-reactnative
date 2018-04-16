@@ -7,7 +7,7 @@ import Form from './presenter';
 class Container extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: " ",
+      headerTitle: navigation.state.params.weekName,
       headerRight: (
         <TouchableOpacity
         >
@@ -29,10 +29,10 @@ class Container extends Component {
 
   constructor(props) {
     super(props);
-    const { navigation: { state: { params: { weekName, reportStatus, report } } } } = props;
+    const { navigation: { state: { params: { reportStatus, report } } } } = props;
     this.state = {
         myReportIsNull: reportStatus,
-        myReport: report
+        myReport: report,
     };
   };
 
@@ -49,11 +49,14 @@ class Container extends Component {
   componentDidMount() {
     const { navigation } = this.props;
     navigation.setParams({
-      submit: this.submit
+      submit: this._submit
     });
   }
 
   render() {
+    console.log("form");
+    console.log(this.props);
+
     return (
       <Form
         {...this.state}
@@ -79,19 +82,15 @@ class Container extends Component {
   _submit = async() => {
     const { work, plan, isSubmitting } = this.state;
     const { createReport, navigation } = this.props;
-    const { accessToken, weekID } = this.props.screenProps;
+    const { accessToken, recentWeekID } = this.props.screenProps;
     if (work && plan) {
       this.setState({
         isSubmitting: true
       });
-      const createResult = await createReport(accessToken, weekID, work, plan);
-      navigation.goBack(null);
-      // if (createResult) {
-      //   console.log("suceess!");
-      //   console.log(createResult);
-      //   // navigation.goBack(null);
-      //   navigation.navigate('Week');
-      // }
+      const createResult = await createReport(accessToken, recentWeekID, work, plan);
+      console.log("createResult");
+      console.log(createResult);
+      navigation.navigate('Week');
     } else {
       Alert.alert('All fields are required!');
     }

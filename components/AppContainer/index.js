@@ -22,7 +22,7 @@ mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(userActions.getProfile(accessToken));
       dispatch(weeksActions.getWeeks(accessToken));
       dispatch(weeksActions.getUsersWithReports(accessToken, weekID));
-      dispatch(weeksActions.getRecent(accessToken, weeks));
+      // dispatch(weeksActions.getRecent(accessToken, weeks));
     }
   };
 };

@@ -43,6 +43,7 @@ function getWeeks(accessToken) {
     .then(json => {
       if (json) {
         dispatch(setWeeks(json));
+        dispatch(getRecent(accessToken, json));
       }
     });
   };
@@ -74,6 +75,7 @@ function getUsersWithReports(accessToken, id) {
 }
 
 function createReport(access_token, id, work, plan) {
+  console.log("createReport")
   return dispatch => {
     return fetch(`${API_URL}/weeks/${id}/reports`, {
       method: 'POST',
@@ -89,7 +91,10 @@ function createReport(access_token, id, work, plan) {
     .then(response => response.json())
     .then(json => {
       if(json) {
-        dispatch(setReport(json));
+        dispatch(getWeeks(access_token));
+        return true;
+      } else {
+        return false;
       }
     });
   };
@@ -105,8 +110,6 @@ function reducer(state = initalState, action) {
       return applyRecent(state, action);
     case USERS_WITH_REPORTS:
       return applyUsersWithReports(state, action);
-    case SET_REPORT:
-      return applyReport(state, action);
     default:
       return state;
   }
@@ -134,14 +137,6 @@ function applyUsersWithReports(state, action) {
   return {
     ...state,
     thisWeek: weeks
-  };
-}
-
-function applyReport(state, action) {
-  const { report }  = action;
-  return {
-    ...state,
-    myReport: report
   };
 }
 

@@ -8,11 +8,8 @@ import style from '../commonStyle';
 import Report from '../../components/Report';
 import Action from '../../components/Action';
 import Calendar from '../CalendarScreen';
-// import { NavigationActions } from 'react-navigation';
 
 const WeekScreen = props => {
-  console.log("week");
-  console.log(props);
   return (
     <View style={styles.container}>
       <StatusBar
@@ -59,7 +56,7 @@ const WeekScreen = props => {
             <ScrollableTabBar backgroundColor='#B22645' />}>
             {props.screenProps.recent.map(recent =>
               recent.seq < 999 &&
-              <Report {...recent} {...props} current_user={props.screenProps.profile.name} tabLabel={recent.name} key={recent.id} />
+              <Report {...recent} goForm={props.goForm} current_user={props.screenProps.profile.name} tabLabel={recent.name} key={recent.id} />
             )}
         </ScrollableTabView>
       </View>

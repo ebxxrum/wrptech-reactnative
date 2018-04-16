@@ -26,8 +26,6 @@ class Container extends Component {
   };
 
   render() {
-    console.log("week container");
-    console.log(this.props);
     return (
       <WeekScreen
         {...this.state}
