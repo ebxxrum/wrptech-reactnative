@@ -6,6 +6,8 @@ import Action from '../../components/Action';
 var { height, width} = Dimensions.get('window');
 
 const Report = props => {
+  console.log("report");
+  console.log(props);
   return (
     <ScrollView
       style={styles.container}
