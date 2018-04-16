@@ -12,13 +12,13 @@ class Container extends Component {
   };
 
   componentWillMount = () => {
-    const { profile, weeks, thisWeek } = this.props.screenProps;
+    const { profile, weeks, thisWeek, recent } = this.props.screenProps;
 
-    thisWeek.map(thisWeek =>
-    profile.name === thisWeek.name && thisWeek.report &&
+    recent.map(recent =>
+    profile.name === recent.name && recent.report &&
       this.setState({
         myReportIsNull: false,
-        myReport: thisWeek.report
+        myReport: recent.report
       })
     );
 
@@ -40,9 +40,8 @@ class Container extends Component {
   }
 
   componentDidMount = () => {
-    console.log("props");
-    console.log(this.props);
     if (this.props.navigation.state.params) {
+      console.log("moving from calendar");
       this._getWeekName(this.props.navigation.state.params.updateDate, null);
     }
   };
@@ -54,9 +53,9 @@ class Container extends Component {
   _getWeekName = (updateDate, week) => {
     var date = null;
     if (updateDate) {
-      date = new Date(updateDate)
+      date = new Date(updateDate);
     } else {
-      date = new Date(week.end_date)
+      date = new Date(week.end_date);
     }
     date.setDate(date.getDate() + 1);
 

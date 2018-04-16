@@ -11,20 +11,19 @@ class AppContainer extends Component {
   };
 
   componentDidMount() {
-    const { isLoggedIn, initApp, accessToken, weeks, page } = this.props;
+    const { isLoggedIn, initApp, accessToken, weeks } = this.props;
     console.log("componentDidMount");
     if (weeks) {
       // TODO week 기준 (수) 수정 필요!
       var weekID = weeks[0].id;
     }
     if (isLoggedIn) {
-      console.log(weekID);
-      initApp(accessToken, page, weekID);
+      initApp(accessToken, weekID, weeks);
     }
   };
 
   render() {
-    const { isLoggedIn, accessToken, profile, thisWeek, weeks } = this.props;
+    const { isLoggedIn, accessToken, profile, thisWeek, weeks, recent, recentWeekID } = this.props;
     console.log("Appcontainer");
     if (weeks) {
       // TODO week 기준 (수) 수정 필요!
@@ -37,7 +36,7 @@ class AppContainer extends Component {
         {isLoggedIn && profile ? (
           <RootNavigation
             screenProps={{ accessToken: accessToken, profile: profile,
-              weeks: weeks, thisWeek: thisWeek, weekID: weekID }}
+              weeks: weeks, recent: recent, recentWeekID: recentWeekID, thisWeek: thisWeek, weekID: weekID }}
           />
         ) : (
           <LoggedOutNavigation />

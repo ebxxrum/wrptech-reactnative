@@ -5,23 +5,24 @@ import { actionCreators as weeksActions } from '../../redux/modules/weeks';
 
 const mapStateToProps = (state, ownProps) => {
   const { user, weeks } = state;
-  // console.log(state);
   return {
     isLoggedIn: user.isLoggedIn,
     accessToken: user.accessToken,
     profile: user.profile,
     weeks: weeks.weeks,
+    recent: weeks.recent,
+    recentWeekID: weeks.recentWeekID,
     thisWeek: weeks.thisWeek,
-    page: 1,
   };
 };
 
 mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    initApp: (accessToken, page, weekID) => {
+    initApp: (accessToken, weekID, weeks) => {
       dispatch(userActions.getProfile(accessToken));
-      dispatch(weeksActions.getWeeks(accessToken, page));
+      dispatch(weeksActions.getWeeks(accessToken));
       dispatch(weeksActions.getUsersWithReports(accessToken, weekID));
+      dispatch(weeksActions.getRecent(accessToken, weeks));
     }
   };
 };

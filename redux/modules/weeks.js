@@ -14,9 +14,15 @@ function setWeeks(weeks) {
   };
 }
 
+function setRecent(weeks, recentWeekID) {
+  return {
+    type: RECENT,
+    weeks,
+    recentWeekID
+  };
+}
+
 function setUsersWithReports(weeks) {
-  console.log("setUsersWithReports");
-  console.log(weeks);
   return {
     type: USERS_WITH_REPORTS,
     weeks
@@ -30,9 +36,9 @@ function setReport(report) {
   }
 }
 
-function getWeeks(accessToken, page) {
+function getWeeks(accessToken) {
   return dispatch => {
-    return fetch(`${API_URL}/weeks?access_token=${accessToken}&page=${page}`)
+    return fetch(`${API_URL}/weeks?access_token=${accessToken}`)
     .then(response => response.json())
     .then(json => {
       if (json) {
@@ -42,8 +48,20 @@ function getWeeks(accessToken, page) {
   };
 }
 
+function getRecent(accessToken, weeks) {
+  var id = weeks[0].id;
+  return dispatch => {
+    return fetch(`${API_URL}/weeks/${id}?access_token=${accessToken}`)
+    .then(response => response.json())
+    .then(json => {
+      if (json) {
+        dispatch(setRecent(json, id));
+      }
+    });
+  };
+}
+
 function getUsersWithReports(accessToken, id) {
-  console.log("getUsersWithReports");
   return dispatch => {
     return fetch(`${API_URL}/weeks/${id}?access_token=${accessToken}`)
     .then(response => response.json())
@@ -83,6 +101,8 @@ function reducer(state = initalState, action) {
   switch (action.type) {
     case WEEKS:
       return applyWeeks(state, action);
+    case RECENT:
+      return applyRecent(state, action);
     case USERS_WITH_REPORTS:
       return applyUsersWithReports(state, action);
     case SET_REPORT:
@@ -100,12 +120,21 @@ function applyWeeks(state, action) {
   };
 }
 
+function applyRecent(state, action) {
+  const { weeks, recentWeekID } = action;
+  return {
+    ...state,
+    recent: weeks,
+    recentWeekID: recentWeekID
+  };
+}
+
 function applyUsersWithReports(state, action) {
   const { weeks } = action;
   return {
     ...state,
     thisWeek: weeks
-  }
+  };
 }
 
 function applyReport(state, action) {
@@ -113,11 +142,12 @@ function applyReport(state, action) {
   return {
     ...state,
     myReport: report
-  }
+  };
 }
 
 const actionCreators = {
   getWeeks,
+  getRecent,
   getUsersWithReports,
   createReport
 };
