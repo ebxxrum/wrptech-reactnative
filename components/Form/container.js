@@ -29,6 +29,8 @@ class Container extends Component {
   };
 
   constructor(props) {
+    console.log("constructor");
+    console.log(props);
     super(props);
     const { navigation: { state: { params: { reportStatus, report } } } } = props;
     this.state = {

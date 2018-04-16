@@ -13,7 +13,8 @@ class Container extends Component {
 
   componentWillMount = () => {
     const { profile, weeks, thisWeek, recent } = this.props.screenProps;
-
+    console.log("componentWillMount");
+    console.log(recent);
     recent.map(recent =>
     profile.name === recent.name && recent.report &&
       this.setState({
@@ -26,6 +27,8 @@ class Container extends Component {
   };
 
   render() {
+    console.log("week");
+    console.log(this.state, this.props);
     return (
       <WeekScreen
         {...this.state}
@@ -41,6 +44,9 @@ class Container extends Component {
     if (this.props.navigation.state.params) {
       console.log("moving from calendar");
       this._getWeekName(this.props.navigation.state.params.updateDate, null);
+      this.setState({
+        isFetching: true
+      });
     }
   };
 
