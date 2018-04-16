@@ -44,13 +44,6 @@ const Form = props => {
           />
         </View>
       </View>
-      <TouchableOpacity
-        style={style.primaryBtn}
-        onPress={props.submit}
-      >
-        <Text style={style.nestedText}>저장</Text>
-      </TouchableOpacity>
-
     </View>
   );
 };

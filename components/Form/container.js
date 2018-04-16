@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Alert, TouchableOpacity, StyleSheet } from 'react-native';
 import { actionCreators as weeksActions } from '../../redux/modules/weeks';
 import Form from './presenter';
 
@@ -9,9 +9,10 @@ class Container extends Component {
     return {
       headerTitle: navigation.state.params.weekName,
       headerRight: (
-        <TouchableOpacity
-        >
-          <Text style={styles.text}>저장</Text>
+        <TouchableOpacity onPress={navigation.state.params.submit}>
+          <View style={styles.container}>
+            <Text style={styles.text}>저장</Text>
+          </View>
         </TouchableOpacity>
       )
     };
@@ -88,9 +89,9 @@ class Container extends Component {
         isSubmitting: true
       });
       const createResult = await createReport(accessToken, recentWeekID, work, plan);
-      console.log("createResult");
-      console.log(createResult);
-      navigation.navigate('Week');
+      if (createResult) {
+        navigation.goBack(null);
+      }
     } else {
       Alert.alert('All fields are required!');
     }
@@ -98,6 +99,9 @@ class Container extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 10
+  },
   text: {
     paddingRight: 15,
     fontSize: 16,
