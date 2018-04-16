@@ -7,12 +7,12 @@ var { height, width} = Dimensions.get('window');
 
 const Report = props => {
   return (
-    <ScrollView
+    <View
       style={styles.container}
     >
       {props.report ?
         (
-          <View>
+          <View style={styles.container}>
             <View style={styles.contentWrapper}>
               <View style={styles.header}>
                 <Text style={styles.title}>작업내용</Text>
@@ -21,8 +21,7 @@ const Report = props => {
                 source={{html: props.report.work}}
                 scalesPageToFit={false}
                 style={{
-                  marginTop: 15,
-                  height: 250,
+                  flex: 1
                 }}
               />
             </View>
@@ -34,8 +33,7 @@ const Report = props => {
                 source={{html: props.report.plan}}
                 scalesPageToFit={false}
                 style={{
-                  marginTop: 15,
-                  height: 250,
+                  flex: 1
                 }}
               />
             </View>
@@ -66,7 +64,7 @@ const Report = props => {
           </View>
         )
       }
-    </ScrollView>
+    </View>
   );
 };
 
@@ -96,7 +94,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 15,
     paddingTop: 150,
-    // backgroundColor: '#000'
   },
   textWrapper: {
     alignItems: 'center',
