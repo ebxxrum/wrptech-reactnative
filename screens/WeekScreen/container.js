@@ -6,13 +6,14 @@ import WeekScreen from './presenter';
 class Container extends Component {
   state = {
     isFetching: false,
+    isMoving: false,
     modalVisible: false,
     myReportIsNull: true,
     weekName: null,
   };
 
   componentWillMount = () => {
-    const { profile, weeks, thisWeek, recent } = this.props.screenProps;
+    const { profile, weeks, recent } = this.props.screenProps;
     console.log("componentWillMount");
     console.log(recent);
     recent.map(recent =>
@@ -45,7 +46,7 @@ class Container extends Component {
       console.log("moving from calendar");
       this._getWeekName(this.props.navigation.state.params.updateDate, null);
       this.setState({
-        isFetching: true
+        isMoving: true
       });
     }
   };
@@ -87,12 +88,12 @@ class Container extends Component {
   };
 
   _refresh = () => {
-    const { getThisWeek } = this.props;
-    const { accessToken, weekID } = this.props.screenProps;
+    const { getRecent } = this.props;
+    const { accessToken, weeks } = this.props.screenProps;
     this.setState({
       isFetching: true
     });
-    getThisWeek(accessToken, weekID);
+    getRecent(accessToken, weeks);
   };
 
 }

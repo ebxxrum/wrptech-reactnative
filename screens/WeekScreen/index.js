@@ -6,8 +6,8 @@ import { NavigationActions } from 'react-navigation'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getThisWeek: (accessToken, id) => {
-      dispatch(weeksActions.getUsersWithReports(accessToken, id));
+    getRecent: (accessToken, weeks) => {
+      dispatch(weeksActions.getRecent(accessToken, weeks));
     },
   };
 };

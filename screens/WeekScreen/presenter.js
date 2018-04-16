@@ -54,11 +54,11 @@ const WeekScreen = props => {
           initialPage={3}
           renderTabBar={() =>
             <ScrollableTabBar backgroundColor='#B22645' />}>
-            {props.isFetching ?
+            {props.isMoving ?
               (
-                props.screenProps.thisWeek.map(thisWeek =>
-                  thisWeek.seq < 999 &&
-                  <Report {...thisWeek} goForm={props.goForm} current_user={props.screenProps.profile.name} tabLabel={thisWeek.name} key={thisWeek.id} />
+                props.screenProps.searchedWeek.map(searchedWeek =>
+                  searchedWeek.seq < 999 &&
+                  <Report {...searchedWeek} goForm={props.goForm} current_user={props.screenProps.profile.name} tabLabel={searchedWeek.name} key={searchedWeek.id} />
                 )
               )
               :

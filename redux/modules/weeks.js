@@ -136,7 +136,7 @@ function applyUsersWithReports(state, action) {
   const { weeks } = action;
   return {
     ...state,
-    thisWeek: weeks
+    searchedWeek: weeks
   };
 }
 
