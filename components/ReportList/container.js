@@ -6,7 +6,8 @@ import ReportListScreen from './presenter';
 class Container extends Component {
   state = {
     weekName: null,
-    reportStatus: true
+    reportStatus: true,
+    isLoading: false
     // iconName: 'pencil',
     // iconColor: '#fff',
     // circleColor: '#DF2F3C'
@@ -32,6 +33,10 @@ class Container extends Component {
     const { getUsersWithReports } = this.props;
     const { id, end_date } = this.props.item;
     const { accessToken } = this.props.screenProps;
+    this.setState({
+      isLoading: true
+    });
+
     const getResult = await getUsersWithReports(accessToken, id);
     if (getResult) {
       this.props.navigation.navigate('Week', {updateDate: end_date});

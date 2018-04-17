@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import ReportList from '../../components/ReportList';
@@ -11,16 +11,21 @@ import style from '../commonStyle';
 class CalendarScreen extends Component {
   state = {
     today: null,
-    // weekName: null,
+    recentWeekName: null,
     isLoading: false,
     isRefreshing: false,
     data: [],
     page: 1
   };
 
-  // store에 저장
+  // store에 저장하는 것으로 변경!
   componentWillMount = () => {
     const { profile, recentArray, weeks } = this.props.screenProps;
+    this.setState({
+      recentWeekName: recentArray.recentWeekName
+    });
+
+    // store에 저장!
     recentArray.recentWeek.map(week =>
     profile.name === week.name && week.report &&
       this.setState({
@@ -32,7 +37,7 @@ class CalendarScreen extends Component {
     var today = moment(new Date()).format('YYYY-MM-DD');
     this.setState({
       today: today,
-      data: weeks
+      // data: weeks
     });
   };
 
@@ -49,13 +54,16 @@ class CalendarScreen extends Component {
       isLoading: true
     });
 
+    // store에 저장!
     const getResult = await getWeeks(accessToken, page);
     if (getResult) {
-      this.setState({
-        data: page === 1 ? getResult : [...this.state.data, ...getResult],
-        isLoading: false,
-        isRefreshing: false
-      });
+      setTimeout(() => {
+        this.setState({
+          data: page === 1 ? getResult : [...this.state.data, ...getResult],
+          isLoading: false,
+          // isRefreshing: false
+        });
+      }, 1500);
     };
   };
 
@@ -107,7 +115,7 @@ class CalendarScreen extends Component {
             }
             keyExtractor={item => item.id}
             // onRefresh={this._handleRefresh}
-            refreshing={this.state.isRefreshing}
+            // refreshing={this.state.isRefreshing}
             onEndReached={this._handleLoadMore}
             onEndReachedThreshold={0}
           />
@@ -154,7 +162,7 @@ class CalendarScreen extends Component {
             textContainerStyle={style.actionButtonTextContainer}
             textStyle={style.actionButtonText}
             title={this.props.myReportIsNull ? "보고서 작성" : "보고서 수정"}
-            onPress={this.props.goForm}
+            onPress={() => this.props.navigation.navigate('Form', {reportStatus: this.state.myReportIsNull, report: this.state.myReport, weekName: this.state.recentWeekName})}
           >
             <SimpleLineIcons name="pencil" style={[style.actionButtonIcon, style.mainButtonIcon]} />
           </ActionButton.Item>

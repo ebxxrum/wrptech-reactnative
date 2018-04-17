@@ -1,5 +1,6 @@
 import { API_URL } from '../../constants';
 import { AsyncStorage } from 'react-native';
+import moment from 'moment';
 
 const WEEKS = 'WEEKS';
 const RECENT = 'RECENT';
@@ -14,11 +15,12 @@ function setWeeks(weeks) {
   };
 }
 
-function setRecent(recentWeekInfo, recentWeek) {
+function setRecent(recentWeekInfo, recentWeek, recentWeekName) {
   return {
     type: RECENT,
     recentWeekInfo,
     recentWeek,
+    recentWeekName
   };
 }
 
@@ -53,16 +55,29 @@ function getWeeks(accessToken, page) {
 function getRecent(accessToken, week) {
   var id = week.id;
   var end_date = week.end_date;
+  var weekName = getWeekName(end_date);
   return dispatch => {
     return fetch(`${API_URL}/weeks/${id}?access_token=${accessToken}`)
     .then(response => response.json())
     .then(json => {
       if (json) {
-        dispatch(setRecent(week, json));
+        dispatch(setRecent(week, json, weekName));
         return true;
       }
     });
   };
+}
+
+function getWeekName(end_date) {
+  var date = new Date(end_date);
+  date.setDate(date.getDate() + 1);
+
+  // weekOfMonth 설정
+  var year = date.getFullYear();
+  var month = date.getMonth();
+  var first = new Date(year, month, 1).getDay() - 1;
+  var weekOfMonth = Math.floor((first + date.getDate())/7) + 1;
+  return (month+1) + "월" + weekOfMonth + "주";
 }
 
 function getUsersWithReports(accessToken, id) {
@@ -133,10 +148,10 @@ function applyWeeks(state, action) {
 }
 
 function applyRecent(state, action) {
-  const { recentWeekInfo, recentWeek } = action;
+  const { recentWeekInfo, recentWeek, recentWeekName } = action;
   return {
     ...state,
-    recentArray: {recentWeekInfo, recentWeek}
+    recentArray: {recentWeekInfo, recentWeek, recentWeekName}
   };
 }
 

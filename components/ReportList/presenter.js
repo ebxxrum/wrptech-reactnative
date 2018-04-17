@@ -1,45 +1,49 @@
 import React from 'react';
-import { ScrollView, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { ScrollView, View, Text, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
 import { SimpleLineIcons, FontAwesome } from '@expo/vector-icons';
 
 const ReportListScreen = props => {
-  return (
-    <View>
-      <TouchableOpacity
-        style={styles.list}
-        onPressOut={props.goWeek}
-      >
-        <View style={styles.textWrapper}>
-          <Text style={styles.title}>보고일 {props.item.end_date}</Text>
-          <Text style={styles.desc}>{props.weekName}</Text>
-        </View>
-        <View style={styles.iconWrapper}>
-          {
-            props.reportStatus ?
-            (
-              <View style={styles.circle} backgroundColor='#DF2F3C'>
-                <SimpleLineIcons
-                  style={styles.nestedIcon}
-                  color='#fff'
-                  name='pencil'
-                />
-              </View>
-            )
-            :
-            (
-              <View style={styles.circle}>
-                <FontAwesome
-                  style={styles.nestedIcon}
-                  color='#DF2F3C'
-                  name='check'
-                />
-              </View>
-            )
-          }
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
+    return (
+      <View>
+        <TouchableOpacity
+          style={styles.list}
+          onPress={props.goWeek}
+        >
+          <View style={styles.textWrapper}>
+            <Text style={styles.title}>보고일 {props.item.end_date}</Text>
+            <Text style={styles.desc}>{props.weekName}</Text>
+            {
+              props.isLoading &&
+                <ActivityIndicator size="small" color="#e91b23" />
+            }
+          </View>
+          <View style={styles.iconWrapper}>
+            {
+              props.reportStatus ?
+              (
+                <View style={styles.circle} backgroundColor='#DF2F3C'>
+                  <SimpleLineIcons
+                    style={styles.nestedIcon}
+                    color='#fff'
+                    name='pencil'
+                  />
+                </View>
+              )
+              :
+              (
+                <View style={styles.circle}>
+                  <FontAwesome
+                    style={styles.nestedIcon}
+                    color='#DF2F3C'
+                    name='check'
+                  />
+                </View>
+              )
+            }
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
 };
 
 const styles = StyleSheet.create({
@@ -69,6 +73,7 @@ const styles = StyleSheet.create({
     color: '#DF2F3C'
   },
   desc: {
+    paddingRight: 10,
     fontSize: 12,
     color: 'rgba(223,47,60,50)'
   },

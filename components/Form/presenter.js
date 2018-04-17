@@ -9,51 +9,49 @@ const Form = props => {
       <ActivityIndicator size="large" color="#e91b23" style={styles.container}/>
     );
   } else {
-
-
-  return (
-    <View style={styles.container}>
-      <StatusBar
-        translucent={true}
-        barStyle="dark-content"
-        />
-      <View style={styles.contentWrapper}>
-        <View style={styles.header}>
-          <Text style={styles.title}>작업내용</Text>
-        </View>
-        <View style={styles.form}>
-          <TextInput
-            style={styles.input}
-            placeholder='탭하여 내용 입력하기'
-            autoCapitalize={'none'}
-            underlineColorAndroid="transparent"
-            multiline={true}
-            autoCorrect={false}
-            value={props.work}
-            onChangeText={props.changeWork}
+    return (
+      <View style={styles.container}>
+        <StatusBar
+          translucent={true}
+          barStyle="dark-content"
           />
+        <View style={styles.contentWrapper}>
+          <View style={styles.header}>
+            <Text style={styles.title}>작업내용</Text>
+          </View>
+          <View style={styles.form}>
+            <TextInput
+              style={styles.input}
+              placeholder='탭하여 내용 입력하기'
+              autoCapitalize={'none'}
+              underlineColorAndroid="transparent"
+              multiline={true}
+              autoCorrect={false}
+              value={props.work}
+              onChangeText={props.changeWork}
+            />
+          </View>
+        </View>
+        <View style={styles.contentWrapper}>
+          <View style={styles.header}>
+            <Text style={styles.title}>금주계획</Text>
+          </View>
+          <View style={styles.form}>
+            <TextInput
+              style={styles.input}
+              placeholder='탭하여 내용 입력하기'
+              autoCapitalize={'none'}
+              underlineColorAndroid="transparent"
+              multiline={true}
+              autoCorrect={false}
+              value={props.plan}
+              onChangeText={props.changePlan}
+            />
+          </View>
         </View>
       </View>
-      <View style={styles.contentWrapper}>
-        <View style={styles.header}>
-          <Text style={styles.title}>금주계획</Text>
-        </View>
-        <View style={styles.form}>
-          <TextInput
-            style={styles.input}
-            placeholder='탭하여 내용 입력하기'
-            autoCapitalize={'none'}
-            underlineColorAndroid="transparent"
-            multiline={true}
-            autoCorrect={false}
-            value={props.plan}
-            onChangeText={props.changePlan}
-          />
-        </View>
-      </View>
-    </View>
-  );
-}
+    );
+  }
 };
 
 const styles = StyleSheet.create({

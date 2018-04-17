@@ -9,31 +9,20 @@ class Container extends Component {
     isMoving: false,
     modalVisible: false,
     myReportIsNull: true,
-    weekName: null,
-    // recentArray: null,
-    // weekReport:
-
-    // report: null
   };
 
   constructor (props) {
     super(props);
     this.state = {
-      weekReport: props.screenProps.recentArray.recentWeek
+      weekReport: props.screenProps.recentArray.recentWeek,
+      weekName: props.screenProps.recentArray.recentWeekName,
+      recentWeekName: props.screenProps.recentArray.recentWeekName
     };
   };
 
   componentWillMount = () => {
     const { profile, recentArray } = this.props.screenProps;
-    console.log("whit??");
-    console.log(recentArray);
-    this.setState({
-      weekReport: recentArray.recentWeek
-    });
-    // const { weekReport } = this.state;
     this._getMyReport(profile, recentArray.recentWeek);
-    // recent api 수정 recen -> recent, recentWeekID, recentEndDate
-    this._getWeekName(null, recentArray.recentWeekInfo.end_date);
   };
 
   render() {
@@ -55,7 +44,7 @@ class Container extends Component {
     if (this.props.navigation.state.params) {
       const { searchedWeek, navigation: { state: { params: { updateDate } } } } = this.props;
       console.log("moving from calendar");
-      this._getWeekName(updateDate, null);
+      this._getWeekName(updateDate);
       this.setState({
         weekReport: searchedWeek
       });
@@ -63,7 +52,7 @@ class Container extends Component {
   };
 
   _goForm = () => {
-    this.props.navigation.navigate('Form', {reportStatus: this.state.myReportIsNull, report: this.state.myReport, weekName: this.state.weekName});
+    this.props.navigation.navigate('Form', {reportStatus: this.state.myReportIsNull, report: this.state.myReport, weekName: this.state.recentWeekName});
   };
 
   _getMyReport = (profile, recentWeek) => {
@@ -76,13 +65,8 @@ class Container extends Component {
     );
   };
 
-  _getWeekName = (updateDate, recentEndDate) => {
-    var date = null;
-    if (updateDate) {
-      date = new Date(updateDate);
-    } else {
-      date = new Date(recentEndDate);
-    }
+  _getWeekName = (updateDate) => {
+    var date = new Date(updateDate);
     date.setDate(date.getDate() + 1);
 
     // weekOfMonth 설정
