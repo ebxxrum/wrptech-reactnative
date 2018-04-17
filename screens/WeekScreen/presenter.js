@@ -10,8 +10,6 @@ import Action from '../../components/Action';
 import Calendar from '../CalendarScreen';
 
 const WeekScreen = props => {
-  console.log("week");
-  console.log(props);
   return (
     <View style={styles.container}>
       <StatusBar

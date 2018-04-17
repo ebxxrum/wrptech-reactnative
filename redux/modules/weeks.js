@@ -69,7 +69,11 @@ function getUsersWithReports(accessToken, id) {
     .then(json => {
       if (json) {
         dispatch(setUsersWithReports(json));
+        return json;
       }
+      // } else {
+      //   return false;
+      // }
     });
   };
 }

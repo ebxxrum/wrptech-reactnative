@@ -10,16 +10,32 @@ const ReportListScreen = props => {
         onPress={props.goWeek}
       >
         <View style={styles.textWrapper}>
-          <Text style={styles.title}>보고일 {props.end_date}</Text>
+          <Text style={styles.title}>보고일 {props.item.end_date}</Text>
           <Text style={styles.desc}>{props.weekName}</Text>
         </View>
         <View style={styles.iconWrapper}>
-          <View style={styles.circle}>
-            <SimpleLineIcons
-              style={styles.nestedIcon}
-              name='pencil'
-            />
-          </View>
+          {
+            props.reportStatus ?
+            (
+              <View style={styles.circle} backgroundColor='#DF2F3C'>
+                <SimpleLineIcons
+                  style={styles.nestedIcon}
+                  color='#fff'
+                  name='pencil'
+                />
+              </View>
+            )
+            :
+            (
+              <View style={styles.circle}>
+                <SimpleLineIcons
+                  style={styles.nestedIcon}
+                  color='#DF2F3C'
+                  name='arrow-down'
+                />
+              </View>
+            )
+          }
         </View>
       </TouchableOpacity>
     </View>
@@ -62,12 +78,14 @@ const styles = StyleSheet.create({
   },
   circle: {
     padding: 10,
+    borderWidth: 1,
     borderRadius: 50,
-    backgroundColor: '#DF2F3C'
+    borderColor: '#DF2F3C',
+    backgroundColor: 'rgba(255,255,255,0.8)'
   },
   nestedIcon: {
     fontSize: 12,
-    color: '#fff',
+    // color: '#fff',
   }
 });
 

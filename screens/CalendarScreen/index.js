@@ -15,6 +15,15 @@ class CalendarScreen extends Component {
   };
 
   componentWillMount = () => {
+    const { profile, recent } = this.props.screenProps;
+    recent.map(recent =>
+    profile.name === recent.name && recent.report &&
+      this.setState({
+        myReportIsNull: false,
+        myReport: recent.report
+      })
+    );
+
     var today = moment(new Date()).format('YYYY-MM-DD');
     this.setState({
       today: today
@@ -42,7 +51,7 @@ class CalendarScreen extends Component {
           <FlatList
             data={this.props.screenProps.weeks}
             renderItem={({item}) =>
-              <ReportList {...item} {...this.props} profile={this.props.screenProps.profile} />
+              <ReportList item={item} {...this.props} />
             }
             keyExtractor={item => item.id}
           />

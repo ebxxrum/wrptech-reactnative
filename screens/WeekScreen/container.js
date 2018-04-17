@@ -15,8 +15,6 @@ class Container extends Component {
 
   componentWillMount = () => {
     const { profile, weeks, recent } = this.props.screenProps;
-    console.log("componentWillMount");
-    console.log(recent);
     this.setState({
       report: recent
     });
@@ -33,8 +31,6 @@ class Container extends Component {
   };
 
   render() {
-    console.log("week");
-    console.log(this.state, this.props);
     return (
       <WeekScreen
         {...this.state}

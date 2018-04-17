@@ -5,12 +5,65 @@ import ReportListScreen from './presenter';
 
 class Container extends Component {
   state = {
-    weekName: null
+    weekName: null,
+    reportStatus: true
+    // iconName: 'pencil',
+    // iconColor: '#fff',
+    // circleColor: '#DF2F3C'
   };
 
   componentWillMount = () => {
-    const { end_date } = this.props;
-    var date = new Date(end_date);
+    const { end_date } = this.props.item;
+    this._getWeekName(end_date);
+    this._getWeek();
+  };
+
+  render() {
+    console.log("ReportList");
+    // console.log(this.props);
+    console.log(this.state);
+    return (
+      <ReportListScreen
+        {...this.state}
+        {...this.props}
+        goWeek={this._goWeek}
+      />
+    );
+  }
+
+  _goWeek = async() => {
+    const { getUsersWithReports } = this.props;
+    const { id, end_date } = this.props.item;
+    const { accessToken } = this.props.screenProps;
+    const getResult = await getUsersWithReports(accessToken, id);
+    if (getResult) {
+      this.props.navigation.navigate('Week', {updateDate: end_date});
+    }
+  };
+
+  _getWeek = async() => {
+    const { getUsersWithReports } = this.props;
+    const { id } = this.props.item;
+    const { accessToken, profile } = this.props.screenProps;
+    const getResult = await getUsersWithReports(accessToken, id);
+    if (getResult) {
+      console.log("getWeek in reportList");
+      // console.log(getResult);
+      getResult.map(result =>
+      profile.name === result.name && result.report &&
+        this.setState({
+          reportStatus: false,
+          // iconName: 'check',
+          // iconColor: '#DF2F3C',
+          // circleColor: 'rgba(255,255,255,0.8)'
+        })
+      );
+    }
+
+  };
+
+  _getWeekName = (date) => {
+    var date = new Date(date);
 
     var year = date.getFullYear();
     var month = date.getMonth();
@@ -22,23 +75,6 @@ class Container extends Component {
     });
   };
 
-  render() {
-    return (
-      <ReportListScreen
-        {...this.state}
-        {...this.props}
-        goWeek={this._goWeek}
-      />
-    );
-  }
-
-  _goWeek = async() => {
-    // this.props.navigation.navigate('Week', {...this.props, ...this.state});
-    const { getUsersWithReports, id, end_date } = this.props;
-    const { accessToken } = this.props.screenProps;
-    const getResult = await getUsersWithReports(accessToken, id);
-    this.props.navigation.navigate('Week', {updateDate: end_date});
-  }
 }
 
 export default Container;
