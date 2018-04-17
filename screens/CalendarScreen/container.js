@@ -11,7 +11,7 @@ import style from '../commonStyle';
 class CalendarScreen extends Component {
   state = {
     today: null,
-    weekName: null,
+    // weekName: null,
     isLoading: false,
     isRefreshing: false,
     data: [],
@@ -20,7 +20,7 @@ class CalendarScreen extends Component {
 
   // store에 저장
   componentWillMount = () => {
-    const { profile, recent } = this.props.screenProps;
+    const { profile, recent, weeks } = this.props.screenProps;
     recent.map(recent =>
     profile.name === recent.name && recent.report &&
       this.setState({
@@ -31,10 +31,12 @@ class CalendarScreen extends Component {
 
     var today = moment(new Date()).format('YYYY-MM-DD');
     this.setState({
-      today: today
+      today: today,
+      data: weeks
     });
   };
 
+  // infinite scroll 수정 필요
   componentDidMount() {
     this._makeRemoteRequest();
   };
@@ -57,7 +59,7 @@ class CalendarScreen extends Component {
     };
   };
 
-  handleRefresh = () => {
+  _handleRefresh = () => {
     this.setState(
       {
         page: 1,
@@ -69,7 +71,7 @@ class CalendarScreen extends Component {
     );
   };
 
-  handleLoadMore = () => {
+  _handleLoadMore = () => {
     this.setState(
       {
         page: this.state.page + 1
@@ -80,13 +82,7 @@ class CalendarScreen extends Component {
     );
   };
 
-
-
-
-
   render() {
-    console.log("calendar");
-    // console.log(this.state.data);
     return (
       <LinearGradient
         style={styles.container}
@@ -110,10 +106,10 @@ class CalendarScreen extends Component {
               <ReportList item={item} {...this.props} />
             }
             keyExtractor={item => item.id}
-            onRefresh={this.handleRefresh}
+            // onRefresh={this._handleRefresh}
             refreshing={this.state.isRefreshing}
-            onEndReached={this.handleLoadMore}
-            onEndReachedThreshold={50}
+            onEndReached={this._handleLoadMore}
+            onEndReachedThreshold={0}
           />
         </View>
 

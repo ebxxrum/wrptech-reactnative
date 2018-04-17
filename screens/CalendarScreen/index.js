@@ -6,6 +6,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getWeeks: (accessToken, page) => {
       return dispatch(weeksActions.getWeeks(accessToken, page));
+    },
+    goWeek: (accessToken, weeks) => {
+      return dispatch(weeksActions.getUsersWithReports(accessToken, weeks));
     }
   };
 };
