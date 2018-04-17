@@ -20,12 +20,12 @@ class CalendarScreen extends Component {
 
   // store에 저장
   componentWillMount = () => {
-    const { profile, recent, weeks } = this.props.screenProps;
-    recent.map(recent =>
-    profile.name === recent.name && recent.report &&
+    const { profile, recentArray, weeks } = this.props.screenProps;
+    recentArray.recentWeek.map(week =>
+    profile.name === week.name && week.report &&
       this.setState({
         myReportIsNull: false,
-        myReport: recent.report
+        myReport: week.report
       })
     );
 

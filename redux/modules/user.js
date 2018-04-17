@@ -120,7 +120,7 @@ function applyLogout(state, action) {
   return {
     ...state,
     isLoggedIn: false,
-    accessToken: ''
+    accessToken: '',
   }
 }
 

@@ -7,7 +7,7 @@ const ReportListScreen = props => {
     <View>
       <TouchableOpacity
         style={styles.list}
-        onPress={props.goWeek}
+        onPressOut={props.goWeek}
       >
         <View style={styles.textWrapper}>
           <Text style={styles.title}>보고일 {props.item.end_date}</Text>

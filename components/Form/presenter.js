@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, TouchableOpacity, TextInput, StatusBar, StyleSheet } from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity, TextInput, StatusBar, ActivityIndicator, StyleSheet } from 'react-native';
 import style from '../../screens/commonStyle';
 import WeekScreen from '../../screens/WeekScreen';
 
 const Form = props => {
+  if (props.isSubmitting) {
+    return (
+      <ActivityIndicator size="large" color="#e91b23" style={styles.container}/>
+    );
+  } else {
+
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -46,6 +53,7 @@ const Form = props => {
       </View>
     </View>
   );
+}
 };
 
 const styles = StyleSheet.create({

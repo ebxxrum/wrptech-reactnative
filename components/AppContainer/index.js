@@ -10,17 +10,16 @@ const mapStateToProps = (state, ownProps) => {
     accessToken: user.accessToken,
     profile: user.profile,
     weeks: weeks.weeks,
-    recent: weeks.recent,
-    recentWeekID: weeks.recentWeekID,
-    searchedWeek: weeks.searchedWeek
+    recentArray: weeks.recentArray
   };
 };
 
 mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    initApp: (accessToken) => {
+    initApp: (accessToken, weeks) => {
       dispatch(userActions.getProfile(accessToken));
       dispatch(weeksActions.getWeeks(accessToken, 1));
+      dispatch(weeksActions.getRecent(accessToken, weeks[0]));
     }
   };
 };

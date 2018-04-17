@@ -84,15 +84,20 @@ class Container extends Component {
 
   _submit = async() => {
     const { work, plan, isSubmitting } = this.state;
-    const { createReport, navigation } = this.props;
-    const { accessToken, recentWeekID } = this.props.screenProps;
+    const { createReport, getRecent, navigation } = this.props;
+    const { accessToken, recentArray } = this.props.screenProps;
     if (work && plan) {
       this.setState({
         isSubmitting: true
       });
-      const createResult = await createReport(accessToken, recentWeekID, work, plan);
+
+      const createResult = await createReport(accessToken, recentArray.recentWeekID, work, plan);
       if (createResult) {
-        navigation.goBack(null);
+        await getRecent(accessToken, recentArray.recentWeekInfo);
+        setTimeout(() => {
+          navigation.navigate('Week');
+        }, 2000);
+        // navigation.goBack(null);
       }
     } else {
       Alert.alert('All fields are required!');

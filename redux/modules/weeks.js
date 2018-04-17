@@ -14,11 +14,13 @@ function setWeeks(weeks) {
   };
 }
 
-function setRecent(weeks, recentWeekID) {
+function setRecent(recentWeekInfo, recentWeek, recentWeekID, recentEndDate) {
   return {
     type: RECENT,
-    weeks,
-    recentWeekID
+    recentWeekInfo,
+    recentWeek,
+    recentWeekID,
+    recentEndDate
   };
 }
 
@@ -43,21 +45,23 @@ function getWeeks(accessToken, page) {
     .then(json => {
       if (json) {
         dispatch(setWeeks(json));
-        dispatch(getRecent(accessToken, json));
+        // dispatch(getRecent(accessToken, json));
         return json;
       }
     });
   };
 }
 
-function getRecent(accessToken, weeks) {
-  var id = weeks[0].id;
+function getRecent(accessToken, week) {
+  var id = week.id;
+  var end_date = week.end_date;
   return dispatch => {
     return fetch(`${API_URL}/weeks/${id}?access_token=${accessToken}`)
     .then(response => response.json())
     .then(json => {
       if (json) {
-        dispatch(setRecent(json, id));
+        dispatch(setRecent(week, json, id, end_date));
+        return true;
       }
     });
   };
@@ -97,6 +101,7 @@ function createReport(access_token, id, work, plan) {
     .then(json => {
       if(json) {
         dispatch(getWeeks(access_token, 1));
+        // dispatch(getRecent(access_token, info));
         return true;
       } else {
         return false;
@@ -105,7 +110,8 @@ function createReport(access_token, id, work, plan) {
   };
 }
 
-const initalState = {};
+const initalState = {
+};
 
 function reducer(state = initalState, action) {
   switch (action.type) {
@@ -129,11 +135,10 @@ function applyWeeks(state, action) {
 }
 
 function applyRecent(state, action) {
-  const { weeks, recentWeekID } = action;
+  const { recentWeekInfo, recentWeek, recentWeekID, recentEndDate } = action;
   return {
     ...state,
-    recent: weeks,
-    recentWeekID: recentWeekID
+    recentArray: {recentWeekInfo, recentWeek, recentWeekID, recentEndDate}
   };
 }
 

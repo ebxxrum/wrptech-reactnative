@@ -16,13 +16,6 @@ const WeekScreen = props => {
         translucent={true}
         barStyle="light-content"
       />
-      <Modal
-        animationType="slide"
-        transparent={false}
-        visible={props.modalVisible}
-      >
-        <Calendar {...props} />
-      </Modal>
 
 
       <LinearGradient
@@ -55,9 +48,9 @@ const WeekScreen = props => {
           renderTabBar={() =>
             <ScrollableTabBar backgroundColor='#B22645' />}>
             {
-              props.report.map(report =>
-                report.seq < 999 &&
-                <Report {...report} goForm={props.goForm} current_user={props.screenProps.profile.name} tabLabel={report.name} key={report.id} />
+              props.weekReport.map(weekReport =>
+                weekReport.seq < 999 &&
+                <Report {...weekReport} goForm={props.goForm} current_user={props.screenProps.profile.name} tabLabel={weekReport.name} key={weekReport.id} />
               )
             }
         </ScrollableTabView>

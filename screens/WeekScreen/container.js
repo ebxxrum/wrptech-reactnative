@@ -10,36 +10,42 @@ class Container extends Component {
     modalVisible: false,
     myReportIsNull: true,
     weekName: null,
-    report: null
+    // recentArray: null,
+    // weekReport:
+
+    // report: null
+  };
+
+  constructor (props) {
+    super(props);
+    this.state = {
+      weekReport: props.screenProps.recentArray.recentWeek
+    };
   };
 
   componentWillMount = () => {
-    const { profile, weeks, recent } = this.props.screenProps;
+    const { profile, recentArray } = this.props.screenProps;
+    console.log("whit??");
+    console.log(recentArray);
     this.setState({
-      report: recent
+      weekReport: recentArray.recentWeek
     });
-
-    recent.map(recent =>
-    profile.name === recent.name && recent.report &&
-      this.setState({
-        myReportIsNull: false,
-        myReport: recent.report
-      })
-    );
-
-    this._getWeekName(null, weeks[0]);
+    // const { weekReport } = this.state;
+    this._getMyReport(profile, recentArray.recentWeek);
+    // recent api 수정 recen -> recent, recentWeekID, recentEndDate
+    this._getWeekName(null, recentArray.recentEndDate);
   };
 
   render() {
-    console.log("week");
-    console.log(this.props);
+    console.log("WeekScreen");
+    console.log(this.state);
     return (
       <WeekScreen
         {...this.state}
         {...this.props}
         goForm={this._goForm}
         setModalVisible={this._setModalVisible}
-        refresh={this._refresh}
+        // refresh={this._refresh}
       />
     );
   }
@@ -47,13 +53,11 @@ class Container extends Component {
   componentDidMount = () => {
     // if (updateDate) {
     if (this.props.navigation.state.params) {
-      const { navigation: { state: { params: { updateDate } } } } = this.props;
-      const { searchedWeek } = this.props.screenProps;
+      const { searchedWeek, navigation: { state: { params: { updateDate } } } } = this.props;
       console.log("moving from calendar");
-
       this._getWeekName(updateDate, null);
       this.setState({
-        report: searchedWeek
+        weekReport: searchedWeek
       });
     }
   };
@@ -62,12 +66,22 @@ class Container extends Component {
     this.props.navigation.navigate('Form', {reportStatus: this.state.myReportIsNull, report: this.state.myReport, weekName: this.state.weekName});
   };
 
-  _getWeekName = (updateDate, week) => {
+  _getMyReport = (profile, recentWeek) => {
+    recentWeek.map(week =>
+      profile.name === week.name && week.report &&
+        this.setState({
+          myReportIsNull: false,
+          myReport: week.report
+        })
+    );
+  };
+
+  _getWeekName = (updateDate, recentEndDate) => {
     var date = null;
     if (updateDate) {
       date = new Date(updateDate);
     } else {
-      date = new Date(week.end_date);
+      date = new Date(recentEndDate);
     }
     date.setDate(date.getDate() + 1);
 
