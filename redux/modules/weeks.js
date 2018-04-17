@@ -36,14 +36,15 @@ function setReport(report) {
   }
 }
 
-function getWeeks(accessToken) {
+function getWeeks(accessToken, page) {
   return dispatch => {
-    return fetch(`${API_URL}/weeks?access_token=${accessToken}`)
+    return fetch(`${API_URL}/weeks?page=${page}&access_token=${accessToken}`)
     .then(response => response.json())
     .then(json => {
       if (json) {
         dispatch(setWeeks(json));
         dispatch(getRecent(accessToken, json));
+        return json;
       }
     });
   };
@@ -95,7 +96,7 @@ function createReport(access_token, id, work, plan) {
     .then(response => response.json())
     .then(json => {
       if(json) {
-        dispatch(getWeeks(access_token));
+        dispatch(getWeeks(access_token, 1));
         return true;
       } else {
         return false;

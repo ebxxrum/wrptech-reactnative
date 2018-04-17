@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { SimpleLineIcons } from '@expo/vector-icons';
+import { SimpleLineIcons, FontAwesome } from '@expo/vector-icons';
 
 const ReportListScreen = props => {
   return (
@@ -28,10 +28,10 @@ const ReportListScreen = props => {
             :
             (
               <View style={styles.circle}>
-                <SimpleLineIcons
+                <FontAwesome
                   style={styles.nestedIcon}
                   color='#DF2F3C'
-                  name='arrow-down'
+                  name='check'
                 />
               </View>
             )

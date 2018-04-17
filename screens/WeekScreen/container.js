@@ -27,7 +27,7 @@ class Container extends Component {
       })
     );
 
-    this._getWeekName(null, weeks[0]);
+    // this._getWeekName(null, weeks[0]);
   };
 
   render() {

@@ -19,9 +19,6 @@ class Container extends Component {
   };
 
   render() {
-    console.log("ReportList");
-    // console.log(this.props);
-    console.log(this.state);
     return (
       <ReportListScreen
         {...this.state}
@@ -47,8 +44,6 @@ class Container extends Component {
     const { accessToken, profile } = this.props.screenProps;
     const getResult = await getUsersWithReports(accessToken, id);
     if (getResult) {
-      console.log("getWeek in reportList");
-      // console.log(getResult);
       getResult.map(result =>
       profile.name === result.name && result.report &&
         this.setState({

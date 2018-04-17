@@ -20,7 +20,7 @@ mapDispatchToProps = (dispatch, ownProps) => {
   return {
     initApp: (accessToken) => {
       dispatch(userActions.getProfile(accessToken));
-      dispatch(weeksActions.getWeeks(accessToken));
+      dispatch(weeksActions.getWeeks(accessToken, 1));
     }
   };
 };
