@@ -14,13 +14,11 @@ function setWeeks(weeks) {
   };
 }
 
-function setRecent(recentWeekInfo, recentWeek, recentWeekID, recentEndDate) {
+function setRecent(recentWeekInfo, recentWeek) {
   return {
     type: RECENT,
     recentWeekInfo,
     recentWeek,
-    recentWeekID,
-    recentEndDate
   };
 }
 
@@ -60,7 +58,7 @@ function getRecent(accessToken, week) {
     .then(response => response.json())
     .then(json => {
       if (json) {
-        dispatch(setRecent(week, json, id, end_date));
+        dispatch(setRecent(week, json));
         return true;
       }
     });
@@ -135,10 +133,10 @@ function applyWeeks(state, action) {
 }
 
 function applyRecent(state, action) {
-  const { recentWeekInfo, recentWeek, recentWeekID, recentEndDate } = action;
+  const { recentWeekInfo, recentWeek } = action;
   return {
     ...state,
-    recentArray: {recentWeekInfo, recentWeek, recentWeekID, recentEndDate}
+    recentArray: {recentWeekInfo, recentWeek}
   };
 }
 

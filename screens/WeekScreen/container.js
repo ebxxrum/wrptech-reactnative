@@ -33,7 +33,7 @@ class Container extends Component {
     // const { weekReport } = this.state;
     this._getMyReport(profile, recentArray.recentWeek);
     // recent api 수정 recen -> recent, recentWeekID, recentEndDate
-    this._getWeekName(null, recentArray.recentEndDate);
+    this._getWeekName(null, recentArray.recentWeekInfo.end_date);
   };
 
   render() {

@@ -91,7 +91,7 @@ class Container extends Component {
         isSubmitting: true
       });
 
-      const createResult = await createReport(accessToken, recentArray.recentWeekID, work, plan);
+      const createResult = await createReport(accessToken, recentArray.recentWeekInfo.id, work, plan);
       if (createResult) {
         await getRecent(accessToken, recentArray.recentWeekInfo);
         setTimeout(() => {
