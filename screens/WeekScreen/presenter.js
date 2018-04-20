@@ -17,6 +17,13 @@ const WeekScreen = props => {
         barStyle="light-content"
       />
 
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={props.modalVisible}
+      >
+        <Calendar {...props} />
+      </Modal>
 
       <LinearGradient
         colors={['#DF2F3C', '#B22645']}

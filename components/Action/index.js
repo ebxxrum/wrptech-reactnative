@@ -4,13 +4,21 @@ import { SimpleLineIcons } from '@expo/vector-icons';
 import ActionButton from 'react-native-action-button';
 
 class Action extends Component {
+  state = {
+    myReportIsNull: true,
+    recentWeekName: null
+  }
   componentWillMount = () => {
-    const { profile, recent } = this.props.screenProps;
-    recent.map(recent =>
-    profile.name === recent.name && recent.report &&
+    const { profile, recentArray } = this.props.screenProps;
+    this.setState({
+      ...this.state,
+      recentWeekName: recentArray.recentWeekName
+    })
+    recentArray.recentWeek.map(week =>
+    profile.name === week.name && week.report &&
       this.setState({
         myReportIsNull: false,
-        myReport: recent.report
+        myReport: week.report
       })
     );
   };
@@ -54,8 +62,8 @@ class Action extends Component {
           <ActionButton.Item
             textContainerStyle={styles.actionButtonTextContainer}
             textStyle={styles.actionButtonText}
-            title={this.props.myReportIsNull ? "보고서 작성" : "보고서 수정"}
-            onPress={() => this.props.navigation.navigate('Form', {reportStatus: this.state.myReportIsNull, report: this.state.myReport })}
+            title={this.state.myReportIsNull ? "보고서 작성" : "보고서 수정"}
+            onPress={() => this.props.navigation.navigate('Form', {reportStatus: this.state.myReportIsNull, report: this.state.myReport, weekName: this.state.recentWeekName})}
           >
             <SimpleLineIcons name="pencil" style={[styles.actionButtonIcon, styles.mainButtonIcon]} />
           </ActionButton.Item>

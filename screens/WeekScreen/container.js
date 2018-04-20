@@ -14,6 +14,7 @@ class Container extends Component {
   constructor (props) {
     super(props);
     this.state = {
+      ...this.state,
       weekReport: props.screenProps.recentArray.recentWeek,
       weekName: props.screenProps.recentArray.recentWeekName,
       recentWeekName: props.screenProps.recentArray.recentWeekName
@@ -27,7 +28,7 @@ class Container extends Component {
 
   render() {
     console.log("WeekScreen");
-    console.log(this.state);
+    console.log(this.state.myReportIsNull);
     return (
       <WeekScreen
         {...this.state}
@@ -46,7 +47,8 @@ class Container extends Component {
       console.log("moving from calendar");
       this._getWeekName(updateDate);
       this.setState({
-        weekReport: searchedWeek
+        weekReport: searchedWeek,
+        modalVisible: false
       });
     }
   };
@@ -56,6 +58,7 @@ class Container extends Component {
   };
 
   _getMyReport = (profile, recentWeek) => {
+    console.log("_getMyReport");
     recentWeek.map(week =>
       profile.name === week.name && week.report &&
         this.setState({

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, TouchableOpacity, TextInput, StatusBar, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity, TextInput, StatusBar, ActivityIndicator, Platform, StyleSheet } from 'react-native';
 import style from '../../screens/commonStyle';
 import WeekScreen from '../../screens/WeekScreen';
 
@@ -84,7 +84,13 @@ const styles = StyleSheet.create({
   },
   input: {
     fontSize: 16
-  }
+  },
+
+  richText: {
+    alignItems:'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+  },
 });
 
 export default Form;

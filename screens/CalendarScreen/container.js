@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { View, Text, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import ReportList from '../../components/ReportList';
@@ -11,6 +11,7 @@ import style from '../commonStyle';
 class CalendarScreen extends Component {
   state = {
     today: null,
+    myReportIsNull: true,
     recentWeekName: null,
     isLoading: false,
     isRefreshing: false,
@@ -21,9 +22,6 @@ class CalendarScreen extends Component {
   // store에 저장하는 것으로 변경!
   componentWillMount = () => {
     const { profile, recentArray, weeks } = this.props.screenProps;
-    this.setState({
-      recentWeekName: recentArray.recentWeekName
-    });
 
     // store에 저장!
     recentArray.recentWeek.map(week =>
@@ -37,6 +35,7 @@ class CalendarScreen extends Component {
     var today = moment(new Date()).format('YYYY-MM-DD');
     this.setState({
       today: today,
+      recentWeekName: recentArray.recentWeekName
       // data: weeks
     });
   };
@@ -91,6 +90,8 @@ class CalendarScreen extends Component {
   };
 
   render() {
+    console.log("modal");
+    console.log(this.props);
     return (
       <LinearGradient
         style={styles.container}
@@ -102,6 +103,18 @@ class CalendarScreen extends Component {
             name='calendar'
           />
           <Text style={style.navTop}>주별목록</Text>
+          {
+            this.props.modalVisible &&
+              <TouchableOpacity
+                onPress={() => {
+                  this.props.setModalVisible(this.props.modalVisible);
+                }}>
+                <SimpleLineIcons
+                  style={style.navTop}
+                  name='arrow-up'
+                />
+              </TouchableOpacity>
+          }
         </View>
         <View style={styles.dateWrapper}>
           <Text style={styles.dateText}>TODAY {this.state.today}</Text>
@@ -161,7 +174,7 @@ class CalendarScreen extends Component {
           <ActionButton.Item
             textContainerStyle={style.actionButtonTextContainer}
             textStyle={style.actionButtonText}
-            title={this.props.myReportIsNull ? "보고서 작성" : "보고서 수정"}
+            title={this.state.myReportIsNull ? "보고서 작성" : "보고서 수정"}
             onPress={() => this.props.navigation.navigate('Form', {reportStatus: this.state.myReportIsNull, report: this.state.myReport, weekName: this.state.recentWeekName})}
           >
             <SimpleLineIcons name="pencil" style={[style.actionButtonIcon, style.mainButtonIcon]} />

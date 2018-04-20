@@ -39,10 +39,12 @@ class Container extends Component {
 
     const getResult = await getUsersWithReports(accessToken, id);
     if (getResult) {
+      // this.props.setModalVisible(false);
       this.props.navigation.navigate('Week', {updateDate: end_date});
     }
   };
 
+  // 수정 필요!!!
   _getWeek = async() => {
     const { getUsersWithReports } = this.props;
     const { id } = this.props.item;
