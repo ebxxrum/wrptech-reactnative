@@ -55,24 +55,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-// import LogInScreen from './screens/LogInScreen';
-// import JoinScreen from './screens/JoinScreen';
-// import AuthLoadingScreen from './screens/AuthLoadingScreen';
-// import ReportScreen from './screens/ReportScreen';
-// import { StackNavigator, SwitchNavigator } from 'react-navigation';
-//
-// const AuthStack = StackNavigator({ LogIn: LogInScreen, Join: JoinScreen  });
-// const AppStack = StackNavigator({ Report: ReportScreen });
-//
-// export default SwitchNavigator(
-//   {
-//     AuthLoading: AuthLoadingScreen,
-//     App: AppStack,
-//     Auth: AuthStack,
-//   },
-//   {
-//     initialRouteName: 'AuthLoading',
-//   }
-// );

@@ -19,8 +19,6 @@ class AppContainer extends Component {
 
   render() {
     const { isLoggedIn, accessToken, profile, weeks, recentArray } = this.props;
-    console.log("app presenter");
-    console.log(this.props);
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />

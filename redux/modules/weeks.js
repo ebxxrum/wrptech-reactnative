@@ -1,5 +1,6 @@
 import { API_URL } from '../../constants';
 import { AsyncStorage } from 'react-native';
+import callApi from '../util/apiCaller';
 import moment from 'moment';
 
 const WEEKS = 'WEEKS';
@@ -38,6 +39,7 @@ function setReport(report) {
   }
 }
 
+//getWeeks -> fetchWeeks + refetchWeeks
 function getWeeks(accessToken, page) {
   return dispatch => {
     return fetch(`${API_URL}/weeks?page=${page}&access_token=${accessToken}`)
@@ -57,8 +59,7 @@ function getRecent(accessToken, week) {
   var end_date = week.end_date;
   var weekName = getWeekName(end_date);
   return dispatch => {
-    return fetch(`${API_URL}/weeks/${id}?access_token=${accessToken}`)
-    .then(response => response.json())
+    return callApi(`weeks/${id}`, accessToken)
     .then(json => {
       if (json) {
         dispatch(setRecent(week, json, weekName));
@@ -82,39 +83,24 @@ function getWeekName(end_date) {
 
 function getUsersWithReports(accessToken, id) {
   return dispatch => {
-    return fetch(`${API_URL}/weeks/${id}?access_token=${accessToken}`)
-    .then(response => response.json())
+    return callApi(`weeks/${id}`, accessToken)
     .then(json => {
       if (json) {
         dispatch(setUsersWithReports(json));
-        return json;
+        return true;
+      } else {
+        return false;
       }
-      // } else {
-      //   return false;
-      // }
     });
   };
 }
 
-function createReport(access_token, id, work, plan) {
-  console.log("createReport")
+function createReport(accessToken, id, work, plan) {
   return dispatch => {
-    return fetch(`${API_URL}/weeks/${id}/reports`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        access_token,
-        work,
-        plan
-      })
-    })
-    .then(response => response.json())
+    return callApi(`weeks/${id}/reports`, accessToken, 'post', {work, plan})
     .then(json => {
-      if(json) {
-        dispatch(getWeeks(access_token, 1));
-        // dispatch(getRecent(access_token, info));
+      if (json) {
+        dispatch(getWeeks(accessToken, 1));
         return true;
       } else {
         return false;

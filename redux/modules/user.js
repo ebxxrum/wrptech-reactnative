@@ -1,6 +1,6 @@
 // Import
-import { API_URL } from '../../constants';
 import { AsyncStorage } from 'react-native';
+import callApi from '../util/apiCaller';
 
 // Actions
 const LOGIN = 'LOGIN';
@@ -10,7 +10,6 @@ const REGISTER = 'REGISTER';
 
 // Action Creators
 function setLogIn(accessToken) {
-  console.log("setLogin");
   return {
     type: LOGIN,
     accessToken
@@ -25,36 +24,21 @@ function setUser(user) {
 }
 
 function logout() {
-    return {
-      type: LOGOUT
-    };
+  return {
+    type: LOGOUT
+  };
 }
 
 // API Action (Reducer)
 // dispatch() to allow state to be updated
 function login(email, password) {
-  console.log("function login");
   return dispatch => {
-    return fetch(`${API_URL}/users/authenticate/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email,
-        password
-      })
-    })
-    .then(response => response.json())
+    return callApi(`users/authenticate`, null, 'post', {email, password})
     .then(json => {
-      if(json.token) {
-        console.log("working");
-        console.log(json);
+      if (json) {
         dispatch(setLogIn(json.token));
         return true;
       } else {
-        console.log("error");
-        console.log(json);
         return false;
       }
     });
@@ -62,14 +46,10 @@ function login(email, password) {
 }
 
 function getProfile(accessToken) {
-  console.log("getProfile");
   return dispatch => {
-    return fetch(`${API_URL}/users/me?access_token=${accessToken}`)
-    .then(response => response.json())
+    return callApi(`users/me`, accessToken)
     .then(json => {
-      if(json) {
-        dispatch(setUser(json));
-      }
+      dispatch(setUser(json));
     });
   };
 }
@@ -80,11 +60,11 @@ const initialState = {
 };
 
 // Reducer
+// root reducer: actually passed as the first argument to createStore.
+// the only part of the reducer logic that must have the (state, action) -> newState
 function reducer(state = initialState, action) {
   switch (action.type) {
     case LOGIN:
-      console.log("reducer login");
-      console.log(state, action);
       return applyLogin(state, action);
     case SET_USER:
       return applySetUser(state, action);
@@ -96,10 +76,9 @@ function reducer(state = initialState, action) {
 }
 
 // Reducer Functions
+// case fuction: to handle the update logic for a specific action.
 function applyLogin(state, action) {
   const { accessToken } = action;
-  console.log("applyLogin");
-  console.log(state, action);
   return {
     ...state,
     isLoggedIn: true,
