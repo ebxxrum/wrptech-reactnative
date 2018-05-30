@@ -1,22 +1,72 @@
 import { connect } from 'react-redux';
-import Container from './container';
-import { actionCreators as weeksActions } from '../../redux/modules/weeks';
+import React, { Component } from 'react';
+
+import WeekScreen from './presenter';
+
+class Container extends Component {
+  state = {
+    modalVisible: false,
+    myReportIsNull: true,
+  };
+
+  constructor (props) {
+    super(props);
+    console.log("constructor");
+    console.log(props);
+    this.state = {
+      ...this.state,
+      recentWeekReport: props.recentWeekReport
+    };
+  };
+
+  render() {
+    return (
+      <WeekScreen
+        {...this.state}
+        {...this.props}
+        goForm={this._goForm}
+        setModalVisible={this._setModalVisible}
+        // refresh={this._refresh}
+      />
+    );
+  }
+
+  componentDidMount = () => {
+    // if (updateDate) {
+    if (this.props.navigation.state.params) {
+      const { searchedWeek, navigation: { state: { params: { updateDate } } } } = this.props;
+      console.log("moving from calendar");
+      this._getWeekName(updateDate);
+      this.setState({
+        weekReport: searchedWeek,
+        modalVisible: false
+      });
+    }
+  };
+
+  _goForm = () => {
+    this.props.navigation.navigate('Form', {reportStatus: this.state.recentWeekReport.reportStatus, report: this.state.recentWeekReport.myReport, weekName: this.state.recentWeekReport.weekName});
+  };
+
+  _setModalVisible = (visible) => {
+    if (!visible) {
+      this.setState({
+        modalVisible: true
+      });
+    } else {
+      this.setState({
+        modalVisible: false
+      });
+    }
+  };
+}
 
 const mapStateToProps = (state, ownProps) => {
-  const { weeks } = state;
-  console.log("week - mapStateToProps");
-  console.log(state);
+  const { user, weekReport } = state;
   return {
-    searchedWeek: weeks.searchedWeek
+    profile: user.profile,
+    recentWeekReport: weekReport,
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    getRecent: (accessToken, weeks) => {
-      dispatch(weeksActions.getRecent(accessToken, weeks));
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Container);
+export default connect(mapStateToProps, null)(Container);

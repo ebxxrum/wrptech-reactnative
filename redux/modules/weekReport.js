@@ -4,19 +4,18 @@ import moment from 'moment';
 
 const SET_WEEK_REPORT = 'SET_WEEK_REPORT';
 
-function setWeekReport(week, weekInfo, weekName, reportStatus) {
+function setWeekReport(week, weekInfo, weekName, myReport, reportStatus) {
   return {
     type: SET_WEEK_REPORT,
     week,
     weekInfo,
     weekName,
+    myReport,
     reportStatus
   };
 }
 
 function getWeekReport(accessToken, weekInfo, profile) {
-  console.log("getWeekReport");
-  console.log(weekInfo);
   var id = weekInfo.id;
   var date = weekInfo.end_date;
   var weekName = _getWeekName(date);
@@ -25,8 +24,8 @@ function getWeekReport(accessToken, weekInfo, profile) {
     return callApi(`weeks/${id}`, accessToken)
     .then(json => {
       if (json) {
-        var reportStatus = _getReportStatus(json, profile);
-        dispatch(setWeekReport(json, weekInfo, weekName, reportStatus));
+        var myReport, reportStatus = _getReportStatus(json, profile);
+        dispatch(setWeekReport(json, weekInfo, weekName, myReport, reportStatus));
         return true;
       }
     });
@@ -45,12 +44,13 @@ function _getWeekName(date) {
 }
 
 function _getReportStatus(week, profile) {
-  var reportStatus = false; // false: not written, true: written
+  var myReport = null, reportStatus = false; // false: not written, true: written
   week.map(week =>
     profile.name === week.name && week.report &&
-      reportStatus: true
+      reportStatus: true,
+      myReport: week.report
   )
-  return reportStatus;
+  return myReport, reportStatus;
 }
 
 const initalState = {};
@@ -65,12 +65,13 @@ function reducer(state = initalState, action) {
 }
 
 function applyWeekReport(state, action) {
-  const { week, weekInfo, weekName, reportStatus } = action;
+  const { week, weekInfo, weekName, myReport, reportStatus } = action;
   return {
     week: week,
     weekInfo: weekInfo,
     weekName: weekName,
-    reportStatus: reportStatus
+    myReport: myReport,
+    reportStatus: reportStatus,
   };
 }
 
