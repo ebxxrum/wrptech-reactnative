@@ -13,6 +13,8 @@ class Container extends Component {
 
   constructor (props) {
     super(props);
+    console.log("constructor");
+    console.log(props);
     this.state = {
       ...this.state,
       weekReport: props.screenProps.recentArray.recentWeek,

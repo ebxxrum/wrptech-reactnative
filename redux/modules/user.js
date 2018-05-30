@@ -6,7 +6,6 @@ import callApi from '../util/apiCaller';
 const LOGIN = 'LOGIN';
 const LOGOUT = 'LOGOUT';
 const SET_USER = 'SET_USER';
-const REGISTER = 'REGISTER';
 
 // Action Creators
 function setLogIn(accessToken) {

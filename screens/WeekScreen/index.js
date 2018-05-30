@@ -4,6 +4,8 @@ import { actionCreators as weeksActions } from '../../redux/modules/weeks';
 
 const mapStateToProps = (state, ownProps) => {
   const { weeks } = state;
+  console.log("week - mapStateToProps");
+  console.log(state);
   return {
     searchedWeek: weeks.searchedWeek
   };

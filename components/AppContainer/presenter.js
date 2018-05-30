@@ -7,13 +7,17 @@ import RootNavigation from '../../navigation/RootNavigation';
 class AppContainer extends Component {
   static propTypes = {
     isLoggedIn: PropTypes.bool.isRequired,
-    initApp: PropTypes.func.isRequired
+    initApp: PropTypes.func.isRequired,
+    initReport: PropTypes.func.isRequired
   };
 
   componentWillMount() {
-    const { isLoggedIn, initApp, accessToken, weeks } = this.props;
+    const { isLoggedIn, initApp, initReport, accessToken, weeks, profile } = this.props;
     if (isLoggedIn) {
-      initApp(accessToken, weeks);
+      initApp(accessToken);
+    }
+    if (weeks) {
+      initReport(accessToken, weeks[0], profile);
     }
   };
 
