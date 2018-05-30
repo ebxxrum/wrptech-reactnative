@@ -12,7 +12,7 @@ const ProfileScreen = props => {
         barStyle="dark-content"
         />
       <View style={styles.profileWrapper}>
-        <Text style={[style.nestedText, styles.profileText]}>{props.screenProps.profile.name}</Text>
+        <Text style={[style.nestedText, styles.profileText]}>{props.profile.name}</Text>
         <TouchableOpacity onPressOut={() => props.navigation.navigate('ProfileDetail')}>
           <SimpleLineIcons
             style={style.nestedText}

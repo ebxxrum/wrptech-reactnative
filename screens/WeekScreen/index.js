@@ -9,7 +9,7 @@ class Container extends Component {
     myReportIsNull: true,
   };
 
-  constructor (props) {
+  constructor(props) {
     super(props);
     console.log("constructor");
     console.log(props);
