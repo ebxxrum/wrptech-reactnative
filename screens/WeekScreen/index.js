@@ -1,12 +1,11 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 
-import WeekScreen from './WeekReport';
+import WeekReport from './WeekReport';
 
 class Container extends Component {
   state = {
     modalVisible: false,
-    myReportIsNull: true,
   };
 
   constructor(props) {
@@ -19,7 +18,7 @@ class Container extends Component {
 
   render() {
     return (
-      <WeekScreen
+      <WeekReport
         {...this.state}
         {...this.props}
         goForm={this._goForm}
