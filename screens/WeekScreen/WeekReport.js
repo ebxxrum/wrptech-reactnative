@@ -5,8 +5,7 @@ import { LinearGradient } from 'expo';
 import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
 import ActionButton from 'react-native-action-button';
 import style from '../commonStyle';
-import Report from '../../components/Report';
-import Action from '../../components/Action';
+import Report from './components/Report';
 import Calendar from '../CalendarScreen';
 
 const WeekScreen = props => {
@@ -33,7 +32,7 @@ const WeekScreen = props => {
             style={style.navTop}
             name='calendar'
           />
-          <Text style={style.navTop}>{props.recentWeekReport.weekName}</Text>
+          <Text style={style.navTop}>{props.WeekReport.weekName}</Text>
           <TouchableOpacity
             onPress={() => {
               props.setModalVisible(props.modalVisible);
@@ -55,7 +54,7 @@ const WeekScreen = props => {
           renderTabBar={() =>
             <ScrollableTabBar backgroundColor='#B22645' />}>
             {
-              props.recentWeekReport.week.map(weekReport =>
+              props.WeekReport.week.map(weekReport =>
                 weekReport.seq < 999 &&
                 <Report {...weekReport} goForm={props.goForm} current_user={props.profile.name} tabLabel={weekReport.name} key={weekReport.id} />
               )
@@ -99,7 +98,7 @@ const WeekScreen = props => {
         <ActionButton.Item
           textContainerStyle={styles.actionButtonTextContainer}
           textStyle={styles.actionButtonText}
-          title={props.recentWeekReport.reportStatus ? "보고서 작성" : "보고서 수정"}
+          title={props.WeekReport.reportStatus ? "보고서 작성" : "보고서 수정"}
           onPress={props.goForm}
         >
           <SimpleLineIcons name="pencil" style={[styles.actionButtonIcon, styles.mainButtonIcon]} />

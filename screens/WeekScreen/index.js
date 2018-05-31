@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 
-import WeekScreen from './presenter';
+import WeekScreen from './WeekReport';
 
 class Container extends Component {
   state = {
@@ -11,11 +11,9 @@ class Container extends Component {
 
   constructor(props) {
     super(props);
-    console.log("constructor");
-    console.log(props);
     this.state = {
       ...this.state,
-      recentWeekReport: props.recentWeekReport
+      WeekReport: props.recentWeekReport
     };
   };
 
@@ -45,7 +43,7 @@ class Container extends Component {
   };
 
   _goForm = () => {
-    this.props.navigation.navigate('Form', {reportStatus: this.state.recentWeekReport.reportStatus, report: this.state.recentWeekReport.myReport, weekName: this.state.recentWeekReport.weekName});
+    this.props.navigation.navigate('Form', {reportStatus: this.state.WeekReport.reportStatus, report: this.state.WeekReport.myReport, weekName: this.state.WeekReport.weekName});
   };
 
   _setModalVisible = (visible) => {
