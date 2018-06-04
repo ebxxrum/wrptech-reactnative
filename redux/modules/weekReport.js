@@ -12,36 +12,18 @@ function setWeekReport(week, weekInfo) {
   };
 }
 
-function getWeekReport(accessToken, weekInfo, profile) {
-  console.log("getWeekReport");
-  console.log(weekInfo);
+function getWeekReport(accessToken, weekInfo) {
   var id = weekInfo.id;
-  var date = weekInfo.end_date;
-  // va = _getWeekName(date);
 
   return dispatch => {
     return callApi(`weeks/${id}`, accessToken)
     .then(json => {
       if (json) {
-        var info = _getReportStatus(json, weekInfo, profile);
-        dispatch(setWeekReport(json, info));
+        dispatch(setWeekReport(json, weekInfo));
         return true;
       }
     });
   };
-}
-
-function _getReportStatus(reports, weekInfo, profile) {
-  weekInfo.reportStatus = false;
-  weekInfo.myReport = null;
-
-  reports.map(report =>
-    profile.name === report.name && report.report &&
-      weekInfo.reportStatus: true,
-      weekInfo.myReport: report.report
-  )
-
-  return weekInfo;
 }
 
 const initalState = {};

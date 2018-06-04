@@ -46,6 +46,20 @@ const WeekScreen = props => {
       </LinearGradient>
 
       <View style={styles.navPeople}>
+        <ScrollableTabView
+          tabBarInactiveTextColor={'rgba(255,255,255,0.54)'}
+          tabBarActiveTextColor={'#fff'}
+          tabBarUnderlineStyle={{ backgroundColor: 'transparent'}}
+          initialPage={3}
+          renderTabBar={() =>
+            <ScrollableTabBar backgroundColor='#B22645' />}>
+            {
+              props.weekReport.map(report =>
+                report.seq < 999 &&
+                <Report {...report} goForm={props.goForm} current_user={props.profile.name} tabLabel={report.name} key={report.id} />
+              )
+            }
+        </ScrollableTabView>
       </View>
 
       <ActionButton
