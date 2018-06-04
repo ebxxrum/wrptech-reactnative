@@ -2,14 +2,12 @@ import React from 'react';
 import { View, Text, FlatList, ActivityIndicator, TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo';
 import { SimpleLineIcons } from '@expo/vector-icons';
-// import ReportList from '../../components/ReportList';
+
 import List from './components/List';
 import ActionButton from 'react-native-action-button';
 import style from '../commonStyle';
 
 const CalendarScreen = (props) => {
-  console.log("calendar");
-  console.log(props);
   return (
     <LinearGradient
       style={styles.container}
@@ -37,8 +35,23 @@ const CalendarScreen = (props) => {
       <View style={styles.dateWrapper}>
         <Text style={styles.dateText}>TODAY {props.today}</Text>
       </View>
-    </LinearGradient>
 
+      <View style={styles.listWrapper}>
+        <FlatList
+          data={props.data}
+          renderItem={({item}) =>
+            <List item={item} />
+          }
+          keyExtractor={item => item.id}
+          // onRefresh={this._handleRefresh}
+          // refreshing={this.state.isRefreshing}
+          // onEndReached={this._handleLoadMore}
+          onEndReachedThreshold={0}
+        />
+      </View>
+
+
+    </LinearGradient>
   );
 }
 

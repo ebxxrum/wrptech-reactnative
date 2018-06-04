@@ -12,7 +12,10 @@ class Container extends Component {
     super(props);
     this.state = {
       ...this.state,
-      WeekReport: props.recentWeekReport
+      // WeekReport: props.recentWeekReport
+      weekReport: props.weekReport,
+      weekInfo: props.weekInfo
+
     };
   };
 
@@ -42,7 +45,7 @@ class Container extends Component {
   };
 
   _goForm = () => {
-    this.props.navigation.navigate('Form', {reportStatus: this.state.WeekReport.reportStatus, report: this.state.WeekReport.myReport, weekName: this.state.WeekReport.weekName});
+    // this.props.navigation.navigate('Form', {reportStatus: this.state.WeekReport.reportStatus, report: this.state.WeekReport.myReport, weekName: this.state.WeekReport.weekName});
   };
 
   _setModalVisible = (visible) => {
@@ -62,7 +65,9 @@ const mapStateToProps = (state, ownProps) => {
   const { user, weekReport } = state;
   return {
     profile: user.profile,
-    recentWeekReport: weekReport,
+    weekReport: weekReport.week,
+    weekInfo: weekReport.weekInfo
+    // recentWeekReport: weekReport,
   };
 };
 

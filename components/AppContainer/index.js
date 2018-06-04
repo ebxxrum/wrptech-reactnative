@@ -56,12 +56,12 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => {
   console.log("AppContainer");
   console.log(state);
-  const { user, weeks } = state;
+  const { user, weeks, calendar } = state;
   return {
     isLoggedIn: user.isLoggedIn,
     accessToken: user.accessToken,
     profile: user.profile,
-    weeks: weeks.weeks,
+    weeks: calendar.data,
     recentArray: weeks.recentArray
   };
 };

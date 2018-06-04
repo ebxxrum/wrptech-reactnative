@@ -4,42 +4,44 @@ import _getWeekName from '../../redux/util/getWeekName';
 
 const SET_WEEK_REPORT = 'SET_WEEK_REPORT';
 
-function setWeekReport(week, weekInfo, weekName, myReport, reportStatus) {
+function setWeekReport(week, weekInfo) {
   return {
     type: SET_WEEK_REPORT,
     week,
     weekInfo,
-    weekName,
-    myReport,
-    reportStatus
   };
 }
 
 function getWeekReport(accessToken, weekInfo, profile) {
+  console.log("getWeekReport");
+  console.log(weekInfo);
   var id = weekInfo.id;
   var date = weekInfo.end_date;
-  var weekName = _getWeekName(date);
+  // va = _getWeekName(date);
 
   return dispatch => {
     return callApi(`weeks/${id}`, accessToken)
     .then(json => {
       if (json) {
-        var myReport, reportStatus = _getReportStatus(json, profile);
-        dispatch(setWeekReport(json, weekInfo, weekName, myReport, reportStatus));
+        var info = _getReportStatus(json, weekInfo, profile);
+        dispatch(setWeekReport(json, info));
         return true;
       }
     });
   };
 }
 
-function _getReportStatus(week, profile) {
-  var myReport = null, reportStatus = false; // false: not written, true: written
-  week.map(week =>
-    profile.name === week.name && week.report &&
-      reportStatus: true,
-      myReport: week.report
+function _getReportStatus(reports, weekInfo, profile) {
+  weekInfo.reportStatus = false;
+  weekInfo.myReport = null;
+
+  reports.map(report =>
+    profile.name === report.name && report.report &&
+      weekInfo.reportStatus: true,
+      weekInfo.myReport: report.report
   )
-  return myReport, reportStatus;
+
+  return weekInfo;
 }
 
 const initalState = {};
@@ -54,13 +56,10 @@ function reducer(state = initalState, action) {
 }
 
 function applyWeekReport(state, action) {
-  const { week, weekInfo, weekName, myReport, reportStatus } = action;
+  const { week, weekInfo } = action;
   return {
     week: week,
     weekInfo: weekInfo,
-    weekName: weekName,
-    myReport: myReport,
-    reportStatus: reportStatus,
   };
 }
 

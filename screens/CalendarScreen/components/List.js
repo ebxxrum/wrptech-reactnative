@@ -3,65 +3,23 @@ import React, { Component } from 'react';
 import { ScrollView, View, Text, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
 import { SimpleLineIcons, FontAwesome } from '@expo/vector-icons';
 
-class List extends Component {
-// const List = props => {
-  constructor(props) {
-    super(props);
-    console.log("cons");
-    console.log(props);
-    props.item.reports.map(report =>
-      props.name === report.name && report.report ?
-        (this.state = {
-          reportStatus: true
-        }) : (this.state = {
-          reportStatus: false
-        })
-    )
-  }
-
-  render() {
+const List = props => {
   return (
     <View>
       <TouchableOpacity
         style={styles.list}
-        onPress={this.props.goWeek}
+        // onPress={props.}
       >
         <View style={styles.textWrapper}>
-          <Text style={styles.title}>보고일 {this.props.item.end_date}</Text>
-          <Text style={styles.desc}>{this.props.item.weekName}</Text>
-          {
-            this.props.isLoading &&
-              <ActivityIndicator size="small" color="#e91b23" />
-          }
+          <Text style={styles.title}>보고일 {props.item.end_date}</Text>
+          <Text style={styles.desc}>{props.item.weekName}</Text>
         </View>
         <View style={styles.iconWrapper}>
-          {
-            this.state.reportStatus ?
-            (
-              <View style={styles.circle} backgroundColor='#DF2F3C'>
-                <SimpleLineIcons
-                  style={styles.nestedIcon}
-                  color='#fff'
-                  name='pencil'
-                />
-              </View>
-            )
-            :
-            (
-              <View style={styles.circle}>
-                <FontAwesome
-                  style={styles.nestedIcon}
-                  color='#DF2F3C'
-                  name='check'
-                />
-              </View>
-            )
-          }
+
         </View>
       </TouchableOpacity>
     </View>
   );
-  }
 };
 
 const styles = StyleSheet.create({
@@ -112,15 +70,4 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = (state, ownProps) => {
-  console.log("map");
-  console.log(ownProps);
-  const { item, name } = ownProps;
-  return {
-    item: item,
-    name: name
-  };
-};
-
-// export default List;
-export default connect(mapStateToProps, null)(List);
+export default List;

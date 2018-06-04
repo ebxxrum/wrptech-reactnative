@@ -32,7 +32,7 @@ const WeekScreen = props => {
             style={style.navTop}
             name='calendar'
           />
-          <Text style={style.navTop}>{props.WeekReport.weekName}</Text>
+          <Text style={style.navTop}>{props.weekInfo.weekName}</Text>
           <TouchableOpacity
             onPress={() => {
               props.setModalVisible(props.modalVisible);
@@ -46,20 +46,6 @@ const WeekScreen = props => {
       </LinearGradient>
 
       <View style={styles.navPeople}>
-        <ScrollableTabView
-          tabBarInactiveTextColor={'rgba(255,255,255,0.54)'}
-          tabBarActiveTextColor={'#fff'}
-          tabBarUnderlineStyle={{ backgroundColor: 'transparent'}}
-          initialPage={3}
-          renderTabBar={() =>
-            <ScrollableTabBar backgroundColor='#B22645' />}>
-            {
-              props.WeekReport.week.map(weekReport =>
-                weekReport.seq < 999 &&
-                <Report {...weekReport} goForm={props.goForm} current_user={props.profile.name} tabLabel={weekReport.name} key={weekReport.id} />
-              )
-            }
-        </ScrollableTabView>
       </View>
 
       <ActionButton
@@ -98,7 +84,7 @@ const WeekScreen = props => {
         <ActionButton.Item
           textContainerStyle={styles.actionButtonTextContainer}
           textStyle={styles.actionButtonText}
-          title={props.WeekReport.reportStatus ? "보고서 수정" : "보고서 작성"}
+          title={props.weekInfo.reportStatus ? "보고서 수정" : "보고서 작성"}
           onPress={props.goForm}
         >
           <SimpleLineIcons name="pencil" style={[styles.actionButtonIcon, styles.mainButtonIcon]} />

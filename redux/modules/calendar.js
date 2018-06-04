@@ -19,6 +19,7 @@ function getWeeks(accessToken, page = 1) {
     return callApi(`weeks`, `${accessToken}&page=${page}`)
     .then(json => {
       var weeks = _setWeekName(json);
+      // var reportStatus = _setReportStatus(json, profile);
       dispatch(setWeeks(weeks, page));
     });
   };
