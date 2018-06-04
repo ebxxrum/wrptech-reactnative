@@ -61,8 +61,6 @@ class Container extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log("weekScreen");
-  console.log(state);
   const { user, weekReport } = state;
   return {
     profile: user.profile,

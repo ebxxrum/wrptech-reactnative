@@ -15,7 +15,28 @@ const List = props => {
           <Text style={styles.desc}>{props.item.weekName}</Text>
         </View>
         <View style={styles.iconWrapper}>
-
+          {
+            props.item.reportStatus ?
+            (
+              <View style={styles.circle}>
+                <FontAwesome
+                  style={styles.nestedIcon}
+                  color='#DF2F3C'
+                  name='check'
+                />
+              </View>
+            )
+            :
+            (
+              <View style={styles.circle} backgroundColor='#DF2F3C'>
+                <SimpleLineIcons
+                  style={styles.nestedIcon}
+                  color='#fff'
+                  name='pencil'
+                />
+              </View>
+            )
+          }
         </View>
       </TouchableOpacity>
     </View>

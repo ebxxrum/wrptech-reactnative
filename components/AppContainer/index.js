@@ -58,8 +58,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state, ownProps) => {
-  console.log("AppContainer");
-  console.log(state);
   const { user, weeks, calendar } = state;
   return {
     isLoggedIn: user.isLoggedIn,
