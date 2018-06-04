@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import callApi from '../../redux/util/apiCaller';
-import moment from 'moment';
+import _getWeekName from '../../redux/util/getWeekName';
 
 const SET_WEEK_REPORT = 'SET_WEEK_REPORT';
 
@@ -30,17 +30,6 @@ function getWeekReport(accessToken, weekInfo, profile) {
       }
     });
   };
-}
-
-function _getWeekName(date) {
-  var date = new Date(date);
-
-  // weekOfMonth 설정
-  var year = date.getFullYear();
-  var month = date.getMonth();
-  var first = new Date(year, month, 1).getDay() - 1;
-  var weekOfMonth = Math.floor((first + date.getDate())/7) + 1;
-  return (month+1) + "월" + weekOfMonth + "주";
 }
 
 function _getReportStatus(week, profile) {

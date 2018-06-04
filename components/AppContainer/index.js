@@ -1,9 +1,57 @@
 import { connect } from 'react-redux';
-import AppContainer from './presenter';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import { actionCreators as userActions } from '../../redux/modules/user';
 import { actionCreators as weeksActions } from '../../redux/modules/weeks';
 import { actionCreators as weekReportActions } from '../../redux/modules/weekReport';
 import { actionCreators as calendarActions } from '../../redux/modules/calendar';
+
+import { View, Text, StatusBar, StyleSheet,AsyncStorage } from 'react-native';
+import LoggedOutNavigation from '../../navigation/LoggedOutNavigation';
+import RootNavigation from '../../navigation/RootNavigation';
+
+class AppContainer extends Component {
+  static propTypes = {
+    isLoggedIn: PropTypes.bool.isRequired,
+    initApp: PropTypes.func.isRequired,
+    initReport: PropTypes.func.isRequired
+  };
+
+  componentWillMount() {
+    const { isLoggedIn, initApp, initReport, accessToken, weeks, profile } = this.props;
+    if (isLoggedIn) {
+      initApp(accessToken);
+    }
+    if (weeks) {
+      initReport(accessToken, weeks[0], profile);
+    }
+  };
+
+  render() {
+    const { isLoggedIn, accessToken, profile, weeks, recentArray } = this.props;
+    return (
+      <View style={styles.container}>
+        <StatusBar hidden={false} />
+        {isLoggedIn && profile ? (
+          <RootNavigation
+            screenProps={{ accessToken: accessToken, profile: profile,
+              weeks: weeks, recentArray: recentArray }}
+          />
+        ) : (
+          <LoggedOutNavigation />
+        )}
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff'
+  }
+});
 
 const mapStateToProps = (state, ownProps) => {
   console.log("AppContainer");
@@ -18,7 +66,7 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     initApp: (accessToken) => {
       dispatch(userActions.getProfile(accessToken));

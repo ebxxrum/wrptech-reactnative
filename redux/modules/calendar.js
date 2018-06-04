@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import callApi from '../../redux/util/apiCaller';
-import moment from 'moment';
+import _getWeekName from '../../redux/util/getWeekName';
 
 const SET_WEEKS = 'SET_WEEKS';
 const PER_PAGE = 5;
@@ -18,9 +18,17 @@ function getWeeks(accessToken, page = 1) {
   return dispatch => {
     return callApi(`weeks`, `${accessToken}&page=${page}`)
     .then(json => {
-      dispatch(setWeeks(json, page));
+      var weeks = _setWeekName(json);
+      dispatch(setWeeks(weeks, page));
     });
   };
+}
+
+function _setWeekName(weeks) {
+  weeks.map(week =>
+    week.weekName = _getWeekName(week.end_date)
+  )
+  return weeks;
 }
 
 const initalState = {
