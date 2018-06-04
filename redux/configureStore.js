@@ -5,6 +5,7 @@ import thunk from 'redux-thunk';
 import user from './modules/user';
 import weeks from './modules/weeks';
 import weekReport from './modules/weekReport';
+import calendar from './modules/calendar';
 
 const middlewares = [thunk];
 
@@ -16,7 +17,8 @@ const persistConfig = {
 const reducer = persistCombineReducers(persistConfig, {
   user,
   weeks,
-  weekReport
+  weekReport,
+  calendar
 });
 
 const configureStore = () => {

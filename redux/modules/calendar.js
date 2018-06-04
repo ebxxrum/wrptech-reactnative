@@ -1,24 +1,24 @@
 import { AsyncStorage } from 'react-native';
-import callApi from '../util/apiCaller';
+import callApi from '../../redux/util/apiCaller';
+import moment from 'moment';
 
-const ADD_WEEKS = 'ADD_WEEKS';
+const SET_WEEKS = 'SET_WEEKS';
 const PER_PAGE = 5;
 
-function addWeeks(weeks, page) {
-  const currentPage = page + 1;
-
+function setWeeks(weeks, page) {
+  const cureentPage = page + 1;
   return {
-    type: ADD_WEEKS,
-    page: currentPage,
-    weeks
-  }
+    type: SET_WEEKS,
+    weeks,
+    page: cureentPage
+  };
 }
 
-export function fetchWeeks(accessToken, page = 1) {
+function getWeeks(accessToken, page = 1) {
   return dispatch => {
-    return callApi(`weeks`, accessToken, 'get', page)
+    return callApi(`weeks`, `${accessToken}&page=${page}`)
     .then(json => {
-      dispatch(addWeeks(json, page));
+      dispatch(setWeeks(json, page));
     });
   };
 }
@@ -29,21 +29,27 @@ const initalState = {
   hasMoreData: true
 }
 
-export default function reducer(state = initalState, action) {
+function reducer(state = initalState, action) {
   switch (action.type) {
-    case ADD_WEEKS:
-      return {
-        data: [...state.data, ...action.weeks],
-        page: action.page,
-        hasMoreData: (action.weeks.length === PER_PAGE)
-      };
+    case SET_WEEKS:
+      return applyWeeks(state, action);
     default:
       return state;
   }
 }
 
-export const getWeeks = state => state.weeks.data;
+function applyWeeks(state, action) {
+  const { weeks, page } = action;
+  return {
+    data: [...weeks],
+    page: page,
+    hasMoreData: weeks.length === PER_PAGE
+  }
+}
 
-export const getPage = state => state.weeks.page;
+const actionCreators = {
+  getWeeks
+}
 
-export const getHasMoreData = state => state.weeks.hasMoreData;
+export { actionCreators };
+export default reducer;

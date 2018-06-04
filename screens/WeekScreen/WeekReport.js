@@ -98,7 +98,7 @@ const WeekScreen = props => {
         <ActionButton.Item
           textContainerStyle={styles.actionButtonTextContainer}
           textStyle={styles.actionButtonText}
-          title={props.WeekReport.reportStatus ? "보고서 작성" : "보고서 수정"}
+          title={props.WeekReport.reportStatus ? "보고서 수정" : "보고서 작성"}
           onPress={props.goForm}
         >
           <SimpleLineIcons name="pencil" style={[styles.actionButtonIcon, styles.mainButtonIcon]} />
