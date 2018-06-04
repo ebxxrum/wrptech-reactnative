@@ -8,6 +8,8 @@ import ActionButton from 'react-native-action-button';
 import style from '../commonStyle';
 
 const CalendarScreen = (props) => {
+  console.log("calendar");
+  console.log(props);
   return (
     <LinearGradient
       style={styles.container}
@@ -40,7 +42,11 @@ const CalendarScreen = (props) => {
         <FlatList
           data={props.data}
           renderItem={({item}) =>
-            <List item={item} />
+            <List item={item}
+                  accessToken={props.accessToken}
+                  goWeek={props.goWeek}
+                  navigation={props.navigation}
+            />
           }
           keyExtractor={item => item.id}
           // onRefresh={this._handleRefresh}

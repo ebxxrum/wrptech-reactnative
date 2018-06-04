@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 
 import Calendar from './Calendar';
-import { actionCreators as weeksActions } from '../../redux/modules/weeks';
+import { actionCreators as weekReportActions } from '../../redux/modules/weekReport';
 
 class Container extends Component {
   state = {
@@ -18,17 +18,51 @@ class Container extends Component {
 
   constructor(props) {
     super(props);
-
+    console.log(props);
     var today = moment(new Date()).format('YYYY-MM-DD');
     this.state = {
       today: today,
+      accessToken: props.accessToken,
       data: props.data
     };
   };
 
+  render() {
+    return (
+      <Calendar
+        {...this.state}
+        {...this.props}
+        // {...this.props.navigation}
+        // goWeek={this.props.goWeek}
+
+      />
+    )
+  };
+
+  _moveWeek = (week) => {
+    const { accessToken, goWeek } = this.props;
+    this.setState({
+      isLoading: true
+    });
+    const getResult = goWeek(accessToken, week);
+    if (getResult) {
+      console.log("getResult");
+      // this.props.navigation.navigate('Week', {updateDate: end_date});
+    }
+  };
+
+
+
+
+
+
+
+
+
+
   // infinite scroll 수정 필요
   componentDidMount() {
-    this._makeRemoteRequest();
+    // this._makeRemoteRequest();
   };
 
   _makeRemoteRequest = async() => {
@@ -74,20 +108,12 @@ class Container extends Component {
       }
     );
   };
-
-  render() {
-    return (
-      <Calendar
-        {...this.state}
-        {...this.props}
-      />
-    )
-  };
 }
 
 const mapStateToProps = (state, ownProps)=> {
-  const { calendar } = state;
+  const { user, calendar } = state;
   return {
+    accessToken: user.accessToken,
     data: calendar.data,
     page: calendar.page,
     hasMoreData: calendar.hasMoreData
@@ -96,11 +122,8 @@ const mapStateToProps = (state, ownProps)=> {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getWeeks: (accessToken, page) => {
-      return dispatch(weeksActions.getWeeks(accessToken, page));
-    },
-    goWeek: (accessToken, weeks) => {
-      return dispatch(weeksActions.getUsersWithReports(accessToken, weeks));
+    goWeek: (accessToken, week) => {
+      return dispatch(weekReportActions.getWeekReport(accessToken, week));
     }
   };
 };
