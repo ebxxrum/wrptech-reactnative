@@ -14,8 +14,8 @@ class Container extends Component {
     super(props);
     this.state = {
       ...this.state,
-      weekReport: props.weekReport,
-      weekInfo: props.weekInfo
+      weekReport: props.recentWeek.week,
+      weekInfo: props.recentWeek.weekInfo
     };
   };
 
@@ -24,7 +24,6 @@ class Container extends Component {
       <WeekReport
         {...this.state}
         {...this.props}
-        goForm={this._goForm}
         setModalVisible={this._setModalVisible}
         // refresh={this._refresh}
       />
@@ -43,10 +42,6 @@ class Container extends Component {
     }
   };
 
-  _goForm = () => {
-    this.props.navigation.navigate('Form', {reportStatus: this.state.weekInfo.reportStatus, report: this.state.weekInfo.myReport, weekName: this.state.weekInfo.weekName});
-  };
-
   _setModalVisible = (visible) => {
     if (!visible) {
       this.setState({
@@ -61,12 +56,13 @@ class Container extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const { recentWeek } = ownProps.screenProps;
   const { user, weekReport } = state;
-
   return {
     profile: user.profile,
     weekReport: weekReport.week,
     weekInfo: weekReport.weekInfo,
+    recentWeek: recentWeek
   };
 };
 

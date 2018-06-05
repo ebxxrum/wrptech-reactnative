@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react'; // to wrap root component. to delay the rendering of app's UI until persisted state has been retrieved and saved to redux.
 import configureStore from './redux/configureStore';
-import AppContainer from './components/AppContainer';
+import AppContainer from './screens/AppContainer';
 
 const { persistor, store } = configureStore();
 

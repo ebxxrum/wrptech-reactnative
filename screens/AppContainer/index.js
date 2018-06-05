@@ -19,7 +19,7 @@ class AppContainer extends Component {
   };
 
   componentWillMount() {
-    const { isLoggedIn, initApp, initWeek, accessToken, profile } = this.props;
+    const { isLoggedIn, initApp, initWeek, initReport, accessToken, profile, weeks } = this.props;
 
     if (isLoggedIn) {
       initApp(accessToken);
@@ -28,21 +28,26 @@ class AppContainer extends Component {
     if (profile) {
       initWeek(accessToken, profile);
     }
-  };
 
-  componentDidMount() {
-    const { initReport, accessToken, weeks } = this.props;
     if (weeks) {
       initReport(accessToken, weeks[0]);
     }
-  }
+  };
+
+  // componentDidMount() {
+  //   const { initReport, accessToken, weeks } = this.props;
+  //   if (weeks) {
+  //     console.log("componentDidMount");
+  //     initReport(accessToken, weeks[0]);
+  //   }
+  // }
 
   render() {
     const { isLoggedIn } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
-        { isLoggedIn ? <RootNavigation /> : <LoggedOutNavigation /> }
+        { isLoggedIn ? <RootNavigation screenProps={{recentWeek: this.props.recentWeek}}/> : <LoggedOutNavigation /> }
       </View>
     );
   }
@@ -56,12 +61,13 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state, ownProps) => {
-  const { user, weeks, calendar } = state;
+  const { user, calendar, weekReport } = state;
   return {
     isLoggedIn: user.isLoggedIn,
     accessToken: user.accessToken,
     profile: user.profile,
     weeks: calendar.data,
+    recentWeek: weekReport
   };
 };
 
