@@ -14,7 +14,6 @@ class App extends Component {
   };
 
   render() {
-    console.log(this.state);
     const { isLoadingComplete } = this.state;
     if (!isLoadingComplete) {
       return (
@@ -39,7 +38,7 @@ class App extends Component {
       Asset.loadAsync([
           require('./assets/icon.png')
       ]),
-      Font.loadAsync([...Ionicons.font, ...MaterialIcons.font])
+      // Font.loadAsync([...Ionicons.font, ...MaterialIcons.font])
     ]);
   };
 

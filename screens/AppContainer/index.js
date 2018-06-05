@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { actionCreators as userActions } from '../../redux/modules/user';
-import { actionCreators as weeksActions } from '../../redux/modules/weeks';
 import { actionCreators as weekReportActions } from '../../redux/modules/weekReport';
 import { actionCreators as calendarActions } from '../../redux/modules/calendar';
 
@@ -15,20 +14,18 @@ class AppContainer extends Component {
   static propTypes = {
     isLoggedIn: PropTypes.bool.isRequired,
     initApp: PropTypes.func.isRequired,
+    initWeek: PropTypes.func.isRequired,
     initReport: PropTypes.func.isRequired
   };
 
   componentWillMount() {
-    console.log("componentWillMount");
     const { isLoggedIn, initApp, initWeek, accessToken, profile } = this.props;
 
     if (isLoggedIn) {
-      console.log("initUser");
       initApp(accessToken);
     }
 
     if (profile) {
-      console.log("initWeek");
       initWeek(accessToken, profile);
     }
   };
@@ -36,24 +33,16 @@ class AppContainer extends Component {
   componentDidMount() {
     const { initReport, accessToken, weeks } = this.props;
     if (weeks) {
-      console.log("componentDidMount");
       initReport(accessToken, weeks[0]);
     }
   }
 
   render() {
-    const { isLoggedIn, accessToken, profile, weeks, recentArray } = this.props;
+    const { isLoggedIn } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
-        {isLoggedIn && profile ? (
-          <RootNavigation
-            screenProps={{ accessToken: accessToken, profile: profile,
-              weeks: weeks, recentArray: recentArray }}
-          />
-        ) : (
-          <LoggedOutNavigation />
-        )}
+        { isLoggedIn ? <RootNavigation /> : <LoggedOutNavigation /> }
       </View>
     );
   }
@@ -73,7 +62,6 @@ const mapStateToProps = (state, ownProps) => {
     accessToken: user.accessToken,
     profile: user.profile,
     weeks: calendar.data,
-    recentArray: weeks.recentArray
   };
 };
 
@@ -81,13 +69,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     initApp: (accessToken) => {
       dispatch(userActions.getProfile(accessToken));
-      dispatch(weeksActions.getWeeks(accessToken, 1));
     },
     initWeek: (accessToken, profile) => {
       dispatch(calendarActions.getWeeks(accessToken, null, profile));
     },
     initReport: (accessToken, week) => {
-      dispatch(weeksActions.getRecent(accessToken, week));
       dispatch(weekReportActions.getWeekReport(accessToken, week));
     }
   };

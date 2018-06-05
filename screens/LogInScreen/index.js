@@ -1,6 +1,70 @@
 import { connect } from 'react-redux';
-import Container from './container';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Alert } from 'react-native';
+
 import { actionCreators as userActions } from '../../redux/modules/user';
+import LogInScreen from './LogInScreen';
+
+class Container extends Component {
+  static propTypes = {
+    login: PropTypes.func.isRequired,
+  };
+
+  state = {
+    email: '',
+    password: '',
+    isSubmitting: false
+  };
+
+  render() {
+    return (
+      <LogInScreen
+        {...this.state}
+        changeEmail={this._changeEmail}
+        changePassword={this._changePassword}
+        submit={this._submit}
+        join={this._join}
+      />
+    );
+  }
+
+  _changeEmail = text => {
+    this.setState({
+      email: text
+    });
+  };
+
+  _changePassword = text => {
+    this.setState({
+        password: text
+    });
+  };
+
+  _join = () => {
+    this.props.navigation.navigate('Join');
+  };
+
+  _submit = async() => {
+    const { email, password, isSubmitting } = this.state;
+    if (!isSubmitting) {
+      if (email && password) {
+        this.setState({
+          isSubmitting: true
+        });
+        const loginResult = await this.props.login(email, password);
+        if (!loginResult) {
+          Alert.alert('Try again');
+          this.setState({
+            isSubmitting: false
+          });
+        }
+      } else {
+        Alert.alert('All fields are required!');
+      }
+    }
+  };
+};
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {

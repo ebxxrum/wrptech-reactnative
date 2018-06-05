@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import ProfileScreen from './presenter';
+import ProfileScreen from './ProfileScreen';
 import { actionCreators as userActions } from '../../redux/modules/user';
 
 class Container extends Component {

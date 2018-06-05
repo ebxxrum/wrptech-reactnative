@@ -1,6 +1,6 @@
 import { StackNavigator } from 'react-navigation';
 import ProfileScreen from '../screens/ProfileScreen';
-import ProfileDetailScreen from '../screens/ProfileDetailScreen';
+import ProfileDetailScreen from '../screens/ProfileScreen/components/ProfileDetailScreen';
 
 const ProfileRoute = StackNavigator(
   {
