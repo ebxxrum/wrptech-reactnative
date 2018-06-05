@@ -32,7 +32,7 @@ const WeekScreen = props => {
             style={style.navTop}
             name='calendar'
           />
-          <Text style={style.navTop}>{props.searchedInfo ? props.searchedInfo.weekName : props.weekInfo.weekName}</Text>
+          <Text style={style.navTop}>{props.weekInfo.weekName}</Text>
           <TouchableOpacity
             onPress={() => {
               props.setModalVisible(props.modalVisible);
@@ -54,16 +54,10 @@ const WeekScreen = props => {
           renderTabBar={() =>
             <ScrollableTabBar backgroundColor='#B22645' />}>
             {
-              props.searchedWeek ?
-              (props.searchedWeek.map(report =>
+              props.weekReport.map(report =>
                 report.seq < 999 &&
                 <Report {...report} goForm={props.goForm} current_user={props.profile.name} tabLabel={report.name} key={report.id} />
-              ))
-              :
-              (props.weekReport.map(report =>
-                report.seq < 999 &&
-                <Report {...report} goForm={props.goForm} current_user={props.profile.name} tabLabel={report.name} key={report.id} />
-              ))
+              )
             }
         </ScrollableTabView>
       </View>
