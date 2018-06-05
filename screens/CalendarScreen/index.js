@@ -32,9 +32,6 @@ class Container extends Component {
       <Calendar
         {...this.state}
         {...this.props}
-        // {...this.props.navigation}
-        // goWeek={this.props.goWeek}
-
       />
     )
   };

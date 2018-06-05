@@ -5,6 +5,8 @@ import WeekReport from './WeekReport';
 
 class Container extends Component {
   state = {
+    searchedWeek: null,
+    searchedInfo: null,
     modalVisible: false,
   };
 
@@ -14,7 +16,6 @@ class Container extends Component {
       ...this.state,
       weekReport: props.weekReport,
       weekInfo: props.weekInfo
-
     };
   };
 
@@ -31,13 +32,12 @@ class Container extends Component {
   }
 
   componentDidMount = () => {
-    // if (updateDate) {
     if (this.props.navigation.state.params) {
-      const { searchedWeek, navigation: { state: { params: { updateDate } } } } = this.props;
+      // const { searchedWeek, navigation: { state: { params: { updateDate } } } } = this.props;
       console.log("moving from calendar");
-      this._getWeekName(updateDate);
       this.setState({
-        weekReport: searchedWeek,
+        weekReport: this.props.weekReport,
+        weekInfo: this.props.weekInfo,
         modalVisible: false
       });
     }
@@ -62,10 +62,11 @@ class Container extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { user, weekReport } = state;
+
   return {
     profile: user.profile,
     weekReport: weekReport.week,
-    weekInfo: weekReport.weekInfo
+    weekInfo: weekReport.weekInfo,
   };
 };
 

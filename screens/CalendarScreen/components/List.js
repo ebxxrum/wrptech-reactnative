@@ -11,7 +11,6 @@ class List extends Component {
 
   constructor(props) {
     super(props);
-    console.log(props);
     this._goWeek = this._goWeek.bind(this);
   }
 
@@ -22,16 +21,10 @@ class List extends Component {
     const getResult = this.props.goWeek(this.props.accessToken, this.props.item);
     if (getResult) {
       console.log("getResult");
-      this.props.navigation.navigate('Week', {updateDate: this.props.item.end_date});
+      this.props.navigation.navigate('Week', {searchedWeek: true});
     }
   }
 
-
-
-
-// const List = props => {
-  // console.log("list");
-  // console.log(props);
   render() {
     return (
       <View>
@@ -42,6 +35,10 @@ class List extends Component {
           <View style={styles.textWrapper}>
             <Text style={styles.title}>보고일 {this.props.item.end_date}</Text>
             <Text style={styles.desc}>{this.props.item.weekName}</Text>
+            {
+              this.state.isLoading &&
+                <ActivityIndicator size="small" color="#e91b23" />
+            }
           </View>
           <View style={styles.iconWrapper}>
             {
