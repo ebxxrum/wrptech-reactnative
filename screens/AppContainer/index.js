@@ -18,6 +18,12 @@ class AppContainer extends Component {
     initReport: PropTypes.func.isRequired
   };
 
+  constructor(props) {
+    console.log("AppContainer constructor");
+    super(props);
+    console.log(props);
+  }
+
   componentWillMount() {
     const { isLoggedIn, initApp, initWeek, initReport, accessToken, profile, weeks } = this.props;
 
@@ -43,11 +49,11 @@ class AppContainer extends Component {
   // }
 
   render() {
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn, weeks } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
-        { isLoggedIn ? <RootNavigation screenProps={{recentWeek: this.props.recentWeek}}/> : <LoggedOutNavigation /> }
+        { isLoggedIn ? <RootNavigation /> : <LoggedOutNavigation /> }
       </View>
     );
   }
@@ -67,7 +73,7 @@ const mapStateToProps = (state, ownProps) => {
     accessToken: user.accessToken,
     profile: user.profile,
     weeks: calendar.data,
-    recentWeek: weekReport
+    // recentWeek: weekReport
   };
 };
 

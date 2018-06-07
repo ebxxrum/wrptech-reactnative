@@ -12,10 +12,12 @@ class Container extends Component {
 
   constructor(props) {
     super(props);
+    console.log("WeekScreen");
+    console.log(props);
     this.state = {
       ...this.state,
-      weekReport: props.recentWeek.week,
-      weekInfo: props.recentWeek.weekInfo
+      weekReport: props.weekReport,
+      weekInfo: props.weekInfo
     };
   };
 
@@ -30,17 +32,8 @@ class Container extends Component {
     );
   }
 
-  componentDidMount = () => {
-    if (this.props.navigation.state.params) {
-      // const { searchedWeek, navigation: { state: { params: { updateDate } } } } = this.props;
-      console.log("moving from calendar");
-      this.setState({
-        weekReport: this.props.weekReport,
-        weekInfo: this.props.weekInfo,
-        modalVisible: false
-      });
-    }
-  };
+  // componentDidMount = () => {
+  // };
 
   _setModalVisible = (visible) => {
     if (!visible) {
@@ -56,13 +49,13 @@ class Container extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { recentWeek } = ownProps.screenProps;
+  // const { recentWeek } = ownProps.screenProps;
   const { user, weekReport } = state;
   return {
     profile: user.profile,
     weekReport: weekReport.week,
     weekInfo: weekReport.weekInfo,
-    recentWeek: recentWeek
+    // recentWeek: recentWeek
   };
 };
 

@@ -31,7 +31,6 @@ const ProfileScreen = props => {
 
       <View style={styles.list}>
       </View>
-      <Action {...props}/>
     </View>
   );
 };

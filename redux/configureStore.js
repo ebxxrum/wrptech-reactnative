@@ -16,7 +16,6 @@ const persistConfig = {
 
 const reducer = persistCombineReducers(persistConfig, {
   user,
-  weeks,
   weekReport,
   calendar
 });
