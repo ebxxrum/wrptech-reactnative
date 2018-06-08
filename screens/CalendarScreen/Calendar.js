@@ -54,7 +54,49 @@ const CalendarScreen = (props) => {
         />
       </View>
 
-
+      <ActionButton
+        buttonColor="rgba(223,47,60,100)"
+        btnOutRange="rgba(176,176,176,100)"
+        bgColor="rgba(0,0,0,0.85)"
+      >
+        <ActionButton.Item
+          textContainerStyle={styles.actionButtonTextContainer}
+          textStyle={styles.actionButtonText}
+          buttonColor='#fff'
+          title="마이페이지"
+          onPress={() => props.navigation.navigate('Profile')}
+        >
+          <SimpleLineIcons name="user" style={styles.actionButtonIcon} />
+        </ActionButton.Item>
+        <ActionButton.Item
+          textContainerStyle={styles.actionButtonTextContainer}
+          textStyle={styles.actionButtonText}
+          buttonColor='#fff'
+          title="주별목록"
+          //TODO view: modal
+          onPress={() => props.navigation.navigate('Calendar')}
+        >
+          <SimpleLineIcons name="calendar" style={styles.actionButtonIcon} />
+        </ActionButton.Item>
+        <ActionButton.Item
+          textContainerStyle={styles.actionButtonTextContainer}
+          textStyle={styles.actionButtonText}
+          buttonColor='#fff'
+          title="이번주 보고서"
+          onPress={() => props.navigation.navigate('Week')}
+        >
+          <SimpleLineIcons name="book-open" style={styles.actionButtonIcon} />
+        </ActionButton.Item>
+        <ActionButton.Item
+          textContainerStyle={styles.actionButtonTextContainer}
+          textStyle={styles.actionButtonText}
+          title={props.weekInfo.reportStatus ? "보고서 수정" : "보고서 작성"}
+          onPress={() => props.navigation.navigate('Form',
+                          {weekName: props.weekInfo.weekName, reportStatus: props.weekInfo.reportStatus, myReport: props.weekInfo.myReport})}
+        >
+          <SimpleLineIcons name="pencil" style={[styles.actionButtonIcon, styles.mainButtonIcon]} />
+        </ActionButton.Item>
+      </ActionButton>
     </LinearGradient>
   );
 }
@@ -75,6 +117,24 @@ const styles = StyleSheet.create({
     fontSize: 15
 
   },
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: '#DF2F3C',
+  },
+  mainButtonIcon: {
+    color: '#fff',
+  },
+  actionButtonTextContainer: {
+    borderWidth: 0,
+    backgroundColor: 'transparent',
+  },
+  actionButtonText: {
+    fontWeight: 'bold',
+    fontSize: 14,
+    color: '#fff',
+  },
+
 });
 
 export default CalendarScreen;

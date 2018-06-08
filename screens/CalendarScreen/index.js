@@ -49,14 +49,6 @@ class Container extends Component {
   };
 
 
-
-
-
-
-
-
-
-
   // infinite scroll 수정 필요
   componentDidMount() {
     // this._makeRemoteRequest();
@@ -113,7 +105,8 @@ const mapStateToProps = (state, ownProps)=> {
     accessToken: user.accessToken,
     data: calendar.data,
     page: calendar.page,
-    hasMoreData: calendar.hasMoreData
+    hasMoreData: calendar.hasMoreData,
+    weekInfo: calendar.data[0]
   };
 };
 

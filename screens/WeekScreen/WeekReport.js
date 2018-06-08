@@ -99,7 +99,7 @@ const WeekScreen = props => {
           textContainerStyle={styles.actionButtonTextContainer}
           textStyle={styles.actionButtonText}
           title={props.weekInfo.reportStatus ? "보고서 수정" : "보고서 작성"}
-          onPress={() => props.navigation.navigate('Form')}
+          onPress={() => props.navigation.navigate('Form', {weekName: props.weekInfo.weekName})}
         >
           <SimpleLineIcons name="pencil" style={[styles.actionButtonIcon, styles.mainButtonIcon]} />
         </ActionButton.Item>

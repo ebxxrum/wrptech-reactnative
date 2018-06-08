@@ -19,9 +19,7 @@ class AppContainer extends Component {
   };
 
   constructor(props) {
-    console.log("AppContainer constructor");
     super(props);
-    console.log(props);
   }
 
   componentWillMount() {
@@ -49,11 +47,11 @@ class AppContainer extends Component {
   // }
 
   render() {
-    const { isLoggedIn, weeks } = this.props;
+    const { isLoggedIn, recentWeek } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
-        { isLoggedIn ? <RootNavigation /> : <LoggedOutNavigation /> }
+        { isLoggedIn ? <RootNavigation screenProps={{recentWeek: recentWeek}}/> : <LoggedOutNavigation /> }
       </View>
     );
   }
@@ -73,7 +71,7 @@ const mapStateToProps = (state, ownProps) => {
     accessToken: user.accessToken,
     profile: user.profile,
     weeks: calendar.data,
-    // recentWeek: weekReport
+    recentWeek: weekReport
   };
 };
 
