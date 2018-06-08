@@ -2,12 +2,12 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 
 import WeekReport from './WeekReport';
+import { actionCreators as weekReportActions } from '../../redux/modules/weekReport';
 
 class Container extends Component {
   state = {
-    searchedWeek: null,
-    searchedInfo: null,
     modalVisible: false,
+    // isFetching: true
   };
 
   constructor(props) {
@@ -32,6 +32,26 @@ class Container extends Component {
     );
   }
 
+  componentDidMount = () => {
+    if (!this.props.navigation.state.params) {
+      console.log("componentDidUpdate");
+
+      const { fetchWeekReport, accessToken, recentWeekInfo } = this.props;
+      const fetchResult = fetchWeekReport(accessToken, recentWeekInfo);
+      if (fetchResult) {
+        console.log("fetch!");
+        this.setState({
+          weekReport: this.props.weekReport,
+          weekInfo: this.props.weekInfo,
+        });
+      };
+
+      // console.log(this.state.weekReport, this.props.weekReport);
+      // console.log(this.state.weekReport !== this.props.weekReport);
+      // if (this.state.weekReport !== this.props.weekReport) {
+      // };
+    };
+  }
   // componentDidMount = () => {
   // };
 
@@ -49,14 +69,22 @@ class Container extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  // const { recentWeek } = ownProps.screenProps;
-  const { user, weekReport } = state;
+  const { user, weekReport, calendar } = state;
   return {
+    accessToken: user.accessToken,
     profile: user.profile,
     weekReport: weekReport.week,
     weekInfo: weekReport.weekInfo,
-    // recentWeek: recentWeek
+    recentWeekInfo: calendar.data[0]
   };
 };
 
-export default connect(mapStateToProps, null)(Container);
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    fetchWeekReport: (accessToken, week) => {
+      return dispatch(weekReportActions.getWeekReport(accessToken, week));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Container);

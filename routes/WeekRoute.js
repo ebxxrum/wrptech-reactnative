@@ -1,6 +1,6 @@
 import { StackNavigator } from 'react-navigation';
 import WeekScreen from '../screens/WeekScreen';
-import Form from '../components/Form';
+import ReportScreen from '../screens/ReportScreen';
 
 const WeekRoute = StackNavigator(
   {
@@ -10,9 +10,9 @@ const WeekRoute = StackNavigator(
         header: null
       }
     },
-    Form: {
-      screen: Form,
-    },
+    Report: {
+      screen: ReportScreen,
+    }
   }
 );
 

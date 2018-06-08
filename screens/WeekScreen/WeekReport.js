@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, StatusBar, TouchableOpacity, TouchableHighlight, Modal} from 'react-native';
+import { View, Text, StyleSheet, StatusBar, TouchableOpacity, TouchableHighlight, ActivityIndicator, Modal} from 'react-native';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo';
 import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
@@ -10,6 +10,7 @@ import Calendar from '../CalendarScreen';
 
 const WeekScreen = props => {
   return (
+
     <View style={styles.container}>
       <StatusBar
         translucent={true}
@@ -32,7 +33,9 @@ const WeekScreen = props => {
             style={style.navTop}
             name='calendar'
           />
-          <Text style={style.navTop}>{props.weekInfo.weekName}</Text>
+          {
+            props.isFetching ? <ActivityIndicator size="small" color="#e91b23" /> : <Text style={style.navTop}>{props.weekInfo.weekName}</Text>
+          }
           <TouchableOpacity
             onPress={() => {
               props.setModalVisible(props.modalVisible);
@@ -46,20 +49,27 @@ const WeekScreen = props => {
       </LinearGradient>
 
       <View style={styles.navPeople}>
-        <ScrollableTabView
-          tabBarInactiveTextColor={'rgba(255,255,255,0.54)'}
-          tabBarActiveTextColor={'#fff'}
-          tabBarUnderlineStyle={{ backgroundColor: 'transparent'}}
-          initialPage={3}
-          renderTabBar={() =>
-            <ScrollableTabBar backgroundColor='#B22645' />}>
-            {
-              props.weekReport.map(report =>
-                report.seq < 999 &&
-                <Report {...report} goForm={props.goForm} current_user={props.profile.name} tabLabel={report.name} key={report.id} />
-              )
-            }
-        </ScrollableTabView>
+        {
+          props.isFetching ?
+          <ActivityIndicator size="large" color="#e91b23" />
+          :
+          (
+            <ScrollableTabView
+              tabBarInactiveTextColor={'rgba(255,255,255,0.54)'}
+              tabBarActiveTextColor={'#fff'}
+              tabBarUnderlineStyle={{ backgroundColor: 'transparent'}}
+              initialPage={3}
+              renderTabBar={() =>
+                <ScrollableTabBar backgroundColor='#B22645' />}>
+                {
+                  props.weekReport.map(report =>
+                    report.seq < 999 &&
+                    <Report {...report} goForm={props.goForm} current_user={props.profile.name} tabLabel={report.name} key={report.id} />
+                  )
+                }
+            </ScrollableTabView>
+          )
+        }
       </View>
 
       <ActionButton
@@ -99,7 +109,7 @@ const WeekScreen = props => {
           textContainerStyle={styles.actionButtonTextContainer}
           textStyle={styles.actionButtonText}
           title={props.weekInfo.reportStatus ? "보고서 수정" : "보고서 작성"}
-          onPress={() => props.navigation.navigate('Form', {weekName: props.weekInfo.weekName})}
+          onPress={() => props.navigation.navigate('Report', {weekInfo: props.weekInfo})}
         >
           <SimpleLineIcons name="pencil" style={[styles.actionButtonIcon, styles.mainButtonIcon]} />
         </ActionButton.Item>

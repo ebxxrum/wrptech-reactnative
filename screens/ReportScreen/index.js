@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ScrollView, View, Text, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
 import { actionCreators as weeksActions } from '../../redux/modules/weeks';
-import Form from './presenter';
+import Form from './ReportForm';
 
 class Container extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: navigation.state.params.weekName,
+      headerTitle: navigation.state.params.weekInfo.weekName,
       headerRight: (
         <TouchableOpacity onPress={navigation.state.params.submit}>
           <View style={styles.container}>
@@ -31,11 +31,11 @@ class Container extends Component {
 
   constructor(props) {
     super(props);
-    const { navigation: { state: { params: { reportStatus, myReport } } } } = props;
+
     this.state = {
       ...this.state,
-      myReport: myReport,
-      reportStatus: reportStatus
+      reportStatus: props.weekInfo.reportStatus,
+      myReport: props.weekInfo.myReport,
     }
   };
 
@@ -81,15 +81,15 @@ class Container extends Component {
 
   _submit = async() => {
     const { work, plan, isSubmitting } = this.state;
-    const { createReport, getRecent, navigation, accessToken, recentWeek } = this.props;
+    const { createReport, getRecent, navigation, accessToken, weekInfo } = this.props;
     if (work && plan) {
       this.setState({
         isSubmitting: true
       });
 
-      const createResult = await createReport(accessToken, recentWeek.id, work, plan);
+      const createResult = await createReport(accessToken, weekInfo.id, work, plan);
       if (createResult) {
-        await getRecent(accessToken, recentWeek);
+        // await getRecent(accessToken, weekInfo);
         setTimeout(() => {
           navigation.navigate('Week');
         }, 2000);
@@ -114,11 +114,11 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state, ownProps) => {
-  const { recentWeek } = ownProps.screenProps;
+  const { navigation: { state: { params: { weekInfo } } } } = ownProps;
   const { user } = state;
   return {
     accessToken: user.accessToken,
-    recentWeek: recentWeek.weekInfo
+    weekInfo: weekInfo
   };
 };
 
@@ -128,10 +128,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       return dispatch(weeksActions.createReport(accessToken, weekID, work, plan));
     },
     getRecent: (accessToken, week) => {
-      dispatch(weekReportActions.getWeekReport(accessToken, week));
+      return dispatch(weekReportActions.getWeekReport(accessToken, week));
       // return dispatch(weeksActions.getRecent(accessToken, week));
     }
   };
 };
 
-export default connect(null, mapDispatchToProps)(Container);
+export default connect(mapStateToProps, mapDispatchToProps)(Container);
