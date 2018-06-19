@@ -27,33 +27,23 @@ class Container extends Component {
         {...this.state}
         {...this.props}
         setModalVisible={this._setModalVisible}
-        // refresh={this._refresh}
+        logout={this._logout}
       />
     );
   }
 
   componentDidMount = () => {
     if (!this.props.navigation.state.params) {
-      console.log("componentDidUpdate");
-
       const { fetchWeekReport, accessToken, recentWeekInfo } = this.props;
       const fetchResult = fetchWeekReport(accessToken, recentWeekInfo);
       if (fetchResult) {
-        console.log("fetch!");
         this.setState({
           weekReport: this.props.weekReport,
           weekInfo: this.props.weekInfo,
         });
       };
-
-      // console.log(this.state.weekReport, this.props.weekReport);
-      // console.log(this.state.weekReport !== this.props.weekReport);
-      // if (this.state.weekReport !== this.props.weekReport) {
-      // };
     };
   }
-  // componentDidMount = () => {
-  // };
 
   _setModalVisible = (visible) => {
     if (!visible) {

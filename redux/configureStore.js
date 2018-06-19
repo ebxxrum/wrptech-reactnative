@@ -3,7 +3,6 @@ import { persistStore, persistCombineReducers } from 'redux-persist'; // to pers
 import storage from 'redux-persist/lib/storage';
 import thunk from 'redux-thunk';
 import user from './modules/user';
-import weeks from './modules/weeks';
 import weekReport from './modules/weekReport';
 import calendar from './modules/calendar';
 

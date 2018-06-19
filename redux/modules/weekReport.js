@@ -26,6 +26,20 @@ function getWeekReport(accessToken, weekInfo) {
   };
 }
 
+function createReport(accessToken, id, work, plan) {
+  return dispatch => {
+    return callApi(`weeks/${id}/reports`, accessToken, 'post', {work, plan})
+    .then(json => {
+      if (json) {
+        // dispatch(getWeeks(accessToken, 1));
+        return true;
+      } else {
+        return false;
+      }
+    });
+  };
+}
+
 const initalState = {};
 
 function reducer(state = initalState, action) {
@@ -46,7 +60,8 @@ function applyWeekReport(state, action) {
 }
 
 const actionCreators = {
-  getWeekReport
+  getWeekReport,
+  createReport
 };
 
 export { actionCreators };

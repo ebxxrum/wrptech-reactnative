@@ -47,11 +47,11 @@ class AppContainer extends Component {
   // }
 
   render() {
-    const { isLoggedIn, recentWeek } = this.props;
+    const { isLoggedIn, logout } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
-        { isLoggedIn ? <RootNavigation screenProps={{recentWeek: recentWeek}}/> : <LoggedOutNavigation /> }
+        { isLoggedIn ? <RootNavigation screenProps={{logout: logout}}/> : <LoggedOutNavigation /> }
       </View>
     );
   }
@@ -65,13 +65,12 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state, ownProps) => {
-  const { user, calendar, weekReport } = state;
+  const { user, calendar } = state;
   return {
     isLoggedIn: user.isLoggedIn,
     accessToken: user.accessToken,
     profile: user.profile,
     weeks: calendar.data,
-    recentWeek: weekReport
   };
 };
 
@@ -84,7 +83,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(calendarActions.getWeeks(accessToken, null, profile));
     },
     initReport: (accessToken, week) => {
-      dispatch(weekReportActions.getWeekReport(accessToken, week));
+      // dispatch(weekReportActions.getWeekReport(accessToken, week));
+    },
+    logout: () => {
+      return dispatch(userActions.logout());
     }
   };
 };

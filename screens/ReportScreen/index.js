@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ScrollView, View, Text, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
-import { actionCreators as weeksActions } from '../../redux/modules/weeks';
+
+import { actionCreators as weekReportActions } from '../../redux/modules/weekReport';
 import Form from './ReportForm';
 
 class Container extends Component {
@@ -81,7 +82,7 @@ class Container extends Component {
 
   _submit = async() => {
     const { work, plan, isSubmitting } = this.state;
-    const { createReport, getRecent, navigation, accessToken, weekInfo } = this.props;
+    const { createReport, navigation, accessToken, weekInfo } = this.props;
     if (work && plan) {
       this.setState({
         isSubmitting: true
@@ -89,11 +90,9 @@ class Container extends Component {
 
       const createResult = await createReport(accessToken, weekInfo.id, work, plan);
       if (createResult) {
-        // await getRecent(accessToken, weekInfo);
         setTimeout(() => {
           navigation.navigate('Week');
         }, 2000);
-        // navigation.goBack(null);
       }
     } else {
       Alert.alert('All fields are required!');
@@ -125,12 +124,8 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     createReport: (accessToken, weekID, work, plan, info) => {
-      return dispatch(weeksActions.createReport(accessToken, weekID, work, plan));
+      return dispatch(weekReportActions.createReport(accessToken, weekID, work, plan));
     },
-    getRecent: (accessToken, week) => {
-      return dispatch(weekReportActions.getWeekReport(accessToken, week));
-      // return dispatch(weeksActions.getRecent(accessToken, week));
-    }
   };
 };
 

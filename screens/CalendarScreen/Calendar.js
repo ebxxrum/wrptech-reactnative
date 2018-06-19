@@ -63,10 +63,10 @@ const CalendarScreen = (props) => {
           textContainerStyle={styles.actionButtonTextContainer}
           textStyle={styles.actionButtonText}
           buttonColor='#fff'
-          title="마이페이지"
-          onPress={() => props.navigation.navigate('Profile')}
+          title="로그아웃"
+          onPress={props.screenProps.logout}
         >
-          <SimpleLineIcons name="user" style={styles.actionButtonIcon} />
+          <SimpleLineIcons name="logout" style={styles.actionButtonIcon} />
         </ActionButton.Item>
         <ActionButton.Item
           textContainerStyle={styles.actionButtonTextContainer}
