@@ -20,8 +20,9 @@ class List extends Component {
     });
     const getResult = this.props.goWeek(this.props.accessToken, this.props.item);
     if (getResult) {
-      console.log("getResult");
-      this.props.navigation.navigate('Week', {searchedWeek: true});
+      setTimeout(() => {
+        this.props.navigation.navigate('Week', {searchedWeek: true});
+      }, 2000);
     }
   }
 

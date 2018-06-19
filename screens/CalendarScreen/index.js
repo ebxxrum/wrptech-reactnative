@@ -36,19 +36,6 @@ class Container extends Component {
     )
   };
 
-  _moveWeek = (week) => {
-    const { accessToken, goWeek } = this.props;
-    this.setState({
-      isLoading: true
-    });
-    const getResult = goWeek(accessToken, week);
-    if (getResult) {
-      console.log("getResult");
-      // this.props.navigation.navigate('Week', {updateDate: end_date});
-    }
-  };
-
-
   // infinite scroll 수정 필요
   componentDidMount() {
     // this._makeRemoteRequest();
