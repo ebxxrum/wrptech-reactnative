@@ -27,7 +27,7 @@ class Container extends Component {
         {...this.state}
         {...this.props}
         setModalVisible={this._setModalVisible}
-        logout={this._logout}
+        goForm={this._goForm}
       />
     );
   }
@@ -55,6 +55,10 @@ class Container extends Component {
         modalVisible: false
       });
     }
+  };
+
+  _goForm = () => {
+    this.props.navigation.navigate('Report', {weekInfo: this.state.weekInfo});
   };
 }
 
