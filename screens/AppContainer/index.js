@@ -38,14 +38,6 @@ class AppContainer extends Component {
     }
   };
 
-  // componentDidMount() {
-  //   const { initReport, accessToken, weeks } = this.props;
-  //   if (weeks) {
-  //     console.log("componentDidMount");
-  //     initReport(accessToken, weeks[0]);
-  //   }
-  // }
-
   render() {
     const { isLoggedIn, logout } = this.props;
     return (
@@ -80,10 +72,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(userActions.getProfile(accessToken));
     },
     initWeek: (accessToken, profile) => {
-      dispatch(calendarActions.getWeeks(accessToken, null, profile));
+      dispatch(calendarActions.getWeeks(accessToken, 1, profile));
     },
     initReport: (accessToken, week) => {
-      // dispatch(weekReportActions.getWeekReport(accessToken, week));
+      dispatch(weekReportActions.getWeekReport(accessToken, week));
     },
     logout: () => {
       return dispatch(userActions.logout());

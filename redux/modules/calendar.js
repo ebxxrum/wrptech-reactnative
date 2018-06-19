@@ -4,24 +4,39 @@ import _getWeekName from '../../redux/util/getWeekName';
 import _getWeekStatus from '../../redux/util/getWeekStatus';
 
 const SET_WEEKS = 'SET_WEEKS';
-const PER_PAGE = 5;
+const ADD_WEEKS = 'ADD_WEEKS';
 
 function setWeeks(weeks, page) {
-  const cureentPage = page + 1;
   return {
     type: SET_WEEKS,
     weeks,
-    page: cureentPage
+    page: page
   };
 }
 
-function getWeeks(accessToken, page = 1, profile) {
+function addWeeks(weeks, page) {
+  return {
+    type: ADD_WEEKS,
+    weeks,
+    page: page
+  };
+}
+
+function getWeeks(accessToken, page, profile) {
   return dispatch => {
     return callApi(`weeks`, `${accessToken}&page=${page}`)
     .then(json => {
       var weeks = _setWeekName(json);
       var weeksWithInfo = _setWeekInfo(accessToken, weeks, profile);
-      dispatch(setWeeks(weeksWithInfo, page));
+      console.log("getWeeks");
+      console.log(page);
+      if (page > 1) {
+        console.log("add");
+        dispatch(addWeeks(weeksWithInfo, page));
+      } else {
+        console.log("set");
+        dispatch(setWeeks(weeksWithInfo, page));
+      }
     });
   };
 }
@@ -55,6 +70,8 @@ function reducer(state = initalState, action) {
   switch (action.type) {
     case SET_WEEKS:
       return applyWeeks(state, action);
+    case ADD_WEEKS:
+      return fetchWeeks(state, action);
     default:
       return state;
   }
@@ -65,7 +82,14 @@ function applyWeeks(state, action) {
   return {
     data: [...weeks],
     page: page,
-    hasMoreData: weeks.length === PER_PAGE
+  }
+}
+
+function fetchWeeks(state, action) {
+  const { weeks, page } = action;
+  return {
+    data: [...state.data, ...weeks],
+    page: page,
   }
 }
 

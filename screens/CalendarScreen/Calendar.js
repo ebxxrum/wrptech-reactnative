@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, FlatList, ActivityIndicator, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo';
 import { SimpleLineIcons } from '@expo/vector-icons';
 
@@ -47,9 +47,10 @@ const CalendarScreen = (props) => {
             />
           }
           keyExtractor={item => item.id}
-          // onRefresh={this._handleRefresh}
-          // refreshing={this.state.isRefreshing}
-          // onEndReached={this._handleLoadMore}
+          ListFooterComponent={props.renderFooter}
+          onRefresh={props.refresh}
+          refreshing={props.isRefreshing}
+          onEndReached={props.loadMore}
           onEndReachedThreshold={0}
         />
       </View>
@@ -114,7 +115,9 @@ const styles = StyleSheet.create({
   dateText: {
     color: '#fff',
     fontSize: 15
-
+  },
+  listWrapper: {
+    flex: 1
   },
   actionButtonIcon: {
     fontSize: 20,

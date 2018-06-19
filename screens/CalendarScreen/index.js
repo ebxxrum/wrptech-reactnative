@@ -1,29 +1,25 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import { ActivityIndicator } from 'react-native';
 import moment from 'moment';
 
 import Calendar from './Calendar';
 import { actionCreators as weekReportActions } from '../../redux/modules/weekReport';
+import { actionCreators as calendarActions } from '../../redux/modules/calendar';
 
 class Container extends Component {
-  state = {
-    today: null,
-    myReportIsNull: true,
-    recentWeekName: null,
-    isLoading: false,
-    isRefreshing: false,
-    data: [],
-    page: 1
-  };
-
   constructor(props) {
     super(props);
+    console.log("calendar");
     console.log(props);
     var today = moment(new Date()).format('YYYY-MM-DD');
     this.state = {
+      isLoading: false,
+      isRefreshing: false,
       today: today,
       accessToken: props.accessToken,
-      data: props.data
+      data: props.data,
+      page: props.page
     };
   };
 
@@ -32,6 +28,9 @@ class Container extends Component {
       <Calendar
         {...this.state}
         {...this.props}
+        refresh={this._handleRefresh}
+        loadMore={this._handleLoadMore}
+        renderFooter={this._renderFooter}
       />
     )
   };
@@ -41,47 +40,44 @@ class Container extends Component {
     // this._makeRemoteRequest();
   };
 
-  _makeRemoteRequest = async() => {
+  _makeRemoteRequest = () => {
     const { page } = this.state;
-    const { getWeeks } = this.props;
-    const { accessToken } = this.props.screenProps;
+    const { fetchWeeks, accessToken, profile } = this.props;
     this.setState({
       isLoading: true
     });
 
-    // store에 저장!
-    const getResult = await getWeeks(accessToken, page);
-    if (getResult) {
-      setTimeout(() => {
-        this.setState({
-          data: page === 1 ? getResult : [...this.state.data, ...getResult],
-          isLoading: false,
-          // isRefreshing: false
-        });
-      }, 1500);
+    const fetchResult = fetchWeeks(accessToken, page, profile);
+    if (fetchResult) {
+      this.setState({
+        data: this.props.data,
+        isLoading: false,
+        isRefreshing: false
+      });
     };
   };
 
   _handleRefresh = () => {
-    this.setState(
-      {
-        page: 1,
-        isRefreshing: true
-      },
-      () => {
-        this._makeRemoteRequest();
-      }
-    );
+    this.setState({
+      page: 1,
+      isRefreshing: true
+    }, () => {
+      this._makeRemoteRequest();
+    });
   };
 
   _handleLoadMore = () => {
-    this.setState(
-      {
-        page: this.state.page + 1
-      },
-      () => {
-        this._makeRemoteRequest();
-      }
+    this.setState({
+      page: this.state.page + 1
+    }, () => {
+      this._makeRemoteRequest();
+    });
+  };
+
+  _renderFooter = () => {
+    if (!this.state.isLoading) return null;
+    return (
+      <ActivityIndicator animating size="large" color="#e91b23" />
     );
   };
 }
@@ -90,15 +86,18 @@ const mapStateToProps = (state, ownProps)=> {
   const { user, calendar } = state;
   return {
     accessToken: user.accessToken,
+    profile: user.profile,
     data: calendar.data,
     page: calendar.page,
-    hasMoreData: calendar.hasMoreData,
     weekInfo: calendar.data[0]
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    fetchWeeks: (accessToken, page, profile) => {
+      return dispatch(calendarActions.getWeeks(accessToken, page, profile));
+    },
     goWeek: (accessToken, week) => {
       return dispatch(weekReportActions.getWeekReport(accessToken, week));
     }
