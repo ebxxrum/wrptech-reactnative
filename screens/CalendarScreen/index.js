@@ -49,11 +49,13 @@ class Container extends Component {
 
     const fetchResult = fetchWeeks(accessToken, page, profile);
     if (fetchResult) {
-      this.setState({
-        data: this.props.data,
-        isLoading: false,
-        isRefreshing: false
-      });
+      setTimeout(() => {
+        this.setState({
+          data: this.props.data,
+          isLoading: false,
+          isRefreshing: false
+        });
+      }, 2000);
     };
   };
 

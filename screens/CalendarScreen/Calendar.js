@@ -51,7 +51,7 @@ const CalendarScreen = (props) => {
           onRefresh={props.refresh}
           refreshing={props.isRefreshing}
           onEndReached={props.loadMore}
-          onEndReachedThreshold={0}
+          onEndReachedThreshold={100}
         />
       </View>
 
@@ -115,9 +115,6 @@ const styles = StyleSheet.create({
   dateText: {
     color: '#fff',
     fontSize: 15
-  },
-  listWrapper: {
-    flex: 1
   },
   actionButtonIcon: {
     fontSize: 20,
