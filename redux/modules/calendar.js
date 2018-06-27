@@ -1,4 +1,4 @@
-import callApi from '../../redux/util/apiCaller';
+import callAxios from '../util/apiAxios';
 import getWeekName from '../../redux/util/getWeekName';
 import getWeekStatus from '../../redux/util/getWeekStatus';
 
@@ -23,17 +23,13 @@ function addWeeks(weeks, page) {
 
 function getWeeks(accessToken, page, profile) {
   return dispatch => {
-    return callApi(`weeks`, `${accessToken}&page=${page}`)
+    return callAxios(`weeks`, `${accessToken}&page=${page}`)
     .then(json => {
       var weeks = _setWeekName(json);
       var weeksWithInfo = _setWeekInfo(accessToken, weeks, profile);
-      console.log("getWeeks");
-      console.log(page);
       if (page > 1) {
-        console.log("add");
         dispatch(addWeeks(weeksWithInfo, page));
       } else {
-        console.log("set");
         dispatch(setWeeks(weeksWithInfo, page));
       }
     });
@@ -49,7 +45,7 @@ function _setWeekName(weeks) {
 
 function _setWeekInfo(accessToken, weeks, profile) {
   Promise.all(weeks.map(week =>
-    callApi(`weeks/${week.id}`, accessToken)
+    callAxios(`weeks/${week.id}`, accessToken)
     .then(json => {
       if (json) {
         getWeekStatus(json, week, profile);

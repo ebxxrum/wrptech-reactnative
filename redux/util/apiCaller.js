@@ -7,10 +7,11 @@ function callApi(endpoint, accessToken, method, body) {
     body: JSON.stringify(body),
   })
   .then(response => response.json())
+  // TODO: handling error, not just display error.
   .catch(error => console.warn(error))
   .then(json => {
     return json
   });
-}
+};
 
 export default callApi;

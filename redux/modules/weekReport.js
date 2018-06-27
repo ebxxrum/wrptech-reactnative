@@ -1,4 +1,5 @@
 import callApi from '../../redux/util/apiCaller';
+import callAxios from '../util/apiAxios';
 
 const SET_WEEK_REPORT = 'SET_WEEK_REPORT';
 
@@ -14,7 +15,7 @@ function getWeekReport(accessToken, weekInfo) {
   var id = weekInfo.id;
 
   return dispatch => {
-    return callApi(`weeks/${id}`, accessToken)
+    return callAxios(`weeks/${id}`, accessToken)
     .then(json => {
       if (json) {
         dispatch(setWeekReport(json, weekInfo));

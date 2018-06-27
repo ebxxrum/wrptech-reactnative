@@ -1,6 +1,7 @@
 // Import
 import { AsyncStorage } from 'react-native';
 import callApi from '../util/apiCaller';
+import callAxios from '../util/apiAxios';
 
 // Actions
 const LOGIN = 'LOGIN';
@@ -46,7 +47,7 @@ function login(email, password) {
 
 function getProfile(accessToken) {
   return dispatch => {
-    return callApi(`users/me`, accessToken)
+    return callAxios(`users/me`, accessToken)
     .then(json => {
       dispatch(setUser(json));
     });
