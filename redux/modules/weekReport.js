@@ -1,6 +1,4 @@
-import { AsyncStorage } from 'react-native';
 import callApi from '../../redux/util/apiCaller';
-import _getWeekName from '../../redux/util/getWeekName';
 
 const SET_WEEK_REPORT = 'SET_WEEK_REPORT';
 

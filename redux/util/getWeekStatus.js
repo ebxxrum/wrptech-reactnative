@@ -1,4 +1,4 @@
-function _getWeekStatus(weeks, weekInfo, profile) {
+function getWeekStatus(weeks, weekInfo, profile) {
   var reportStatus = false;
   var myReport = null;
 
@@ -15,4 +15,4 @@ function _getWeekStatus(weeks, weekInfo, profile) {
   return weekInfo;
 }
 
-export default _getWeekStatus;
+export default getWeekStatus;

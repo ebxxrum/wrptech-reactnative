@@ -1,7 +1,6 @@
-import { AsyncStorage } from 'react-native';
 import callApi from '../../redux/util/apiCaller';
-import _getWeekName from '../../redux/util/getWeekName';
-import _getWeekStatus from '../../redux/util/getWeekStatus';
+import getWeekName from '../../redux/util/getWeekName';
+import getWeekStatus from '../../redux/util/getWeekStatus';
 
 const SET_WEEKS = 'SET_WEEKS';
 const ADD_WEEKS = 'ADD_WEEKS';
@@ -43,7 +42,7 @@ function getWeeks(accessToken, page, profile) {
 
 function _setWeekName(weeks) {
   weeks.map(week =>
-    week.weekName = _getWeekName(week.end_date)
+    week.weekName = getWeekName(week.end_date)
   )
   return weeks;
 }
@@ -53,7 +52,7 @@ function _setWeekInfo(accessToken, weeks, profile) {
     callApi(`weeks/${week.id}`, accessToken)
     .then(json => {
       if (json) {
-        _getWeekStatus(json, week, profile);
+        getWeekStatus(json, week, profile);
       }
     })
   ))

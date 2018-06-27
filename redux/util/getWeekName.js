@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-function _getWeekName(date) {
+function getWeekName(date) {
   var date = new Date(date);
 
   // weekOfMonth 설정
@@ -12,4 +12,4 @@ function _getWeekName(date) {
   return (month+1) + "월" + weekOfMonth + "주";
 }
 
-export default _getWeekName;
+export default getWeekName;
