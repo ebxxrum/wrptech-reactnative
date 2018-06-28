@@ -4,14 +4,13 @@ const initalState = {};
 
 const WeekReportReducer = (state = initalState, action) => {
   switch (action.type) {
-		case SET_WEEK_REPORT:
-			return {
-				week: action.week,
-				weekInfo: action.weekInfo
-			};
-			// return applyWeekReport(state, action);
-		default:
-			return state;
+    case SET_WEEK_REPORT:
+      return {
+          week: action.week,
+          weekInfo: action.weekInfo
+      };
+    default:
+      return state;
   }
 };
 

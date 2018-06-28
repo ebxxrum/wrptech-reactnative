@@ -5,6 +5,7 @@ import WeekReport from './WeekReport';
 import { actionCreators as weekReportActions } from '../../redux/modules/weekReport';
 import { getWeekReport, getWeekInfo } from './weekReportReducer';
 import { getRecentWeek } from '../CalendarScreen/caledarReducer';
+import { getAccessToken, getProfile } from '../../redux/reducers/UserReducer';
 
 class Container extends Component {
   constructor(props) {
@@ -67,6 +68,9 @@ const mapStateToProps = (state, ownProps) => {
     // weekReport: weekReport.week,
     // weekInfo: weekReport.weekInfo,
     // recentWeekInfo: calendar.data[0],
+    // accessToken: getAccessToken(state),
+    // profile: getProfile(state),
+    
     weekReport: getWeekReport(state),
     weekInfo: getWeekInfo(state),
     recentWeekInfo: getRecentWeek(state),

@@ -8,6 +8,7 @@ import calendar from './modules/calendar';
 
 import weeks from '../screens/WeekScreen/weekReportReducer';
 import calendars from '../screens/CalendarScreen/caledarReducer';
+import users from './reducers/UserReducer';
 
 const middlewares = [thunk];
 
@@ -22,7 +23,8 @@ const reducer = persistCombineReducers(persistConfig, {
   calendar,
 
   weeks,
-  calendars
+  calendars,
+  users
 });
 
 const configureStore = () => {
