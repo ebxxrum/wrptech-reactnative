@@ -1,11 +1,14 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import WeekReport from './WeekReport';
-import { actionCreators as weekReportActions } from '../../redux/modules/weekReport';
-import { getWeekReport, getWeekInfo } from './weekReportReducer';
-import { getRecentWeek } from '../CalendarScreen/caledarReducer';
-import { getAccessToken, getProfile } from '../../redux/reducers/UserReducer';
+
+import { getWeekReport } from '../../redux/actions/WeekReportActions';
+
+import { getReport, getWeekInfo } from '../../redux/reducers/WeekReportReducer';
+import { getRecentWeek } from '../../redux/reducers/CaledarReducer';
+import { getAccessToken, getUser } from '../../redux/reducers/UserReducer';
 
 class Container extends Component {
   constructor(props) {
@@ -60,29 +63,32 @@ class Container extends Component {
   };
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const { user, weekReport, calendar } = state;
+const mapStateToProps = state => {
+  console.log("mapStateToProps", state);
   return {
-    accessToken: user.accessToken,
-    profile: user.profile,
-    // weekReport: weekReport.week,
-    // weekInfo: weekReport.weekInfo,
-    // recentWeekInfo: calendar.data[0],
-    // accessToken: getAccessToken(state),
-    // profile: getProfile(state),
-    
-    weekReport: getWeekReport(state),
+    accessToken: getAccessToken(state),
+    profile: getUser(state),
+    weekReport: getReport(state),
     weekInfo: getWeekInfo(state),
     recentWeekInfo: getRecentWeek(state),
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = dispatch => {
   return {
     fetchWeekReport: (accessToken, week) => {
-      return dispatch(weekReportActions.getWeekReport(accessToken, week));
+      return dispatch(getWeekReport(accessToken, week));
     }
   };
+};
+
+Container.propTypes = {
+  accessToken: PropTypes.string.isRequired,
+  profile: PropTypes.object.isRequired,
+  weekReport: PropTypes.array.isRequired,
+  weekInfo: PropTypes.object.isRequired,
+  recentWeekInfo: PropTypes.object.isRequired,
+  fetchWeekReport: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Container);

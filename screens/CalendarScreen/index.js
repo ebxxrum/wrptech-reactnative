@@ -2,11 +2,15 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { ActivityIndicator } from 'react-native';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 
 import Calendar from './Calendar';
-import { actionCreators as weekReportActions } from '../../redux/modules/weekReport';
-import { actionCreators as calendarActions } from '../../redux/modules/calendar';
-import { getRecentWeek, getCalendar, getPage } from './caledarReducer';
+
+import { getWeeks } from '../../redux/actions/CalendarActions';
+import { getWeekReport } from '../../redux/actions/WeekReportActions';
+
+import { getAccessToken, getUser } from '../../redux/reducers/UserReducer';
+import { getRecentWeek, getCalendar, getPage } from '../../redux/reducers/CaledarReducer';
 
 class Container extends Component {
   constructor(props) {
@@ -85,29 +89,35 @@ class Container extends Component {
   };
 }
 
-const mapStateToProps = (state, ownProps)=> {
-  const { user, calendar } = state;
+const mapStateToProps = state => {
   return {
-    accessToken: user.accessToken,
-    profile: user.profile,
-    // data: calendar.data,
-    // page: calendar.page,
-    // weekInfo: calendar.data[0]
+    accessToken: getAccessToken(state),
+    profile: getUser(state),
     data: getCalendar(state),
     page: getPage(state),
     weekInfo: getRecentWeek(state)
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = dispatch => {
   return {
     fetchWeeks: (accessToken, page, profile) => {
-      return dispatch(calendarActions.getWeeks(accessToken, page, profile));
+      return dispatch(getWeeks(accessToken, page, profile));
     },
     goWeek: (accessToken, week) => {
-      return dispatch(weekReportActions.getWeekReport(accessToken, week));
+      return dispatch(getWeekReport(accessToken, week));
     }
   };
 };
+
+Container.propTypes = {
+  accessToken: PropTypes.string.isRequired,
+  profile: PropTypes.object.isRequired,
+  data: PropTypes.array.isRequired,
+  page: PropTypes.number.isRequired,
+  weekInfo: PropTypes.object.isRequired,
+  fetchWeeks: PropTypes.func.isRequired,
+  goWeek: PropTypes.func.isRequired
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Container);

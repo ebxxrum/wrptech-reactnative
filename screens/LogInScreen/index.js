@@ -7,10 +7,6 @@ import { login } from '../../redux/actions/UserActions';
 import LogInScreen from './LogInScreen';
 
 class Container extends Component {
-  static propTypes = {
-    login: PropTypes.func.isRequired,
-  };
-
   state = {
     email: '',
     password: '',
@@ -72,6 +68,10 @@ const mapDispatchToProps = dispatch => {
       return dispatch(login(email, password));
     }
   };
+};
+
+Container.propTypes = {
+  login: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Container);

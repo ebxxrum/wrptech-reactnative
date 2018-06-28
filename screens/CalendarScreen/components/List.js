@@ -1,6 +1,4 @@
-import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { actionCreators as weekReportActions } from '../../../redux/modules/weekReport';
 import { ScrollView, View, Text, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
 import { SimpleLineIcons, FontAwesome } from '@expo/vector-icons';
 

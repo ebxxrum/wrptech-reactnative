@@ -1,7 +1,5 @@
-import React, { Component } from 'react';
-import { View, ScrollView, Text, TouchableOpacity, TextInput, StatusBar, ActivityIndicator, Platform, StyleSheet } from 'react-native';
-import style from '../../screens/commonStyle';
-import WeekScreen from '../../screens/WeekScreen';
+import React from 'react';
+import { View, Text, TextInput, StatusBar, ActivityIndicator, StyleSheet } from 'react-native';
 
 const Form = props => {
   if (props.isSubmitting) {

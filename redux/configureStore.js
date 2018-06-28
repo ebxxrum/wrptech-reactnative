@@ -2,13 +2,10 @@ import { applyMiddleware, createStore } from 'redux';
 import { persistStore, persistCombineReducers } from 'redux-persist'; // to persist and rehydrate a redux store.
 import storage from 'redux-persist/lib/storage';
 import thunk from 'redux-thunk';
-import user from './modules/user';
-import weekReport from './modules/weekReport';
-import calendar from './modules/calendar';
 
-import weeks from '../screens/WeekScreen/weekReportReducer';
-import calendars from '../screens/CalendarScreen/caledarReducer';
-import users from './reducers/UserReducer';
+import user from './reducers/UserReducer';
+import weekReport from './reducers/WeekReportReducer';
+import calendar from './reducers/CaledarReducer';
 
 const middlewares = [thunk];
 
@@ -21,10 +18,6 @@ const reducer = persistCombineReducers(persistConfig, {
   user,
   weekReport,
   calendar,
-
-  weeks,
-  calendars,
-  users
 });
 
 const configureStore = () => {

@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ScrollView, View, Text, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
 
-import { actionCreators as weekReportActions } from '../../redux/modules/weekReport';
+import { getAccessToken } from '../../redux/reducers/UserReducer';
+
+import { createReport } from '../../redux/actions/WeekReportActions';
+
 import Form from './ReportForm';
 
 class Container extends Component {
@@ -18,10 +21,6 @@ class Container extends Component {
         </TouchableOpacity>
       )
     };
-  };
-
-  static propTypes = {
-    createReport: PropTypes.func.isRequired,
   };
 
   state = {
@@ -114,19 +113,24 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state, ownProps) => {
   const { navigation: { state: { params: { weekInfo } } } } = ownProps;
-  const { user } = state;
   return {
-    accessToken: user.accessToken,
+    accessToken: getAccessToken(state),
     weekInfo: weekInfo
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = dispatch => {
   return {
-    createReport: (accessToken, weekID, work, plan, info) => {
-      return dispatch(weekReportActions.createReport(accessToken, weekID, work, plan));
+    createReport: (accessToken, weekID, work, plan) => {
+      return dispatch(createReport(accessToken, weekID, work, plan));
     },
   };
+};
+
+Container.propTypes = {
+  accessToken: PropTypes.string.isRequired,
+  weekInfo: PropTypes.object.isRequired,
+  createReport: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Container);

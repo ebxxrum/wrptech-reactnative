@@ -20,23 +20,24 @@ const UserReducer = (state = initialState, action) => {
     case SET_USER:
       return {
         ...state,
-        profile: action.user
+        profile: action.profile
       }
     case LOGOUT:
       AsyncStorage.clear();
       return {
-        isLoggedIn: false
+        isLoggedIn: false,
+        // accessToken: null
       }
     default:
       return state;
   }
 }
 
-export const getLoginStatus = state => state.users.isLoggedIn;
+export const getLoginStatus = state => state.user.isLoggedIn;
 
-export const getAccessToken = state => state.users.accessToken;
+export const getAccessToken = state => state.user.accessToken;
 
-export const getUser = state => state.users.profile;
+export const getUser = state => state.user.profile;
 
 // Export Reducer
 export default UserReducer;

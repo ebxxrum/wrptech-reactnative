@@ -1,4 +1,4 @@
-import { SET_WEEK_REPORT } from './weekReportActions';
+import { SET_WEEK_REPORT } from '../actions/WeekReportActions';
 
 const initalState = {};
 
@@ -14,8 +14,8 @@ const WeekReportReducer = (state = initalState, action) => {
   }
 };
 
-export const getWeekReport = state => state.weeks.week;
+export const getReport = state => state.weekReport.week;
 
-export const getWeekInfo = state => state.weeks.weekInfo;
+export const getWeekInfo = state => state.weekReport.weekInfo;
 
 export default WeekReportReducer;

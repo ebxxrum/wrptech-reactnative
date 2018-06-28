@@ -15,10 +15,10 @@ export function setLogIn(accessToken) {
   };
 }
 
-export function setUser(user) {
+export function setUser(profile) {
   return {
     type: SET_USER,
-    user
+    profile
   };
 }
 
@@ -52,6 +52,7 @@ export function login(email, password) {
 }
 
 export function getProfile(accessToken) {
+  console.log("getProfile start");
   return dispatch => {
     return callAxios(`users/me`, accessToken)
     .then(json => {
