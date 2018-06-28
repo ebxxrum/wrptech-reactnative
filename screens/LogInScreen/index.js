@@ -4,13 +4,11 @@ import PropTypes from 'prop-types';
 import { Alert } from 'react-native';
 
 import { login } from '../../redux/actions/UserActions';
-import { actionCreators as userActions } from '../../redux/modules/user';
 import LogInScreen from './LogInScreen';
 
 class Container extends Component {
   static propTypes = {
     login: PropTypes.func.isRequired,
-    // dispatch: PropTypes.func.isRequired
   };
 
   state = {
@@ -68,10 +66,10 @@ class Container extends Component {
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = dispatch => {
   return {
     login: (email, password) => {
-      return dispatch(userActions.login(email, password));
+      return dispatch(login(email, password));
     }
   };
 };

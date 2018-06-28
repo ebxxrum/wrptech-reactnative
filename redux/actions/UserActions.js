@@ -37,16 +37,15 @@ export function login(email, password) {
     // TODO: use axios, and handle 401 error
     return callApi(`users/authenticate`, null, 'post', {email, password})
     .then(json => {
-      if (json) {
-        // axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
-        // axios.defaults.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE';
-        // axios.defaults.headers['Access-Control-Allow-Headers'] = 'Authorization';
-        // axios.defaults.headers['Authorization'] = `Bearer ${json.token}`
-
-        dispatch(setLogIn(json.token));
-        return true;
-      } else {
-        return false;
+      // TODO: if use axios, can handdle error more easier
+      switch(json) {
+        case 'Not found User':
+          return false;
+        case 'Please check your password':
+          return false;
+        default: 
+          dispatch(setLogIn(json.token));
+          return true;
       }
     });
   };
