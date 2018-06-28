@@ -2,6 +2,7 @@
 import { AsyncStorage } from 'react-native';
 import callApi from '../util/apiCaller';
 import callAxios from '../util/apiAxios';
+import axios from 'axios';
 
 // Actions
 const LOGIN = 'LOGIN';
@@ -36,6 +37,11 @@ function login(email, password) {
     return callApi(`users/authenticate`, null, 'post', {email, password})
     .then(json => {
       if (json) {
+        axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
+        axios.defaults.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE';
+        axios.defaults.headers['Access-Control-Allow-Headers'] = 'Authorization';
+        axios.defaults.headers['Authorization'] = `Bearer ${json.token}`
+
         dispatch(setLogIn(json.token));
         return true;
       } else {

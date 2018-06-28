@@ -3,19 +3,16 @@ import React, { Component } from 'react';
 
 import WeekReport from './WeekReport';
 import { actionCreators as weekReportActions } from '../../redux/modules/weekReport';
+import { getWeekReport, getWeekInfo } from './weekReportReducer';
+import { getRecentWeek } from '../CalendarScreen/caledarReducer';
 
 class Container extends Component {
-  state = {
-    modalVisible: false,
-    // isFetching: true
-  };
-
   constructor(props) {
     super(props);
     console.log("WeekScreen");
     console.log(props);
     this.state = {
-      ...this.state,
+      modalVisible: false,
       weekReport: props.weekReport,
       weekInfo: props.weekInfo
     };
@@ -67,9 +64,12 @@ const mapStateToProps = (state, ownProps) => {
   return {
     accessToken: user.accessToken,
     profile: user.profile,
-    weekReport: weekReport.week,
-    weekInfo: weekReport.weekInfo,
-    recentWeekInfo: calendar.data[0]
+    // weekReport: weekReport.week,
+    // weekInfo: weekReport.weekInfo,
+    // recentWeekInfo: calendar.data[0],
+    weekReport: getWeekReport(state),
+    weekInfo: getWeekInfo(state),
+    recentWeekInfo: getRecentWeek(state),
   };
 };
 

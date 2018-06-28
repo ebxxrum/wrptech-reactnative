@@ -27,14 +27,14 @@ class AppContainer extends Component {
 
     if (isLoggedIn) {
       initApp(accessToken);
-    }
 
-    if (profile) {
-      initWeek(accessToken, profile);
-    }
+      if (profile) {
+        initWeek(accessToken, profile);
 
-    if (weeks) {
-      initReport(accessToken, weeks[0]);
+        if (weeks) {
+          initReport(accessToken, weeks[0]);
+        }
+      }
     }
   };
 

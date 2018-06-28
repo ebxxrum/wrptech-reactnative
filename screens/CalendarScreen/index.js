@@ -6,6 +6,7 @@ import moment from 'moment';
 import Calendar from './Calendar';
 import { actionCreators as weekReportActions } from '../../redux/modules/weekReport';
 import { actionCreators as calendarActions } from '../../redux/modules/calendar';
+import { getRecentWeek, getCalendar, getPage } from './caledarReducer';
 
 class Container extends Component {
   constructor(props) {
@@ -89,9 +90,12 @@ const mapStateToProps = (state, ownProps)=> {
   return {
     accessToken: user.accessToken,
     profile: user.profile,
-    data: calendar.data,
-    page: calendar.page,
-    weekInfo: calendar.data[0]
+    // data: calendar.data,
+    // page: calendar.page,
+    // weekInfo: calendar.data[0]
+    data: getCalendar(state),
+    page: getPage(state),
+    weekInfo: getRecentWeek(state)
   };
 };
 
