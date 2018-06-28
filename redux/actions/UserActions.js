@@ -34,13 +34,14 @@ export function logout() {
 // Export Action Creators
 export function login(email, password) {
   return dispatch => {
+    // TODO: use axios, and handle 401 error
     return callApi(`users/authenticate`, null, 'post', {email, password})
     .then(json => {
       if (json) {
-        axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
-        axios.defaults.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE';
-        axios.defaults.headers['Access-Control-Allow-Headers'] = 'Authorization';
-        axios.defaults.headers['Authorization'] = `Bearer ${json.token}`
+        // axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
+        // axios.defaults.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE';
+        // axios.defaults.headers['Access-Control-Allow-Headers'] = 'Authorization';
+        // axios.defaults.headers['Authorization'] = `Bearer ${json.token}`
 
         dispatch(setLogIn(json.token));
         return true;

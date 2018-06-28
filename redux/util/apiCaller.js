@@ -8,7 +8,6 @@ function callApi(endpoint, accessToken, method, body) {
   })
   .then(response => response.json())
   // TODO: handling error, not just display error.
-  .catch(error => console.warn(error))
   .then(json => {
     return json
   });
