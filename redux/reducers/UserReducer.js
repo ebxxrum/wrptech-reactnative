@@ -15,7 +15,8 @@ const UserReducer = (state = initialState, action) => {
     case LOGIN:
       return {
         isLoggedIn: true, 
-        accessToken: action.accessToken
+        accessToken: action.accessToken,
+        profile: action.profile
       }
     case SET_USER:
       return {

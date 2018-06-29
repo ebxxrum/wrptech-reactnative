@@ -64,7 +64,6 @@ class Container extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log("mapStateToProps", state);
   return {
     accessToken: getAccessToken(state),
     profile: getUser(state),
@@ -84,7 +83,7 @@ const mapDispatchToProps = dispatch => {
 
 Container.propTypes = {
   accessToken: PropTypes.string.isRequired,
-  profile: PropTypes.object.isRequired,
+  // profile: PropTypes.object.isRequired,
   weekReport: PropTypes.array.isRequired,
   weekInfo: PropTypes.object.isRequired,
   recentWeekInfo: PropTypes.object.isRequired,

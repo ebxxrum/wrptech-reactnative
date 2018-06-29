@@ -8,10 +8,11 @@ export const LOGOUT = 'LOGOUT';
 export const SET_USER = 'SET_USER';
 
 // Action Creators
-export function setLogIn(accessToken) {
+export function setLogIn(accessToken, profile) {
   return {
     type: LOGIN,
-    accessToken
+    accessToken,
+    profile
   };
 }
 
@@ -44,7 +45,9 @@ export function login(email, password) {
         case 'Please check your password':
           return false;
         default: 
-          dispatch(setLogIn(json.token));
+          let token = json.token;
+          let profile = getProfile(token);
+          dispatch(setLogIn(token, profile));
           return true;
       }
     });
@@ -52,11 +55,11 @@ export function login(email, password) {
 }
 
 export function getProfile(accessToken) {
-  console.log("getProfile start");
   return dispatch => {
     return callAxios(`users/me`, accessToken)
     .then(json => {
       dispatch(setUser(json));
+      return json;
     });
   };
 }

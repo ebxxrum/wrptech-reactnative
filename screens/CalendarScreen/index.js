@@ -112,7 +112,7 @@ const mapDispatchToProps = dispatch => {
 
 Container.propTypes = {
   accessToken: PropTypes.string.isRequired,
-  profile: PropTypes.object.isRequired,
+  // profile: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
   page: PropTypes.number.isRequired,
   weekInfo: PropTypes.object.isRequired,
