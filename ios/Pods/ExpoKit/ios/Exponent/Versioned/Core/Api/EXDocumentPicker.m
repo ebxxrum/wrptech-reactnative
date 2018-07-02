@@ -1,9 +1,13 @@
 // Copyright 2015-present 650 Industries. All rights reserved.
 
 #import "EXDocumentPicker.h"
+#import "EXScopedModuleRegistry.h"
+#import "EXUtil.h"
+#import "EXFileSystem.h"
 
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <UIKit/UIKit.h>
+#import <React/RCTConvert.h>
 #import <React/RCTUtils.h>
 
 static NSString * EXConvertMimeTypeToUTI(NSString *mimeType)
@@ -35,9 +39,13 @@ static NSString * EXConvertMimeTypeToUTI(NSString *mimeType)
 @property (nonatomic, strong) RCTPromiseResolveBlock resolve;
 @property (nonatomic, strong) RCTPromiseRejectBlock reject;
 
+@property (nonatomic, assign) BOOL shouldCopyToCacheDirectory;
+
 @end
 
 @implementation EXDocumentPicker
+
+@synthesize bridge = _bridge;
 
 RCT_EXPORT_MODULE(ExponentDocumentPicker)
 
@@ -46,6 +54,12 @@ RCT_EXPORT_METHOD(getDocumentAsync:(NSDictionary *)options resolver:(RCTPromiseR
   _reject = reject;
 
   NSString *type = EXConvertMimeTypeToUTI(options[@"type"] ?: @"*/*");
+
+  if (options[@"copyToCacheDirectory"] && [RCTConvert BOOL:options[@"copyToCacheDirectory"]] == NO) {
+    _shouldCopyToCacheDirectory = NO;
+  } else {
+    _shouldCopyToCacheDirectory = YES;
+  }
 
   UIDocumentMenuViewController *documentMenuVC;
   @try {
@@ -67,13 +81,13 @@ RCT_EXPORT_METHOD(getDocumentAsync:(NSDictionary *)options resolver:(RCTPromiseR
     documentMenuVC.modalPresentationStyle = UIModalPresentationPageSheet;
   }
 
-  [RCTPresentedViewController() presentViewController:documentMenuVC animated:YES completion:nil];
+  [_bridge.scopedModules.util.currentViewController presentViewController:documentMenuVC animated:YES completion:nil];
 }
 
 - (void)documentMenu:(UIDocumentMenuViewController *)documentMenu didPickDocumentPicker:(UIDocumentPickerViewController *)documentPicker
 {
   documentPicker.delegate = self;
-  [RCTPresentedViewController() presentViewController:documentPicker animated:YES completion:nil];
+  [_bridge.scopedModules.util.currentViewController presentViewController:documentPicker animated:YES completion:nil];
 }
 
 - (void)documentMenuWasCancelled:(UIDocumentMenuViewController *)documentMenu
@@ -95,10 +109,24 @@ RCT_EXPORT_METHOD(getDocumentAsync:(NSDictionary *)options resolver:(RCTPromiseR
     _reject = nil;
     return;
   }
+  
+  NSURL *newUrl = url;
+  if (_shouldCopyToCacheDirectory) {
+    NSString *directory = [_bridge.scopedModules.fileSystem.cachesDirectory stringByAppendingPathComponent:@"DocumentPicker"];
+    NSString *extension = [url pathExtension];
+    NSString *path = [EXFileSystem generatePathInDirectory:directory withExtension:[extension isEqualToString:@""] ? extension : [@"." stringByAppendingString:extension]];
+    NSError *error = nil;
+    newUrl = [NSURL fileURLWithPath:path];
+    [[NSFileManager defaultManager] copyItemAtURL:url toURL:newUrl error:&error];
+    if (error != nil) {
+      self.reject(@"E_CANNOT_PICK_FILE", @"File could not be saved to app storage", error);
+      return;
+    }
+  }
 
   _resolve(@{
     @"type": @"success",
-    @"uri": [url absoluteString],
+    @"uri": [newUrl absoluteString],
     @"name": [url lastPathComponent],
     @"size": fileSize,
   });

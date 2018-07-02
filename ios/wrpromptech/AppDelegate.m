@@ -4,6 +4,7 @@
 #import "ExpoKit.h"
 #import "EXViewController.h"
 
+
 @interface AppDelegate ()
 
 @property (nonatomic, strong) EXViewController *rootViewController;
@@ -20,7 +21,7 @@
     _rootViewController = [ExpoKit sharedInstance].rootViewController;
     _window.rootViewController = _rootViewController;
     
-    [_rootViewController loadReactApplication];
+//    [_rootViewController];
     [_window makeKeyAndVisible];
     
     return YES;

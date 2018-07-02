@@ -4,10 +4,11 @@ platform :ios, '9.0'
 target 'wrpromptech' do
   pod 'ExpoKit',
     :git => "http://github.com/expo/expo.git",
-    :tag => "ios/2.3.3",
+    :tag => "ios/2.6.5",
     :subspecs => [
       "Core",
-      "CPP"
+      "CPP",
+      "GL"
     ],
     :inhibit_warnings => true
 

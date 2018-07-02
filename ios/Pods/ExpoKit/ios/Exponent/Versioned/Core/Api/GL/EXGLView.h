@@ -2,26 +2,24 @@
 #import <React/RCTBridge.h>
 #import <UEXGL.h>
 
+#import "EXGLContext.h"
 #import "EXGLViewManager.h"
 
-@interface EXGLView : UIView
+NS_ASSUME_NONNULL_BEGIN
+
+@interface EXGLView : UIView <EXGLContextDelegate>
 
 - (instancetype)initWithManager:(EXGLViewManager *)mgr;
+- (UEXGLContextId)exglCtxId;
 
-@property (nonatomic, copy) RCTDirectEventBlock onSurfaceCreate;
+@property (nonatomic, copy, nullable) RCTDirectEventBlock onSurfaceCreate;
 
-- (NSDictionary *)maybeStartARSession;
+- (void)setArSessionManager:(id)arSessionManager;
 - (void)maybeStopARSession;
-- (NSDictionary *)arMatricesForViewportSize:(CGSize)viewportSize zNear:(CGFloat)zNear zFar:(CGFloat)zFar;
-- (NSDictionary *)arLightEstimation;
-- (NSDictionary *)rawFeaturePoints;
-- (NSDictionary *)planes;
-- (void)setIsPlaneDetectionEnabled:(BOOL)planeDetectionEnabled;
-- (void)setIsLightEstimationEnabled:(BOOL)lightEstimationEnabled;
-- (void)setWorldAlignment:(NSInteger)worldAlignment;
-
 // "protected"
-@property (nonatomic, strong) EAGLContext *eaglCtx;
-@property (nonatomic, assign) UEXGLContextId exglCtxId;
+@property (nonatomic, strong, nullable) EXGLContext *glContext;
+@property (nonatomic, strong, nullable) EAGLContext *uiEaglCtx;
 
 @end
+
+NS_ASSUME_NONNULL_END

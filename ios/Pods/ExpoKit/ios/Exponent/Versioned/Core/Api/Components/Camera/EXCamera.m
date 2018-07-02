@@ -26,6 +26,7 @@
 @property (nonatomic, copy) RCTDirectEventBlock onMountError;
 @property (nonatomic, copy) RCTDirectEventBlock onBarCodeRead;
 @property (nonatomic, copy) RCTDirectEventBlock onFacesDetected;
+@property (nonatomic, copy) RCTDirectEventBlock onPictureSaved;
 
 @end
 
@@ -47,6 +48,7 @@ static NSDictionary *defaultFaceDetectorOptions = nil;
     self.previewLayer.needsDisplayOnBoundsChange = YES;
 #endif
     self.paused = NO;
+    self.pictureSize = AVCaptureSessionPresetHigh;
     [self changePreviewOrientation:[UIApplication sharedApplication].statusBarOrientation];
     [self initializeCaptureSessionInput];
     [self startSession];
@@ -86,6 +88,13 @@ static NSDictionary *defaultFaceDetectorOptions = nil;
 {
   if (_onBarCodeRead) {
     _onBarCodeRead(event);
+  }
+}
+
+- (void)onPictureSaved:(NSDictionary *)event
+{
+  if (_onPictureSaved) {
+    _onPictureSaved(event);
   }
 }
 
@@ -214,7 +223,7 @@ static NSDictionary *defaultFaceDetectorOptions = nil;
   AVCaptureDevice *device = [self.videoCaptureDeviceInput device];
   NSError *error = nil;
   
-  if (device.focusMode != EXCameraAutoFocusOff) {
+  if (device == nil || device.focusMode != EXCameraAutoFocusOff) {
     return;
   }
   
@@ -288,6 +297,11 @@ static NSDictionary *defaultFaceDetectorOptions = nil;
   [device unlockForConfiguration];
 }
 
+- (void)updatePictureSize
+{
+  [self updateSessionPreset:self.pictureSize];
+}
+
 - (void)updateFaceDetecting:(id)faceDetecting
 {
   [_faceDetectorManager setIsEnabled:faceDetecting];
@@ -314,16 +328,26 @@ static NSDictionary *defaultFaceDetectorOptions = nil;
   [connection setVideoOrientation:[EXCameraUtils videoOrientationForDeviceOrientation:[[UIDevice currentDevice] orientation]]];
   [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:connection completionHandler: ^(CMSampleBufferRef imageSampleBuffer, NSError *error) {
     if (imageSampleBuffer && !error) {
+      BOOL useFastMode = options[@"fastMode"] && [options[@"fastMode"] boolValue];
+      if (useFastMode) {
+        resolve(nil);
+      }
       NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageSampleBuffer];
       
       UIImage *takenImage = [UIImage imageWithData:imageData];
-      
-      CGRect frame = [_previewLayer metadataOutputRectOfInterestForRect:self.frame];
+
       CGImageRef takenCGImage = takenImage.CGImage;
-      size_t width = CGImageGetWidth(takenCGImage);
-      size_t height = CGImageGetHeight(takenCGImage);
-      CGRect cropRect = CGRectMake(frame.origin.x * width, frame.origin.y * height, frame.size.width * width, frame.size.height * height);
-      takenImage = [EXImageUtils cropImage:takenImage toRect:cropRect];
+      CGSize previewSize;
+      if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]))
+      {
+        previewSize = CGSizeMake(self.previewLayer.frame.size.height, self.previewLayer.frame.size.width);
+      } else {
+        previewSize = CGSizeMake(self.previewLayer.frame.size.width, self.previewLayer.frame.size.height);
+      }
+      
+      CGRect cropRect = CGRectMake(0, 0, CGImageGetWidth(takenCGImage), CGImageGetHeight(takenCGImage));
+      CGRect croppedSize = AVMakeRectWithAspectRatioInsideRect(previewSize, cropRect);
+      takenImage = [EXImageUtils cropImage:takenImage toRect:croppedSize];
       
       NSMutableDictionary *response = [[NSMutableDictionary alloc] init];
       float quality = [options[@"quality"] floatValue];
@@ -355,7 +379,11 @@ static NSDictionary *defaultFaceDetectorOptions = nil;
         [EXImageUtils updatePhotoMetadata:imageSampleBuffer withAdditionalData:@{ @"Orientation": @(imageRotation) } inResponse:response]; // TODO
       }
       
-      resolve(response);
+      if (useFastMode) {
+        [self onPictureSaved:@{@"data": response, @"id": options[@"id"]}];
+      } else {
+        resolve(response);
+      }
     } else {
       reject(@"E_IMAGE_CAPTURE_FAILED", @"Image could not be captured", error);
     }
@@ -382,11 +410,18 @@ static NSDictionary *defaultFaceDetectorOptions = nil;
       self.movieFileOutput.maxRecordedFileSize = [options[@"maxFileSize"] integerValue];
     }
     
+    AVCaptureSessionPreset preset;
     if (options[@"quality"]) {
-      [self updateSessionPreset:[EXCameraUtils captureSessionPresetForVideoResolution:(EXCameraVideoResolution)[options[@"quality"] integerValue]]];
+      preset = [EXCameraUtils captureSessionPresetForVideoResolution:(EXCameraVideoResolution)[options[@"quality"] integerValue]];
+    } else if ([self.session.sessionPreset isEqual:AVCaptureSessionPresetPhoto]) {
+      preset = AVCaptureSessionPresetHigh;
     }
     
-    [self updateSessionAudioIsMuted:!!options[@"mute"]];
+    if (preset != nil) {
+      [self updateSessionPreset:preset];
+    }
+    
+    [self updateSessionAudioIsMuted:options[@"mute"] && [options[@"mute"] boolValue]];
     
     AVCaptureConnection *connection = [self.movieFileOutput connectionWithMediaType:AVMediaTypeVideo];
     [connection setVideoOrientation:[EXCameraUtils videoOrientationForInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]]];
@@ -404,6 +439,16 @@ static NSDictionary *defaultFaceDetectorOptions = nil;
 - (void)stopRecording
 {
   [self.movieFileOutput stopRecording];
+}
+
+- (void)resumePreview
+{
+  [[self.previewLayer connection] setEnabled:YES];
+}
+
+- (void)pausePreview
+{
+  [[self.previewLayer connection] setEnabled:NO];
 }
 
 - (void)startSession
@@ -425,7 +470,6 @@ static NSDictionary *defaultFaceDetectorOptions = nil;
     if ([self.session canAddOutput:stillImageOutput]) {
       stillImageOutput.outputSettings = @{AVVideoCodecKey : AVVideoCodecJPEG};
       [self.session addOutput:stillImageOutput];
-      [stillImageOutput setHighResolutionStillImageOutputEnabled:YES];
       self.stillImageOutput = stillImageOutput;
     }
     
@@ -511,10 +555,14 @@ static NSDictionary *defaultFaceDetectorOptions = nil;
 
 #pragma mark - internal
 
-- (void)updateSessionPreset:(NSString *)preset
+- (void)updateSessionPreset:(AVCaptureSessionPreset)preset
 {
 #if !(TARGET_IPHONE_SIMULATOR)
   if (preset) {
+    if (self.isDetectingFaces && [preset isEqual:AVCaptureSessionPresetPhoto]) {
+      RCTLog(@"AVCaptureSessionPresetPhoto not supported during face detection. Falling back to AVCaptureSessionPresetHigh");
+      preset = AVCaptureSessionPresetHigh;
+    }
     dispatch_async(self.sessionQueue, ^{
       [self.session beginConfiguration];
       if ([self.session canSetSessionPreset:preset]) {
@@ -705,8 +753,8 @@ static NSDictionary *defaultFaceDetectorOptions = nil;
   // we reenable it here (see comment in -record).
   [_faceDetectorManager maybeStartFaceDetectionOnSession:_session withPreviewLayer:_previewLayer];
   
-  if (self.session.sessionPreset != AVCaptureSessionPresetHigh) {
-    [self updateSessionPreset:AVCaptureSessionPresetHigh];
+  if (self.session.sessionPreset != self.pictureSize) {
+    [self updateSessionPreset:self.pictureSize];
   }
 }
 

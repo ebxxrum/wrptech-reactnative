@@ -23,11 +23,9 @@ PODS:
   - boost/preprocessor-includes (1.59.0)
   - boost/shared_ptr-includes (1.59.0)
   - boost/string_algorithms-includes (1.59.0)
-  - Branch (0.14.12):
-    - Branch/Core (= 0.14.12)
-    - Branch/without-IDFA (= 0.14.12)
-  - Branch/Core (0.14.12)
-  - Branch/without-IDFA (0.14.12)
+  - Branch (0.24.2):
+    - Branch/Core (= 0.24.2)
+  - Branch/Core (0.24.2)
   - CocoaLumberjack (3.2.1):
     - CocoaLumberjack/Default (= 3.2.1)
     - CocoaLumberjack/Extensions (= 3.2.1)
@@ -37,28 +35,32 @@ PODS:
   - Crashlytics (3.10.3):
     - Fabric (~> 1.7.8)
   - DoubleConversion (1.1.5)
-  - ExpoKit/Core (2.3.3):
+  - ExpoKit/Core (2.6.5):
     - Amplitude-iOS (~> 3.8)
     - Analytics (~> 3.5)
     - AppAuth (~> 0.4)
-    - Branch (~> 0.14.12)
+    - Branch (~> 0.24.2)
     - CocoaLumberjack (~> 3.2.1)
     - Crashlytics (~> 3.8)
     - Fabric (~> 1.6)
-    - FBAudienceNetwork (~> 4.24)
+    - FBAudienceNetwork (= 4.28.1)
     - FBSDKCoreKit (~> 4.28)
     - FBSDKLoginKit (~> 4.28)
     - FBSDKShareKit (~> 4.28)
+    - Google-Maps-iOS-Utils (~> 2.1.0)
     - Google-Mobile-Ads-SDK (~> 7.22.0)
-    - GoogleMaps (~> 2.2.0)
+    - GoogleMaps (~> 2.5.0)
     - GoogleSignIn (~> 3.0)
     - GPUImage (~> 0.1.7)
     - JKBigInteger2 (= 0.0.5)
-    - lottie-ios (~> 2.1.3)
-  - ExpoKit/CPP (2.3.3):
+    - lottie-ios (~> 2.5.0)
+    - React
+  - ExpoKit/CPP (2.6.5):
     - ExpoKit/Core
+  - ExpoKit/GL (2.6.5):
+    - ExpoKit/CPP
   - Fabric (1.7.8)
-  - FBAudienceNetwork (4.99.0)
+  - FBAudienceNetwork (4.28.1)
   - FBSDKCoreKit (4.34.0):
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.34.0):
@@ -70,16 +72,32 @@ PODS:
     - DoubleConversion
     - GLog
   - GLog (0.3.4)
+  - Google-Maps-iOS-Utils (2.1.0):
+    - Google-Maps-iOS-Utils/Clustering (= 2.1.0)
+    - Google-Maps-iOS-Utils/Geometry (= 2.1.0)
+    - Google-Maps-iOS-Utils/Heatmap (= 2.1.0)
+    - Google-Maps-iOS-Utils/QuadTree (= 2.1.0)
+    - GoogleMaps
+  - Google-Maps-iOS-Utils/Clustering (2.1.0):
+    - Google-Maps-iOS-Utils/QuadTree
+    - GoogleMaps
+  - Google-Maps-iOS-Utils/Geometry (2.1.0):
+    - GoogleMaps
+  - Google-Maps-iOS-Utils/Heatmap (2.1.0):
+    - Google-Maps-iOS-Utils/QuadTree
+    - GoogleMaps
+  - Google-Maps-iOS-Utils/QuadTree (2.1.0):
+    - GoogleMaps
   - Google-Mobile-Ads-SDK (7.22.0)
   - GoogleAppUtilities (1.1.2):
     - GoogleSymbolUtilities (~> 1.1)
   - GoogleAuthUtilities (2.0.2):
     - GoogleNetworkingUtilities (~> 1.2)
     - GoogleSymbolUtilities (~> 1.1)
-  - GoogleMaps (2.2.0):
-    - GoogleMaps/Maps (= 2.2.0)
-  - GoogleMaps/Base (2.2.0)
-  - GoogleMaps/Maps (2.2.0):
+  - GoogleMaps (2.5.0):
+    - GoogleMaps/Maps (= 2.5.0)
+  - GoogleMaps/Base (2.5.0)
+  - GoogleMaps/Maps (2.5.0):
     - GoogleMaps/Base
   - GoogleNetworkingUtilities (1.2.2):
     - GoogleSymbolUtilities (~> 1.1)
@@ -93,7 +111,9 @@ PODS:
     - GoogleSymbolUtilities (~> 1.1)
   - GPUImage (0.1.7)
   - JKBigInteger2 (0.0.5)
-  - lottie-ios (2.1.5)
+  - lottie-ios (2.5.0)
+  - React (0.52.0):
+    - React/Core (= 0.52.0)
   - React/ART (0.52.0):
     - React/Core
   - React/Core (0.52.0):
@@ -144,8 +164,9 @@ PODS:
 
 DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
-  - ExpoKit/Core (from `http://github.com/expo/expo.git`, tag `ios/2.3.3`)
-  - ExpoKit/CPP (from `http://github.com/expo/expo.git`, tag `ios/2.3.3`)
+  - ExpoKit/Core (from `http://github.com/expo/expo.git`, tag `ios/2.6.5`)
+  - ExpoKit/CPP (from `http://github.com/expo/expo.git`, tag `ios/2.6.5`)
+  - ExpoKit/GL (from `http://github.com/expo/expo.git`, tag `ios/2.6.5`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - GLog (from `../node_modules/react-native/third-party-podspecs/GLog.podspec`)
   - React/ART (from `../node_modules/react-native`)
@@ -178,6 +199,7 @@ SPEC REPOS:
     - FBSDKCoreKit
     - FBSDKLoginKit
     - FBSDKShareKit
+    - Google-Maps-iOS-Utils
     - Google-Mobile-Ads-SDK
     - GoogleAppUtilities
     - GoogleAuthUtilities
@@ -195,7 +217,7 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   ExpoKit:
     :git: http://github.com/expo/expo.git
-    :tag: ios/2.3.3
+    :tag: ios/2.6.5
   Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   GLog:
@@ -208,7 +230,7 @@ EXTERNAL SOURCES:
 CHECKOUT OPTIONS:
   ExpoKit:
     :git: http://github.com/expo/expo.git
-    :tag: ios/2.3.3
+    :tag: ios/2.6.5
 
 SPEC CHECKSUMS:
   Amplitude-iOS: 4a3c8807b2ea5369dc11e87e23825bff01e5a922
@@ -216,32 +238,33 @@ SPEC CHECKSUMS:
   AppAuth: 1096c2ad48507c4a2a8c85c8a6ff065741ab9931
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   boost: 30a15ffb6d9aa4646dd3caffc960753f4cb4ca4e
-  Branch: f63d9cf82ac09747349a73184a0b739d28781c4d
+  Branch: 0d98d22745a9b68bcb4fa6dc1c6a92b64d4fdd7b
   CocoaLumberjack: 2800c03334042fe80589423c8d80e582dcaec482
   Crashlytics: 2aea305161a2122492698c75af27f2b98aa49a25
   DoubleConversion: ebb6747c5b66026ad4f97b789c3ceac6f18e57a6
-  ExpoKit: b322775eb089a18e60ddc2b785d00a0aa08ad316
+  ExpoKit: 441d1c7592f0715a5c81ac2346d7e743ac50428e
   Fabric: fba4684a95df789565b0b27fc5b6e68f1755af32
-  FBAudienceNetwork: 80275c0a28574ff5ce820abdc251d05e07e6ae7a
+  FBAudienceNetwork: c0cda151bb2f7b55d1e045e59ebc81f3153989b2
   FBSDKCoreKit: 0ff57f093b85c8c9d5aba697d3edf68a8960ce78
   FBSDKLoginKit: 8c78f57a145afb756e4755e69195ebe08a42466e
   FBSDKShareKit: 511d1dfc71204c0a8d69e6c5e3c964dcf0d4f3d9
   Folly: b7255b29f1d693c375d642d0f04f0592181156d9
   GLog: 3e4e4ae9746ce6bf6e9420c7fc1e08ad59c8ba1a
+  Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
   Google-Mobile-Ads-SDK: 1bdf1a4244d0553b1840239874c209c01aef055f
   GoogleAppUtilities: a8a552aa74f6597f805e45b5a3962766c3134973
   GoogleAuthUtilities: ccad2e0a9284699973ff57c0dd24c3893657fda4
-  GoogleMaps: 104c418d61ab8a05dff06ed0784c25ea9d37da45
+  GoogleMaps: c087b8e5dfe87ca6ebf59adb9b4894a4146bec4f
   GoogleNetworkingUtilities: 3edd3a8161347494f2da60ea0deddc8a472d94cb
   GoogleSignIn: 3d571172b8603be39dcb1705d8217146bb76fe62
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
   GoogleUtilities: 8bbc733218aad26306f9d4a253823986110e3358
   GPUImage: 733a5f0fab92df9de1c37ba9df520a833ccb406d
   JKBigInteger2: e91672035c42328c48b7dd015b66812ddf40ca9b
-  lottie-ios: 836cdbba92f62f3c6a00e37a4ce485321fe317cf
+  lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   React: 43e97926f429d846050880666de1809e22dd5cc5
   yoga: 55da126afc384965b96bff46652464373b330add
 
-PODFILE CHECKSUM: 85df5cdcb926261641c6dc13a305e842a2667034
+PODFILE CHECKSUM: 45a9f72c739b537d17e1e4edaf42576dc34634ae
 
 COCOAPODS: 1.5.3

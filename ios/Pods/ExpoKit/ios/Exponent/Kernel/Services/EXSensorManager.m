@@ -1,9 +1,6 @@
 // Copyright 2015-present 650 Industries. All rights reserved.
 
 #import "EXKernel.h"
-#import "EXFrame.h"
-#import "EXFrameReactAppManager.h"
-#import "EXKernelReactAppManager.h"
 #import "EXSensorManager.h"
 #import <CoreMotion/CoreMotion.h>
 
@@ -159,7 +156,7 @@
 
 - (void)setMagnetometerUpdateInterval:(NSTimeInterval)intervalMs
 {
-  [self.manager setMagnetometerUpdateInterval:intervalMs];
+  [self.manager setDeviceMotionUpdateInterval:intervalMs];
 }
 
 - (void)sensorModuleDidSubscribeForMagnetometerUncalibratedUpdates:(id)scopedSensorModule

@@ -282,17 +282,18 @@ NSString *const EXAVPlayerDataObserverPlaybackBufferEmptyKeyPath = @"playbackBuf
     if (![self _shouldPlayerPlay]) {
       [_player pause];
     }
+
     if (_isMuted || ![self _isPlayerPlaying]) {
       _player.muted = _isMuted;
     }
-    [_exAV demoteAudioSessionIfPossible];
-    
+
     // Apply idempotent parameters.
     if (_shouldCorrectPitch) {
       _player.currentItem.audioTimePitchAlgorithm = AVAudioTimePitchAlgorithmLowQualityZeroLatency;
     } else {
       _player.currentItem.audioTimePitchAlgorithm = AVAudioTimePitchAlgorithmVarispeed;
     }
+
     _player.volume = _volume.floatValue;
     
     
@@ -325,6 +326,8 @@ NSString *const EXAVPlayerDataObserverPlaybackBufferEmptyKeyPath = @"playbackBuf
           [strongSelf _callStatusUpdateCallback];
         }
       }
+
+      [strongSelf.exAV demoteAudioSessionIfPossible];
     };
     
     // Apply seek if necessary.
@@ -417,7 +420,7 @@ NSString *const EXAVPlayerDataObserverPlaybackBufferEmptyKeyPath = @"playbackBuf
     // Only available after iOS 10
     isBuffering = _player.timeControlStatus == AVPlayerTimeControlStatusWaitingToPlayAtSpecifiedRate;
   } else {
-    isBuffering = _player.currentItem.isPlaybackBufferEmpty;
+    isBuffering = !_player.currentItem.isPlaybackLikelyToKeepUp && _player.currentItem.isPlaybackBufferEmpty;
   }
   
   // TODO : react-native-video includes the iOS-only keys seekableDuration and canReverse (etc) flags.
@@ -427,8 +430,7 @@ NSString *const EXAVPlayerDataObserverPlaybackBufferEmptyKeyPath = @"playbackBuf
                                           EXAVPlayerDataStatusURIKeyPath: [_url absoluteString],
                                           
                                           EXAVPlayerDataStatusProgressUpdateIntervalMillisKeyPath: _progressUpdateIntervalMillis,
-                                          EXAVPlayerDataStatusPositionMillisKeyPath: positionMillis,
-                                          // playableDurationMillis, and durationMillis may be nil and are added after this definition.
+                                          // positionMillis, playableDurationMillis, and durationMillis may be nil and are added after this definition.
                                           
                                           EXAVPlayerDataStatusShouldPlayKeyPath: @(_shouldPlay),
                                           EXAVPlayerDataStatusIsPlayingKeyPath: @(isPlaying),
@@ -446,6 +448,7 @@ NSString *const EXAVPlayerDataObserverPlaybackBufferEmptyKeyPath = @"playbackBuf
   
   mutableStatus[EXAVPlayerDataStatusPlayableDurationMillisKeyPath] = playableDurationMillis;
   mutableStatus[EXAVPlayerDataStatusDurationMillisKeyPath] = durationMillis;
+  mutableStatus[EXAVPlayerDataStatusPositionMillisKeyPath] = positionMillis;
   
   return mutableStatus;
 }
@@ -563,29 +566,14 @@ NSString *const EXAVPlayerDataObserverPlaybackBufferEmptyKeyPath = @"playbackBuf
 
         if (strongSelfInner) {
           [strongSelfInner _callStatusUpdateCallbackWithExtraFields:@{EXAVPlayerDataStatusDidJustFinishKeyPath: @(YES)}];
-          AVPlayerItem *playerItem = strongSelfInner.player.currentItem;
-          [strongSelfInner _removeObserversForPlayerItem:playerItem];
           // If the player is looping, we would only like to advance to next item (which is handled by actionAtItemEnd)
           if (!strongSelfInner.isLooping) {
             [strongSelfInner.player pause];
-            strongSelfInner.currentPosition = kCMTimeZero; // We keep track of _currentPosition to reset the AVPlayer in handleMediaServicesReset.
-            [strongSelfInner.player seekToTime:kCMTimeZero completionHandler:^(BOOL finished) {
-              __strong EXAVPlayerData *strongSelfInnerInner = weakSelf;
-              __strong EXAV *strongEXAVInnerInner = strongSelfInnerInner ? strongSelfInnerInner.exAV : nil;
-              if (strongEXAVInnerInner) {
-                dispatch_async(strongEXAVInnerInner.methodQueue, ^{
-                  __strong EXAVPlayerData *strongSelfInnerInnerInner = weakSelf;
-                  if (strongSelfInnerInnerInner) {
-                    [strongSelfInnerInnerInner.player advanceToNextItem];
-
-                    __strong EXAV *strongEXAVInnerInnerInner = strongSelfInnerInnerInner.exAV;
-                    if (strongEXAVInnerInnerInner) {
-                      [strongEXAVInnerInnerInner demoteAudioSessionIfPossible];
-                    }
-                  }
-                });
-              }
-            }];
+            strongSelfInner.shouldPlay = NO;
+            __strong EXAV *strongEXAVInner = strongSelfInner.exAV;
+            if (strongEXAVInner) {
+              [strongEXAVInner demoteAudioSessionIfPossible];
+            }
           }
         }
       });
@@ -608,6 +596,7 @@ NSString *const EXAVPlayerDataObserverPlaybackBufferEmptyKeyPath = @"playbackBuf
                                                  object:[_player currentItem]
                                                   queue:nil
                                              usingBlock:playbackStalledObserverBlock];
+  [self _tryRemoveObserver:playerItem forKeyPath:EXAVPlayerDataObserverPlaybackBufferEmptyKeyPath];
   [playerItem addObserver:self forKeyPath:EXAVPlayerDataObserverPlaybackBufferEmptyKeyPath options:0 context:nil];
   
   [self _tryRemoveObserver:playerItem forKeyPath:EXAVPlayerDataObserverStatusKeyPath];
@@ -667,7 +656,21 @@ NSString *const EXAVPlayerDataObserverPlaybackBufferEmptyKeyPath = @"playbackBuf
     return;
   }
   
-  __weak EXAVPlayerData *weakSelf = self;
+  __weak EXAVPlayerData *weakSelf = nil;
+
+  // Specification of Objective-C always allows creation of weak references,
+  // however on iOS trying to create a weak reference to a deallocated object
+  // results in throwing an exception. If this happens we have nothing to do
+  // as the EXAVPlayerData is being deallocated, so let's early return.
+  //
+  // See Stackoverflow question:
+  // https://stackoverflow.com/questions/35991363/why-setting-object-that-is-undergoing-deallocation-to-weak-property-results-in-c#42329741
+  @try {
+     weakSelf = self;
+  } @catch (NSException *exception) {
+    return;
+  }
+
   __strong EXAV *strongEXAV = _exAV;
   if (strongEXAV == nil) {
     return;
@@ -688,7 +691,7 @@ NSString *const EXAVPlayerDataObserverPlaybackBufferEmptyKeyPath = @"playbackBuf
               break;
             case AVPlayerStatusFailed: {
               strongSelf.isLoaded = NO;
-              NSString *errorMessage = [NSString stringWithFormat:@"The AVPlayer instance has failed with the error code %li and domain \"%@\".", _player.error.code, _player.error.domain];
+              NSString *errorMessage = [NSString stringWithFormat:@"The AVPlayer instance has failed with the error code %li and domain \"%@\".", strongSelf.player.error.code, strongSelf.player.error.domain];
               if (strongSelf.player.error.localizedFailureReason) {
                 NSString *reasonMessage = [strongSelf.player.error.localizedFailureReason stringByAppendingString:@" - "];
                 errorMessage = [reasonMessage stringByAppendingString:errorMessage];
@@ -709,7 +712,7 @@ NSString *const EXAVPlayerDataObserverPlaybackBufferEmptyKeyPath = @"playbackBuf
           // If replayResolve is not nil here, it means that we had to pause playback due to empty queue of rewinded items.
           // This clause handles iOS 9.
           if (strongSelf.player.rate > 0 && strongSelf.replayResolve) {
-            strongSelf.replayResolve([self getStatus]);
+            strongSelf.replayResolve([strongSelf getStatus]);
             strongSelf.replayResolve = nil;
           }
 
@@ -729,7 +732,7 @@ NSString *const EXAVPlayerDataObserverPlaybackBufferEmptyKeyPath = @"playbackBuf
           // If replayResolve is not nil here, it means that we had to pause playback due to empty queue of rewinded items.
           // This clause handles iOS 10+.
           if (strongSelf.timeControlStatus == AVPlayerTimeControlStatusPlaying && strongSelf.replayResolve) {
-            strongSelf.replayResolve([self getStatus]);
+            strongSelf.replayResolve([strongSelf getStatus]);
             strongSelf.replayResolve = nil;
           }
         } else if ([keyPath isEqualToString:EXAVPlayerDataObserverCurrentItemKeyPath]) {

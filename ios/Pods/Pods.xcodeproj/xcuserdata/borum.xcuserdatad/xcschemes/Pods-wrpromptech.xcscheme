@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D455E74F7AFE7A7560248B0845CA967F"
+               BlueprintIdentifier = "CDD54763A9657498E82361ED3F45D1F9"
                BlueprintName = "Pods-wrpromptech"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "libPods-wrpromptech.a">
